@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteBase /miniframework/
+RewriteRule ^.*$ index.php [END]
