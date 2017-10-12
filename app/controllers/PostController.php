@@ -4,7 +4,7 @@ class PostController
 {
     public function index()
     {
-        $posts = Post::list();
+        $posts = Post::selectAll();
 
         return require 'app/views/index.view.php';
     }

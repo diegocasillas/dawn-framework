@@ -9,7 +9,7 @@ class Post extends Model
     protected $body;
     protected $comments = [];
 
-    public static function list()
+    public static function selectAll()
     {
         $post = new static;
 
@@ -18,6 +18,7 @@ class Post extends Model
         $statement->execute();
 
         $result = $statement->fetch(PDO::FETCH_ASSOC);
+        die(var_dump($result));
         return $result;
     }
 
