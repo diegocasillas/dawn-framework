@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Miniframework</title>
-    <link rel="stylesheet" type="text/css" href="/public/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../../public/css/style.css">
 </head>
 <body>
     <h1>Posts</h1>
