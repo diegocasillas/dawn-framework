@@ -6,12 +6,14 @@ class PostController
     {
         $posts = Post::all();
 
-        return view('index', compact('posts'));
+        $posts = array_reverse($posts);
+
+        return view('posts/index', compact('posts'));
     }
 
     public function create()
     {
-        return view('create');
+        return view('posts/create');
     }
 
     public function store()
@@ -31,6 +33,6 @@ class PostController
     {
         $post = Post::find($id);
 
-        return require 'app/views/show.view.php';
+        return require 'app/views/posts/show.view.php';
     }
 }

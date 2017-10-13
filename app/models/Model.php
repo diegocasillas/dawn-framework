@@ -13,11 +13,6 @@ abstract class Model
         $this->table = strtolower(get_class($this)) . 's';
     }
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
     public static function all()
     {
         $instance = new static;
@@ -29,21 +24,6 @@ abstract class Model
         $statement->execute();
 
         $result = $statement->fetchAll(PDO::FETCH_CLASS, get_class($instance));
-
-        return $result;
-    }
-
-    public static function find($id)
-    {
-        $instance = new static;
-
-        $sql = "SELECT * FROM {$instance->table} WHERE id={$id}";
-        $statement = $instance->db->prepare($sql);
-        $statement->bindParam(':table', $instance->table);
-
-        $statement->execute();
-
-        $result = $statement->fetch(PDO::FETCH_CLASS, get_class($instance));
 
         return $result;
     }
@@ -64,6 +44,10 @@ abstract class Model
         return $result;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
 
     //  ################################## Inheritance
     //  public function save()
