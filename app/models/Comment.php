@@ -15,7 +15,7 @@ class Comment extends Model
     {
         $comment = new static;
 
-        $sql = "SELECT * FROM {$comment->table} WHERE post={$post}";
+        $sql = "SELECT * FROM {$comment->table} WHERE post='{$post}'";
         $statement = $comment->db->prepare($sql);
         $statement->bindParam(':table', $comment->table);
 

@@ -24,7 +24,7 @@ abstract class Model
 
         $statement->execute();
 
-        $result = $statement->fetchAll(PDO::FETCH_CLASS);
+        $result = $statement->fetchAll(PDO::FETCH_CLASS, get_class($instance));
 
         return $result;
     }

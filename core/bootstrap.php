@@ -7,6 +7,7 @@ require 'core/Request.php';
 require 'app/controllers/PostController.php';
 require 'app/models/Model.php';
 require 'app/models/Post.php';
+require 'app/models/Comment.php';
 require 'global.php';
 $config = require 'config.php';
 // $routes = require 'core/Routes.php';

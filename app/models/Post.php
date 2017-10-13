@@ -3,10 +3,21 @@
 
 class Post extends Model
 {
-    protected $author;
-    protected $title;
-    protected $body;
-    protected $comments = [];
+    public $author;
+    public $title;
+    public $body;
+    public $comments = [];
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->comments = Comment::getByPost($this->id);
+    }
+
+    public function getComments()
+    {
+        return $this->comments;
+    }
 
     public function save()
     {
