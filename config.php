@@ -1,8 +1,8 @@
 <?php
 
 return $config = [
-    'name' => 'miniframework',
-    'username' => 'root',
-    'password' => '',
-    'connection' => 'mysql:host=127.0.0.1'
+    'name' => DB_NAME,
+    'username' => DB_USER,
+    'password' => DB_PASSWORD,
+    'connection' => DB_CONNECTION
 ];

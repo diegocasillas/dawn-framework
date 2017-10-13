@@ -6,7 +6,9 @@ class PostController
     {
         $posts = Post::all();
 
-        return require 'app/views/index.view.php';
+        $posts = compact('posts');
+
+        return view('index', $posts);
     }
 
     public function store()
