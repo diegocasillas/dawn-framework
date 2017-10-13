@@ -8,11 +8,6 @@ class Post extends Model
     protected $body;
     protected $comments = [];
 
-    public function __construct()
-    {
-        $this->comments();
-    }
-
     public function save()
     {
         $sql = "
@@ -35,16 +30,5 @@ class Post extends Model
     public function setBody($body)
     {
         $this->body = $body;
-    }
-
-    public function comments()
-    {
-        die(var_dump($this->id));
-        $this->comments = Comment::getByPost($this->id);
-    }
-
-    public function getComments()
-    {
-        return $this->comments;
     }
 }

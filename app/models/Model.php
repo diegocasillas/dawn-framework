@@ -14,7 +14,6 @@ abstract class Model
         $this->table = strtolower(get_class($this)) . 's';
     }
 
-
     public static function all()
     {
         $instance = new static;

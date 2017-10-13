@@ -12,9 +12,6 @@
             <div>
                 <h2><?php echo $post->title ?> - <small><?php echo $post->author ?></small></h2>
                 <p><?php echo $post->body ?></p>
-                <?php foreach ($post->getComments() as $comment) : ?>
-                    <li><?php echo $comment->body; ?></li>
-                <?php endforeach; ?>
             </div>
         <?php endforeach; ?>
     </ul>
