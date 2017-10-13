@@ -27,7 +27,7 @@ class PostController
         return redirect();
     }
 
-    public function show($id =2)
+    public function show($id)
     {
         $post = Post::find($id);
 

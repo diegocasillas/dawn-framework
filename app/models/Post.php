@@ -11,7 +11,7 @@ class Post extends Model
     public function __construct()
     {
         parent::__construct();
-        $this->comments = Comment::getByPost($this->id);
+        $this->comments = Comment::getBy('post', $this->id);
     }
 
     public function getComments()
@@ -26,6 +26,8 @@ class Post extends Model
             VALUES('{$this->author}', '{$this->title}', '{$this->body}')
         ";
         $this->db->exec($sql);
+
+        $this->id = $this->db->lastInsertId();
     }
 
     public function setAuthor($author)
