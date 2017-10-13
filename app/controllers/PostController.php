@@ -6,15 +6,25 @@ class PostController
     {
         $posts = Post::all();
 
-        $posts = compact('posts');
+        return view('index', compact('posts'));
+    }
 
-        return view('index', $posts);
+    public function create()
+    {
+        return view('create');
     }
 
     public function store()
     {
         $post = new Post();
-        $post->publish();
+
+        $post->setTitle($_REQUEST['title']);
+        $post->setBody($_REQUEST['body']);
+        $post->setAuthor('Anon');
+
+        $post->save();
+
+        return redirect();
     }
 
     public function show($id =2)

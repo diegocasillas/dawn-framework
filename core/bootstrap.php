@@ -10,7 +10,7 @@ require 'app/models/Post.php';
 require 'global.php';
 $config = require 'config.php';
 // $routes = require 'core/Routes.php';
-$db = Connection::make($config);
+$db = Connection::make($config['database']);
 
 
 

@@ -1,8 +1,8 @@
 <?php
 
 $router->get('miniframework', 'PostController', 'index');
-$router->get('miniframework/posts/create', 'PostController', 'store');
-$router->get('miniframework/posts', 'PostController', 'show');
+$router->get('miniframework/posts/create', 'PostController', 'create');
+$router->post('miniframework/posts', 'PostController', 'store');
 
 // return $routes = [
 //     '' => [
