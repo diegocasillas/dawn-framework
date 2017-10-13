@@ -64,4 +64,17 @@ abstract class Model
 
         return $result;
     }
+
+
+    //  ################################## Inheritance
+    //  public function save()
+    // {
+    //     $sql = "
+    //         INSERT INTO {$this->table}(author, title, body)
+    //         VALUES('{$this->author}', '{$this->title}', '{$this->body}')
+    //     ";
+    //     $this->db->exec($sql);
+
+    //     $this->id = $this->db->lastInsertId();
+    // }
 }
