@@ -3,20 +3,16 @@
 
 class Post extends Model
 {
-    public $author;
-    public $title;
-    public $body;
-    public $comments = [];
+    protected $author;
+    protected $title;
+    protected $body;
+    protected $comments = [];
 
     public function __construct()
     {
         parent::__construct();
-        $this->comments = Comment::getBy('post', $this->id);
-    }
 
-    public function getComments()
-    {
-        return $this->comments;
+        $this->setComments();
     }
 
     public function save()
@@ -30,9 +26,19 @@ class Post extends Model
         $this->id = $this->db->lastInsertId();
     }
 
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
     public function setAuthor($author)
     {
         $this->author = $author;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     public function setTitle($title)
@@ -40,8 +46,31 @@ class Post extends Model
         $this->title = $title;
     }
 
+    public function getBody()
+    {
+        return $this->body;
+    }
+
     public function setBody($body)
     {
         $this->body = $body;
     }
+
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    public function setComments()
+    {
+        $this->comments = Comment::getBy('post', $this->id);
+    }
+
+
+
+
+
+
+
+
 }

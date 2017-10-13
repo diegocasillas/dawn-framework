@@ -10,11 +10,11 @@
     <ul>
         <?php foreach ($posts as $post) : ?>
             <div>
-                <h2><?php echo $post->title; ?> - <small><?php echo $post->author; ?></small></h2>
-                <p><?php echo $post->body; ?></p>
+                <h2><?php echo $post->getTitle(); ?> - <small><?php echo $post->getAuthor(); ?></small></h2>
+                <p><?php echo $post->getBody(); ?></p>
 
                 <?php foreach ($post->getComments() as $comment) : ?>
-                    <li><?php echo $comment->body; ?></li>
+                    <li><?php echo $comment->getBody(); ?></li>
                 <?php endforeach; ?>
             </div>
         <?php endforeach; ?>
