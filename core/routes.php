@@ -1,10 +1,10 @@
 <?php
 
-$router->get(new Route('miniframework', 'PostController', 'index'));
-$router->get(new Route('miniframework/posts/create', 'PostController', 'create'));
-$router->post(new Route('miniframework/posts', 'PostController', 'store'));
-$router->get(new Route('miniframework/posts/(:id)', 'PostController', 'show'));
-$router->get(new Route('miniframework/posts/(:id)/edit', 'PostController', 'edit'));
+$router->get('miniframework', 'PostController', 'index');
+$router->get('miniframework/posts/create', 'PostController', 'create');
+$router->post('miniframework/posts', 'PostController', 'store');
+$router->get('miniframework/posts/(:id)', 'PostController', 'show');
+$router->get('miniframework/posts/(:id)/edit', 'PostController', 'edit');
 
 // return $routes = [
 //     '' => [

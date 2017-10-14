@@ -21,14 +21,20 @@ class Router
         return Request::get();
     }
 
-    public function get($route)
+    public function get($uri, $controller, $action, $parameters = [])
     {
-        array_push($this->routes['GET'], $route);
+        array_push(
+            $this->routes['GET'],
+            new Route($uri, $controller, $action, $parameters)
+        );
     }
 
-    public function post($route)
+    public function post($uri, $controller, $action, $parameters = [])
     {
-        array_push($this->routes['POST'], $route);
+        array_push(
+            $this->routes['POST'],
+            new Route($uri, $controller, $action, $parameters)
+        );
     }
 
     public function getRoute($uri, $requestType)
