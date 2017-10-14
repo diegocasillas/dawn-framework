@@ -11,53 +11,63 @@ class Router
     {
         $router = new static;
 
-        // $router->routes = $routes;
         require $routes;
 
         return $router;
     }
 
-    public function get($uri, $controller, $action)
+    public function request()
     {
-        $this->routes['GET'][$uri]['controller'] = $controller;
-        $this->routes['GET'][$uri]['action'] = $action;
+
     }
 
-    public function post($uri, $controller, $action)
+    public function replaceUri($uri)
     {
-        $this->routes['POST'][$uri]['controller'] = $controller;
-        $this->routes['POST'][$uri]['action'] = $action;
+        $replaced = str_replace(':any', '.+', $uri);
+        $key = str_replace(':id', '[0-9]+', $replaced);
+
+        return $key;
     }
 
-    // public function direct($uri, $requestType)
-    // {
-    //     return $this->callAction(
-    //         $this->routes[$requestType][$uri]['controller'],
-    //         $this->routes[$requestType][$uri]['action']
-    //     );
-    // }
-
-    public function direct($uri, $requestType)
+    public function get($route)
     {
-        foreach ($this->routes[$requestType] as $index => $val) {
-            $replaced = str_replace(':any', '.+', $index);
-            $key = str_replace(':id', '[0-9]+', $replaced);
+        $route->uri = $this->replaceUri($route->uri);
 
-            if (preg_match('#^'.$key.'$#', $uri, $parameters)) {
+        array_push($this->routes['GET'], $route);
+    }
+
+    public function post($route)
+    {
+        $route->uri = $this->replaceUri($route->uri);
+
+        array_push($this->routes['POST'], $route);
+    }
+
+    public function getRoute($uri, $requestType)
+    {
+        foreach ($this->routes[$requestType] as $route)
+        {
+            if (preg_match('#^'.$route->uri.'$#', $uri, $parameters)) {
                 if (isset($parameters[0])) {
                     unset($parameters[0]);
                 }
 
-                return $this->callAction(
-                    $this->routes[$requestType][$index]['controller'],
-                    $this->routes[$requestType][$index]['action'],
-                    $parameters
-                );
+                $route->setParameters($parameters);
+                return $route;
             }
         }
     }
 
-    public function callAction($controller, $action, $parameters)
+    public function direct($route)
+    {
+        return $this->callAction(
+            $route->controller,
+            $route->action,
+            $route->getParameters()
+        );
+    }
+
+    public function callAction($controller, $action, array $parameters)
     {
         $controller = new $controller;
 
