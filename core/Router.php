@@ -18,28 +18,16 @@ class Router
 
     public function request()
     {
-
-    }
-
-    public function replaceUri($uri)
-    {
-        $replaced = str_replace(':any', '.+', $uri);
-        $key = str_replace(':id', '[0-9]+', $replaced);
-
-        return $key;
+        return Request::get();
     }
 
     public function get($route)
     {
-        $route->uri = $this->replaceUri($route->uri);
-
         array_push($this->routes['GET'], $route);
     }
 
     public function post($route)
     {
-        $route->uri = $this->replaceUri($route->uri);
-
         array_push($this->routes['POST'], $route);
     }
 

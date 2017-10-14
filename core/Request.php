@@ -9,8 +9,8 @@ class Request
     {
         $request = new static;
 
-        $request->uri = $request->setUri();
-        $request->method = $request->setMethod();
+        $request->uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+        $request->method = $_SERVER['REQUEST_METHOD'];
 
         return $request;
     }
@@ -20,18 +20,8 @@ class Request
         return $this->uri;
     }
 
-    public function setUri()
-    {
-      return trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-    }
-
     public function getMethod()
     {
         return $this->method;
-    }
-
-    public function setMethod()
-    {
-        return $_SERVER['REQUEST_METHOD'];
     }
 }
