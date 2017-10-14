@@ -29,10 +29,15 @@ class PostController
         return redirect();
     }
 
-    public function show($id = 1)
+    public function show($id)
     {
         $post = Post::find($id);
 
         return require 'app/views/posts/show.view.php';
+    }
+
+    public function edit($id)
+    {
+        echo "edit";
     }
 }
