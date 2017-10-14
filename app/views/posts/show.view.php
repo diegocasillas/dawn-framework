@@ -4,6 +4,7 @@
     <title>show</title>
 </head>
 <body>
-    <?php echo $post->body; ?>
+    <h1><?php echo $post->getTitle(); ?></h1>
+    <?php echo $post->getBody(); ?>
 </body>
 </html>

@@ -26,6 +26,11 @@ class Post extends Model
         $this->id = $this->db->lastInsertId();
     }
 
+    public function addComment()
+    {
+        Comment::save();
+    }
+
     public function getAuthor()
     {
         return $this->author;

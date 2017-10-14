@@ -28,7 +28,24 @@ abstract class Model
         return $result;
     }
 
-    public function getBy($column, $id)
+    public static function find($id)
+    {
+        $instance = new static;
+
+        $sql = "SELECT * FROM {$instance->table} WHERE id='{$id}'";
+        $statement = $instance->db->prepare($sql);
+        $statement->bindParam(':table', $instance->table);
+
+        $statement->execute();
+
+        $statement->setFetchMode(PDO::FETCH_CLASS, get_class($instance));
+
+        $result = $statement->fetch();
+
+        return $result;
+    }
+
+    public static function getBy($column, $id)
     {
         $instance = new static;
 
