@@ -13,6 +13,17 @@ class Comment extends Model
         //set post
     }
 
+    public function save()
+    {
+        $sql = "
+            INSERT INTO comments(post, author, body)
+            VALUES('{$this->post}, {$this->author}', '{$this->body}')
+        ";
+        $this->db->exec($sql);
+
+        $this->id = $this->db->lastInsertId();
+    }
+
     public function getPost()
     {
         return $this->post;

@@ -5,6 +5,7 @@ $router->get('miniframework/posts', 'PostController', 'index');
 $router->get('miniframework/posts/create', 'PostController', 'create');
 $router->post('miniframework/posts', 'PostController', 'store');
 $router->get('miniframework/posts/(:id)', 'PostController', 'show');
+$router->post('miniframework/posts/(:id)', 'CommentController', 'store');
 $router->get('miniframework/posts/(:id)/edit', 'PostController', 'edit');
 
 // return $routes = [
