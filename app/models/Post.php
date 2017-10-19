@@ -6,6 +6,7 @@ class Post extends Model
     protected $title;
     protected $body;
     protected $score;
+    protected $votes;
     protected $comments = [];
 
     public function __construct()
@@ -46,11 +47,20 @@ class Post extends Model
     {
         $sql = "
             UPDATE posts
-            SET score={$this->score}
+            SET score={$this->score}, votes={$this->votes} + 1
             WHERE id={$this->id}
         ";
     
         $this->db->exec($sql);
+    }
+
+    public function calcScore($vote)
+    {
+        $newScore = ($this->getScore() * $this->getVotes() + $vote) / ($this->getVotes() + 1); 
+
+        $this->setScore($newScore);
+
+        return $this->getScore();
     }
 
     public function getAuthor()
@@ -85,12 +95,17 @@ class Post extends Model
 
     public function getScore()
     {
-        return (int) $this->score;
+        return round((float) $this->score, 2);
     }
 
     public function setScore($score)
     {
         $this->score = $score;
+    }
+
+    public function getVotes()
+    {
+        return $this->votes;
     }
 
     public function getComments()
