@@ -12,6 +12,7 @@ class Post extends Model
         parent::__construct();
 
         $this->setComments();
+
     }
 
     public function save()
@@ -25,6 +26,16 @@ class Post extends Model
         $this->id = $this->db->lastInsertId();
     }
 
+    public function update()
+    {
+        $sql = "
+            UPDATE posts
+            SET title='{$this->title}', body='{$this->body}'
+            WHERE id={$this->id}
+        ";
+        
+        $this->db->exec($sql);
+    }
     public function addComment()
     {
         Comment::save($this);

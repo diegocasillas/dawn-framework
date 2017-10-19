@@ -24,7 +24,7 @@ abstract class Model
         $statement->execute();
 
         $result = $statement->fetchAll(PDO::FETCH_CLASS, get_class($instance));
-
+        
         return $result;
     }
 
@@ -63,7 +63,7 @@ abstract class Model
 
     public function getId()
     {
-        return $this->id;
+        return (int) $this->id;
     }
 
     //  ################################## Inheritance

@@ -38,6 +38,21 @@ class PostController
 
     public function edit($id)
     {
-        echo "edit";
+        $post = Post::find($id);
+
+        
+        return require 'app/views/posts/edit.view.php';
+    }
+
+    public function update($id)
+    {
+        $post = Post::find($id);
+        
+        $post->setTitle($_REQUEST['title']);
+        $post->setBody($_REQUEST['body']);
+
+        $post->update();
+
+        return require 'app/views/posts/show.view.php';
     }
 }
