@@ -11,7 +11,7 @@
     <hr>
 
     <form action="/miniframework/posts/<?php echo $post->getId(); ?>/vote" method="post">
-        <b>Score: <?php echo $post->getScore() ?>&nbsp;</b><input type="number" name="vote" min="0" max="10" value="5">
+        <b>score: <div id="score"><?php echo $post->getScore() ?></div>&nbsp;</b><input type="number" name="vote" min="0" max="10" value="5">
         <input type="submit" value="Vote">
     </form>    
     <br>
@@ -34,5 +34,8 @@
     <hr>
     
     <a href="/miniframework">Back</a>
+    <script>
+    <?php require 'app/views/posts/script.js'; ?>
+    </script>
 </body>
 </html>
