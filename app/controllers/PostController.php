@@ -67,7 +67,7 @@ class PostController
 
         $post->vote();
 
-        return require 'app/views/posts/show.view.php';
+        return redirect("posts/{$post->getId()}");
     }
 
     
