@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   CONSTRAINT `FK_comments_posts` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
--- Dumping data for table miniframework.comments: ~7 rows (approximately)
+-- Dumping data for table miniframework.comments: ~4 rows (approximately)
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
 INSERT INTO `comments` (`id`, `post_id`, `author`, `body`) VALUES
 	(27, 29, 0, 'First comment'),
@@ -42,15 +42,17 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `author` varchar(50) NOT NULL DEFAULT '0',
   `title` varchar(50) NOT NULL DEFAULT '0',
   `body` text NOT NULL,
+  `score` float NOT NULL DEFAULT '0',
+  `votes` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
--- Dumping data for table miniframework.posts: ~28 rows (approximately)
+-- Dumping data for table miniframework.posts: ~3 rows (approximately)
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
-INSERT INTO `posts` (`id`, `author`, `title`, `body`) VALUES
-	(29, 'Anon', 'First post', 'First comment'),
-	(30, 'Anon', 'Second post', 'Lol, the second post'),
-	(31, 'Anon', 'Third post', 'this is the third post');
+INSERT INTO `posts` (`id`, `author`, `title`, `body`, `score`, `votes`) VALUES
+	(29, 'Anon', 'First post', 'First comment', 4, 2),
+	(30, 'Anon', 'Second post', 'Lol, the second post', 5, 0),
+	(31, 'Anon', 'Third post', 'this is the third post', 6.06, 27);
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
