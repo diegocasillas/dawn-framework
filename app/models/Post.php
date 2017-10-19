@@ -28,7 +28,7 @@ class Post extends Model
 
     public function addComment()
     {
-        Comment::save();
+        Comment::save($this);
     }
 
     public function getAuthor()

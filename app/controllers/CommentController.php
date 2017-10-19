@@ -9,17 +9,16 @@ class CommentController
         return view('index', compact('comments'));
     }
 
-    public function store()
+    public function store($id)
     {
         $comment = new Comment();
 
-        $comment->setPost(23);
+        $comment->setPost($id);
         $comment->setBody($_REQUEST['body']);
         $comment->setAuthor('Anon');
 
         $comment->save();
 
-        die(var_dump($comment));
         return redirect("posts/{$comment->getPost()}");
     }
 }

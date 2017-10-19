@@ -17,9 +17,10 @@ class Comment extends Model
     {
         $sql = "
             INSERT INTO comments(post, author, body)
-            VALUES('{$this->post}, {$this->author}', '{$this->body}')
+            VALUES({$this->post}, '{$this->author}', '{$this->body}')
         ";
-        $this->db->exec($sql);
+        
+        $this->db->exec($sql); 
 
         $this->id = $this->db->lastInsertId();
     }
@@ -29,9 +30,9 @@ class Comment extends Model
         return $this->post;
     }
 
-    public function setPost()
+    public function setPost($id)
     {
-        $this->post = Post::find();
+        $this->post = $id;
     }
 
     public function getAuthor()
