@@ -2,7 +2,7 @@
 
 class Comment extends Model
 {
-    private $post;
+    private $postId;
     private $author;
     private $body;
 
@@ -10,29 +10,29 @@ class Comment extends Model
     {
         parent::__construct();
 
-        //set post
+        //set postId
     }
 
     public function save()
     {
         $sql = "
-            INSERT INTO comments(post, author, body)
-            VALUES({$this->post}, '{$this->author}', '{$this->body}')
+            INSERT INTO comments(post_id, author, body)
+            VALUES({$this->postId}, '{$this->author}', '{$this->body}')
         ";
         
-        $this->db->exec($sql); 
+        $this->db->exec($sql);
 
         $this->id = $this->db->lastInsertId();
     }
 
-    public function getPost()
+    public function getPostId()
     {
-        return $this->post;
+        return $this->postId;
     }
 
-    public function setPost($id)
+    public function setPostId($id)
     {
-        $this->post = $id;
+        $this->postId = $id;
     }
 
     public function getAuthor()

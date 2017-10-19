@@ -13,12 +13,12 @@ class CommentController
     {
         $comment = new Comment();
 
-        $comment->setPost($id);
+        $comment->setPostId($id);
         $comment->setBody($_REQUEST['body']);
         $comment->setAuthor('Anon');
 
         $comment->save();
 
-        return redirect("posts/{$comment->getPost()}");
+        return redirect("posts/{$comment->getPostId()}");
     }
 }

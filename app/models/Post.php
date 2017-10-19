@@ -1,6 +1,5 @@
 <?php
 
-
 class Post extends Model
 {
     protected $author;
@@ -68,7 +67,7 @@ class Post extends Model
 
     public function setComments()
     {
-        $this->comments = Comment::getBy('post', $this->id);
+        $this->comments = Comment::getBy('post_id', $this->id);
     }
 
 
