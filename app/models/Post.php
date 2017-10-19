@@ -5,6 +5,7 @@ class Post extends Model
     protected $author;
     protected $title;
     protected $body;
+    protected $score;
     protected $comments = [];
 
     public function __construct()
@@ -41,6 +42,17 @@ class Post extends Model
         Comment::save($this);
     }
 
+    public function vote()
+    {
+        $sql = "
+            UPDATE posts
+            SET score={$this->score}
+            WHERE id={$this->id}
+        ";
+    
+        $this->db->exec($sql);
+    }
+
     public function getAuthor()
     {
         return $this->author;
@@ -69,6 +81,16 @@ class Post extends Model
     public function setBody($body)
     {
         $this->body = $body;
+    }
+
+    public function getScore()
+    {
+        return (int) $this->score;
+    }
+
+    public function setScore($score)
+    {
+        $this->score = $score;
     }
 
     public function getComments()

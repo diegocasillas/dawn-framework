@@ -55,4 +55,27 @@ class PostController
 
         return require 'app/views/posts/show.view.php';
     }
+
+    public function vote($id)
+    {
+        $post = Post::find($id);
+
+        $vote = (float) $_REQUEST['vote'];
+
+
+        $post->setScore($this->calcScore($post, $vote));
+
+        $post->vote();
+
+        return require 'app/views/posts/show.view.php';
+    }
+
+    public function calcScore($post, $vote)
+    {
+        $newScore = ($post->getScore() + $vote) / 2;
+
+        $post->setScore($newScore);
+
+        return $post->getScore();
+    }
 }

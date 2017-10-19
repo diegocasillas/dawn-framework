@@ -10,6 +10,12 @@
 
     <hr>
 
+    <form action="/miniframework/posts/<?php echo $post->getId(); ?>/vote" method="post">
+        <b>Score: <?php echo $post->getScore() ?>&nbsp;</b><input type="number" name="vote" min="0" max="10">
+        <input type="submit" value="Vote">
+    </form>    
+    <br>
+
     <a href="/miniframework/posts/<?php echo $post->getId() ?>/edit">Edit Post</a>
 
     <hr>

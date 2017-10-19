@@ -8,6 +8,7 @@ $router->get('miniframework/posts/(:id)', 'PostController', 'show');
 $router->post('miniframework/posts/(:id)', 'CommentController', 'store');
 $router->get('miniframework/posts/(:id)/edit', 'PostController', 'edit');
 $router->post('miniframework/posts/(:id)/edit', 'PostController', 'update');
+$router->post('miniframework/posts/(:id)/vote', 'PostController', 'vote');
 
 // return $routes = [
 //     '' => [
