@@ -7,12 +7,20 @@ class Route
     public $action;
     private $parameters = [];
 
+    public $isProtected;
+
     public function __construct($uri, $controller, $action, $parameters = [])
     {
         $this->uri = $this->replaceUri($uri);
         $this->controller = $controller;
         $this->action = $action;
         $this->parameters = $parameters;
+        $this->isProtected = false;
+    }
+
+    public function protected()
+    {
+        $this->isProtected = true;
     }
 
     public function replaceUri($uri)

@@ -14,4 +14,3 @@ $route = $router->getRoute(
 
 // having the route and the parameters, call the controller->action($parameters)
 $router->direct($route);
-

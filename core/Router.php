@@ -23,10 +23,10 @@ class Router
 
     public function get($uri, $controller, $action, $parameters = [])
     {
-        array_push(
-            $this->routes['GET'],
-            new Route($uri, $controller, $action, $parameters)
-        );
+        $route = new Route($uri, $controller, $action, $parameters);
+        array_push($this->routes['GET'], $route);
+
+        return $route;
     }
 
     public function post($uri, $controller, $action, $parameters = [])
@@ -39,9 +39,8 @@ class Router
 
     public function getRoute($uri, $requestType)
     {
-        foreach ($this->routes[$requestType] as $route)
-        {
-            if (preg_match('#^'.$route->uri.'$#', $uri, $parameters)) {
+        foreach ($this->routes[$requestType] as $route) {
+            if (preg_match('#^' . $route->uri . '$#', $uri, $parameters)) {
                 if (isset($parameters[0])) {
                     unset($parameters[0]);
                 }
@@ -54,6 +53,12 @@ class Router
 
     public function direct($route)
     {
+        if ($route->isProtected) {
+            if (!Auth::check()) {
+                return LoginController::showLoginForm();
+            }
+        }
+
         return $this->callAction(
             $route->controller,
             $route->action,

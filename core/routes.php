@@ -1,6 +1,8 @@
 <?php
 
-$router->get('miniframework', 'PostController', 'index');
+$router->get('miniframework', 'PostController', 'index')->protected();
+$router->get('miniframework/login', 'LoginController', 'showLoginForm');
+$router->post('miniframework/login', 'LoginController', 'login');
 $router->get('miniframework/posts', 'PostController', 'index');
 $router->get('miniframework/posts/create', 'PostController', 'create');
 $router->post('miniframework/posts', 'PostController', 'store');
