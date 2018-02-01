@@ -3,6 +3,8 @@
 $router->get('miniframework', 'PostController', 'index')->protected();
 $router->get('miniframework/login', 'LoginController', 'showLoginForm');
 $router->post('miniframework/login', 'LoginController', 'login');
+$router->get('miniframework/register', 'RegisterController', 'showRegistrationForm');
+$router->post('miniframework/register', 'RegisterController', 'register');
 $router->get('miniframework/logout', 'LoginController', 'logout')->protected();
 $router->get('miniframework/posts', 'PostController', 'index')->protected();
 $router->get('miniframework/posts/create', 'PostController', 'create')->protected();
