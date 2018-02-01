@@ -9,6 +9,13 @@ class Session
         if (!isset($_SESSION['USER'])) {
             $_SESSION['USER'] = new User();
         }
+
+        var_dump($_SESSION);
+        
+
+        // if (!isset($_SESSION['DB'])) {
+        //     $_SESSION['DB'] = Connection::make(CONFIG['database']);
+        // }
     }
 
     public static function destroy()
@@ -19,5 +26,10 @@ class Session
     public static function user()
     {
         return $_SESSION['USER'];
+    }
+
+    public static function db()
+    {
+        return $_SESSION['DB'];
     }
 }
