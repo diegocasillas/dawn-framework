@@ -9,8 +9,15 @@ class LoginController
 
     public static function login()
     {
-        Auth::authenticate();
+        Auth::attempt($_REQUEST['username'], $_REQUEST['password']);
 
-        redirect('');
+        redirect();
+    }
+
+    public static function logout()
+    {
+        Auth::logout();
+
+        redirect();
     }
 }

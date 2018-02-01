@@ -18,5 +18,7 @@
             </div>
         <?php endforeach; ?>
     </ul>
+
+    <a href="logout">Logout</a>
 </body>
 </html>

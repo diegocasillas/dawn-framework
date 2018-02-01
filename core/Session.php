@@ -10,4 +10,14 @@ class Session
             $_SESSION['USER'] = new User();
         }
     }
+
+    public static function destroy()
+    {
+        session_destroy();
+    }
+
+    public static function user()
+    {
+        return $_SESSION['USER'];
+    }
 }

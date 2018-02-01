@@ -24,7 +24,7 @@ abstract class Model
         $statement->execute();
 
         $result = $statement->fetchAll(PDO::FETCH_CLASS, get_class($instance));
-        
+
         return $result;
     }
 
@@ -45,11 +45,11 @@ abstract class Model
         return $result;
     }
 
-    public static function getBy($column, $id)
+    public static function getBy($key, $value)
     {
         $instance = new static;
 
-        $sql = "SELECT * FROM {$instance->table} WHERE {$column}='{$id}'";
+        $sql = "SELECT * FROM {$instance->table} WHERE {$key}='{$value}'";
         $statement = $instance->db->prepare($sql);
         $statement->bindParam(':table', $instance->table);
 
@@ -61,9 +61,23 @@ abstract class Model
         return $result;
     }
 
+    public static function getColumnBy($column, $key, $value)
+    {
+        $instance = new static;
+
+        $sql = "SELECT {$column} FROM {$instance->table} WHERE {$key}='{$value}'";
+
+        $statement = $instance->db->prepare($sql);
+        $statement->bindParam(':table', $instance->table);
+
+        $statement->execute();
+
+        return $statement->fetch()[$column];
+    }
+
     public function getId()
     {
-        return (int) $this->id;
+        return (int)$this->id;
     }
 
     //  ################################## Inheritance

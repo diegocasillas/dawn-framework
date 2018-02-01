@@ -31,10 +31,10 @@ class Router
 
     public function post($uri, $controller, $action, $parameters = [])
     {
-        array_push(
-            $this->routes['POST'],
-            new Route($uri, $controller, $action, $parameters)
-        );
+        $route = new Route($uri, $controller, $action, $parameters);
+        array_push($this->routes['POST'], $route);
+
+        return $route;
     }
 
     public function getRoute($uri, $requestType)
@@ -55,7 +55,7 @@ class Router
     {
         if ($route->isProtected) {
             if (!Auth::check()) {
-                return LoginController::showLoginForm();
+                return redirect('login');
             }
         }
 
