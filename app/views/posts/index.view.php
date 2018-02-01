@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Miniframework</title>
-    <link rel="stylesheet" type="text/css" href="../../public/css/style.css">
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
 </head>
 <body>
     <?php require 'app/views/partials/nav.view.php' ?>

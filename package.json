@@ -1,0 +1,22 @@
+{
+  "name": "miniframework",
+  "version": "1.0.0",
+  "description": "Small PHP framework",
+  "main": "index.php",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diegocasillasdev/miniframework.git"
+  },
+  "author": "diegocasillasdev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diegocasillasdev/miniframework/issues"
+  },
+  "homepage": "https://github.com/diegocasillasdev/miniframework#readme",
+  "dependencies": {
+    "bootstrap": "^4.0.0"
+  }
+}
