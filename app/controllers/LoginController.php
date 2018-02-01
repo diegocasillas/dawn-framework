@@ -4,12 +4,15 @@ class LoginController
 {
     public static function showLoginForm()
     {
-        return view('login/login');
+        return view('auth/login');
     }
 
     public static function login()
     {
-        Auth::attempt($_REQUEST['username'], $_REQUEST['password']);
+        $username = $_REQUEST['username'];
+        $password = $_REQUEST['password'];
+
+        Auth::login($username, $password);
 
         redirect();
     }
