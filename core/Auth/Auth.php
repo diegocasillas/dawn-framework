@@ -7,14 +7,14 @@ class Auth
     public function __construct()
     {
         if (Session::user() !== null) {
-            echo "usuario recogido de la base de datos";
             $this->user = User::find(Session::user());
         } else {
-            echo "nuevo usuario";
             $this->user = new User();
         }
-
+        echo "<pre>";
         var_dump($this->user);
+
+        echo "</pre>";
     }
 
     public static function user()
