@@ -7,15 +7,8 @@ class Session
         session_start();
 
         if (!isset($_SESSION['USER'])) {
-            $_SESSION['USER'] = new User();
+            $_SESSION['USER'] = null;
         }
-
-        var_dump($_SESSION);
-        
-
-        // if (!isset($_SESSION['DB'])) {
-        //     $_SESSION['DB'] = Connection::make(CONFIG['database']);
-        // }
     }
 
     public static function destroy()
@@ -23,6 +16,10 @@ class Session
         session_destroy();
     }
 
+    public static function setUser($userId)
+    {
+        $_SESSION['USER'] = $userId;
+    }
     public static function user()
     {
         return $_SESSION['USER'];

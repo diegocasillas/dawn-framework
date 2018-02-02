@@ -6,7 +6,15 @@ class Auth
 
     public function __construct()
     {
-        $this->user = Session::user();
+        if (Session::user() !== null) {
+            echo "usuario recogido de la base de datos";
+            $this->user = User::find(Session::user());
+        } else {
+            echo "nuevo usuario";
+            $this->user = new User();
+        }
+
+        var_dump($this->user);
     }
 
     public static function user()
@@ -27,9 +35,12 @@ class Auth
     {
         $auth = new static;
 
+        $auth->user->username = $username;
 
         if ($id = $auth->user->getColumnBy('id', 'username', $username)) {
             if ($auth->user->getColumnBy('password', 'id', $id) === $password) {
+                Session::setUser($id);
+
                 Auth::authenticate();
             }
         }
@@ -56,12 +67,13 @@ class Auth
     public static function authenticate()
     {
         $auth = new static;
-
         $auth->user->authenticate();
     }
 
     public static function logout()
     {
+        $auth = new static;
+        $auth->user->logout();
         Session::destroy();
     }
 }

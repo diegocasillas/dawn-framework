@@ -9,8 +9,8 @@ class User extends Model
     public function __construct($username = null, $isAuthenticated = false)
     {
         parent::__construct();
-        $this->username = $username;
-        $this->isAuthenticated = $isAuthenticated;
+        // $this->username = $username;
+        // $this->isAuthenticated = $isAuthenticated;
     }
 
     public function id()
@@ -31,11 +31,27 @@ class User extends Model
     public function authenticate()
     {
         $this->isAuthenticated = true;
+
+        $sql = "
+            UPDATE users
+            SET isAuthenticated='{$this->isAuthenticated}'
+            WHERE id={$this->id}
+        ";
+
+        $this->db->exec($sql);
     }
 
     public function logout()
     {
         $this->isAuthenticated = false;
+
+        $sql = "
+            UPDATE users
+            SET isAuthenticated='{$this->isAuthenticated}'
+            WHERE id={$this->id}
+        ";
+
+        $this->db->exec($sql);
     }
 
     public function create()
