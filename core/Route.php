@@ -24,7 +24,7 @@ class Route
         $this->isProtected = true;
     }
 
-    public function isForGuests()
+    public function guests()
     {
         $this->isForGuests = true;
     }
