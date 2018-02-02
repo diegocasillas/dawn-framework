@@ -22,7 +22,7 @@ class PostController
 
         $post->setTitle($_REQUEST['title']);
         $post->setBody($_REQUEST['body']);
-        $post->setAuthor('Anon');
+        $post->setAuthor(Auth::user()->username());
 
         $post->save();
 
@@ -40,14 +40,14 @@ class PostController
     {
         $post = Post::find($id);
 
-        
+
         return require 'app/views/posts/edit.view.php';
     }
 
     public function update($id)
     {
         $post = Post::find($id);
-        
+
         $post->setTitle($_REQUEST['title']);
         $post->setBody($_REQUEST['body']);
 
@@ -60,7 +60,7 @@ class PostController
     {
         $post = Post::find($id);
 
-        $vote = (float) $_REQUEST['vote'];
+        $vote = (float)$_REQUEST['vote'];
 
 
         $post->setScore($post->calcScore($vote));
@@ -70,5 +70,5 @@ class PostController
         return redirect("posts/{$post->getId()}");
     }
 
-    
+
 }

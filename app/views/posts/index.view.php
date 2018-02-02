@@ -6,6 +6,8 @@
 </head>
 <body>
     <?php require 'app/views/partials/nav.view.php' ?>
+
+    <h1>Bienvenido, <?php echo Auth::user()->username() ?></h1>
     <h1>Posts</h1>
 
     <ul>
