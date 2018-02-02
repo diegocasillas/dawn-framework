@@ -17,9 +17,7 @@ require 'app/models/Post.php';
 require 'app/models/Comment.php';
 require 'global.php';
 define('CONFIG', require 'config.php');
-$config = require 'config.php';
 
-Session::start();
 $db = Connection::make(CONFIG['database']);
 
 

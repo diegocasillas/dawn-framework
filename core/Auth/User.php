@@ -57,7 +57,7 @@ class User extends Model
     public function create()
     {
         $sql = "INSERT INTO {$this->table}(username, password) VALUES('{$this->username}', '{$this->password}')";
-        $this->db->execute($sql);
+        $this->db->exec($sql);
 
         $this->id = $this->db->lastInsertId();
     }
