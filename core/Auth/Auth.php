@@ -6,15 +6,11 @@ class Auth
 
     public function __construct()
     {
-        if (Session::user() !== null) {
-            $this->user = User::find(Session::user());
+        if (Session::user() === null) {
+            $this->user = null;
         } else {
-            $this->user = new User();
+            $this->user = User::find(Session::user());
         }
-        echo "<pre>";
-        var_dump($this->user);
-
-        echo "</pre>";
     }
 
     public static function user()
@@ -24,24 +20,41 @@ class Auth
         return $auth->user;
     }
 
+    public static function id()
+    {
+        $auth = new static;
+
+        return $auth->user->id();
+    }
+
     public static function check()
     {
         $auth = new static;
 
-        return $auth->user->isAuthenticated();
+        if ($auth->user === null) {
+            return false;
+        }
+
+        return true;
+    }
+
+    protected function authenticate($id)
+    {
+        Session::setUser($id);
     }
 
     public static function login($username, $password)
     {
         $auth = new static;
 
-        $auth->user->username = $username;
+        $auth->user = new User();
 
-        if ($id = $auth->user->getColumnBy('id', 'username', $username)) {
-            if ($auth->user->getColumnBy('password', 'id', $id) === $password) {
-                Session::setUser($id);
+        $auth->user->setUsername($username);
+        $auth->user->setPassword($password);
 
-                Auth::authenticate();
+        if ($id = $auth->user->getColumnBy('id', 'username', $auth->user->username())) {
+            if ($auth->user->getColumnBy('password', 'id', $id) === $auth->user->password()) {
+                $auth->authenticate($id);
             }
         }
 
@@ -51,6 +64,7 @@ class Auth
     public static function register($username, $password)
     {
         $auth = new static;
+        $auth->user = new User();
 
         $auth->user->setUsername($username);
         $auth->user->setPassword($password);
@@ -58,22 +72,14 @@ class Auth
         // check if user already exists
         if (!$auth->user->getBy('username', $auth->user->username())) {
             $auth->user->create();
-            Auth::authenticate();
+            $auth->authenticate($auth->user->id());
         }
 
         return redirect();
     }
 
-    public static function authenticate()
-    {
-        $auth = new static;
-        $auth->user->authenticate();
-    }
-
     public static function logout()
     {
-        $auth = new static;
-        $auth->user->logout();
         Session::destroy();
     }
 }

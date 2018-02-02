@@ -20,6 +20,7 @@ class Session
     {
         $_SESSION['USER'] = $userId;
     }
+
     public static function user()
     {
         return $_SESSION['USER'];

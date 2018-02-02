@@ -9,8 +9,8 @@ class LoginController
 
     public static function login()
     {
-        $username = $_REQUEST['username'];
-        $password = $_REQUEST['password'];
+        $username = $_POST['username'];
+        $password = $_POST['password'];
 
         Auth::login($username, $password);
 

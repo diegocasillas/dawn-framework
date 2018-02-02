@@ -2,9 +2,8 @@
 
 class User extends Model
 {
-    public $username;
-    public $password;
-    public $isAuthenticated;
+    protected $username;
+    protected $password;
 
     public function __construct($username = null, $isAuthenticated = false)
     {
@@ -23,35 +22,9 @@ class User extends Model
         return $this->username;
     }
 
-    public function isAuthenticated()
+    public function password()
     {
-        return $this->isAuthenticated;
-    }
-
-    public function authenticate()
-    {
-        $this->isAuthenticated = true;
-
-        $sql = "
-            UPDATE users
-            SET isAuthenticated='{$this->isAuthenticated}'
-            WHERE id={$this->id}
-        ";
-
-        $this->db->exec($sql);
-    }
-
-    public function logout()
-    {
-        $this->isAuthenticated = false;
-
-        $sql = "
-            UPDATE users
-            SET isAuthenticated='{$this->isAuthenticated}'
-            WHERE id={$this->id}
-        ";
-
-        $this->db->exec($sql);
+        return $this->password;
     }
 
     public function create()
