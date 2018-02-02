@@ -53,7 +53,12 @@ class Router
 
     public function direct($route)
     {
-        Auth::check();
+        if ($route->isForGuests) {
+            if (Auth::check()) {
+                return redirect();
+            }
+        }
+
         if ($route->isProtected) {
             if (!Auth::check()) {
                 return redirect('login');

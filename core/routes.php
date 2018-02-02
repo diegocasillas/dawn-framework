@@ -1,8 +1,8 @@
 <?php
 
 $router->get('miniframework', 'PostController', 'index')->protected();
-$router->get('miniframework/login', 'LoginController', 'showLoginForm');
-$router->post('miniframework/login', 'LoginController', 'login');
+$router->get('miniframework/login', 'LoginController', 'showLoginForm')->isForGuests();
+$router->post('miniframework/login', 'LoginController', 'login')->isForGuests();
 $router->get('miniframework/register', 'RegisterController', 'showRegistrationForm');
 $router->post('miniframework/register', 'RegisterController', 'register');
 $router->get('miniframework/logout', 'LoginController', 'logout')->protected();

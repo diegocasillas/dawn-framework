@@ -8,6 +8,7 @@ class Route
     private $parameters = [];
 
     public $isProtected;
+    public $isForGuests;
 
     public function __construct($uri, $controller, $action, $parameters = [])
     {
@@ -21,6 +22,11 @@ class Route
     public function protected()
     {
         $this->isProtected = true;
+    }
+
+    public function isForGuests()
+    {
+        $this->isForGuests = true;
     }
 
     public function replaceUri($uri)
