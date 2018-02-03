@@ -12,8 +12,14 @@ class PostController extends Controller
         $posts = Post::all();
 
         $posts = array_reverse($posts);
-
+        die(var_dump($posts));
         return view('posts/index', compact('posts'));
+    }
+
+    public function apiIndex()
+    {
+        $posts = Post::all();
+        echo json_encode($posts);
     }
 
     public function create()

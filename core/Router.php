@@ -80,21 +80,13 @@ class Router
         return $this->callAction();
     }
 
-    private function accessGranted()
-    {
-        return Auth::check($this->accessedRoute->authorization, $this->accessedRoute->owner());
-    }
-
     private function callAction()
     {
         $controller = $this->accessedRoute->controller();
         $authorization = $this->accessedRoute->authorization;
         $action = $this->accessedRoute->action();
         $parameters = $this->accessedRoute->parameters();
-        array_push($parameters, "lmao");
-        // return (new $controller($authorization))->$action(...$parameters);
-        return (new $controller())->middleware($authorization, $action, $parameters);
 
-        // return Controlador->middleware($authorization, $action, $parameters);
+        return (new $controller())->middleware($authorization, $action, $parameters);
     }
 }

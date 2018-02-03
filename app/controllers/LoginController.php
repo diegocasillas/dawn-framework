@@ -1,6 +1,6 @@
 <?php
 
-class LoginController
+class LoginController extends Controller
 {
     public function showLoginForm()
     {

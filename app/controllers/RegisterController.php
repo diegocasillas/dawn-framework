@@ -1,6 +1,6 @@
 <?php
 
-class RegisterController
+class RegisterController extends Controller
 {
     public static function showRegistrationForm()
     {

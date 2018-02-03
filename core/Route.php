@@ -17,7 +17,7 @@ class Route
         $this->parameters = $parameters;
     }
 
-    public function authorization(...$parameters)
+    public function auth(...$parameters)
     {
         foreach ($parameters as $parameter) {
             array_push($this->authorization, $parameter);
