@@ -27,15 +27,37 @@ class Auth
         return $auth->user->id();
     }
 
-    public static function check()
+    public static function check($authorization)
     {
         $auth = new static;
 
-        if ($auth->user === null) {
+        foreach ($authorization as $type) {
+            $authorized = $auth->$type();
+
+            if (!$authorized) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function authenticated()
+    {
+        if ($this->user === null) {
             return false;
         }
 
         return true;
+    }
+
+    public function guest()
+    {
+        if ($this->user === null) {
+            return true;
+        }
+
+        return false;
     }
 
     protected function authenticate($id)

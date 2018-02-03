@@ -70,14 +70,14 @@ class Router
         return $this;
     }
 
-    private function accessedRoute()
+    public function accessedRoute()
     {
         return $this->accessedRoute;
     }
 
     private function direct()
     {
-        if ($this->hasAccess()) {
+        if (Auth::check($this->accessedRoute->authorization)) {
             return $this->callAction(
                 $this->accessedRoute->controller(),
                 $this->accessedRoute->action(),
@@ -88,13 +88,17 @@ class Router
         return redirect('login');
     }
 
-    private function hasAccess()
+    private function accessGranted()
     {
+        $authorization = $this->accessedRoute->authorization;
+
         if (in_array('guests', $this->accessedRoute->authorization)) {
-            if (Auth::check()) {
-                return false;
+            if (Auth::check($authorization)) {
+                return true;
             }
         }
+
+        return false;
 
         if (in_array('authenticated', $this->accessedRoute->authorization)) {
             if (!Auth::check()) {
