@@ -2,12 +2,12 @@
 
 class LoginController
 {
-    public static function showLoginForm()
+    public function showLoginForm()
     {
         return view('auth/login');
     }
 
-    public static function login()
+    public function login()
     {
         $username = $_POST['username'];
         $password = $_POST['password'];
@@ -17,7 +17,7 @@ class LoginController
         redirect();
     }
 
-    public static function logout()
+    public function logout()
     {
         Auth::logout();
 

@@ -7,6 +7,9 @@ class Router
         'POST' => []
     ];
 
+    private $accessedRoute;
+    private $request;
+
     public static function load($routes)
     {
         $router = new static;
@@ -16,9 +19,16 @@ class Router
         return $router;
     }
 
+    public function getRequest()
+    {
+        $this->request = Request::get();
+
+        return $this;
+    }
+
     public function request()
     {
-        return Request::get();
+        return $this->request;
     }
 
     public function get($uri, $controller, $action, $parameters = [])
@@ -37,39 +47,59 @@ class Router
         return $route;
     }
 
-    public function getRoute($uri, $requestType)
+    public function process()
     {
-        foreach ($this->routes[$requestType] as $route) {
-            if (preg_match('#^' . $route->uri . '$#', $uri, $parameters)) {
+        $requestMethod = $this->request->getMethod();
+        $requestUri = $this->request->getUri();
+
+        foreach ($this->routes[$requestMethod] as $route) {
+            if (preg_match('#^' . $route->uri . '$#', $requestUri, $parameters)) {
                 if (isset($parameters[0])) {
                     unset($parameters[0]);
                 }
 
                 $route->setParameters($parameters);
-                return $route;
+
+                $this->accessedRoute = $route;
             }
         }
+
+        return $this;
     }
 
-    public function direct($route)
+    public function accessedRoute()
     {
-        if ($route->isForGuests) {
+        return $this->accessedRoute;
+    }
+
+    public function direct()
+    {
+        if ($this->hasAccess()) {
+            return $this->callAction(
+                $this->accessedRoute->controller(),
+                $this->accessedRoute->action(),
+                $this->accessedRoute->parameters()
+            );
+        }
+
+        return redirect('login');
+    }
+
+    public function hasAccess()
+    {
+        if (in_array('guests', $this->accessedRoute->authorization)) {
             if (Auth::check()) {
-                return redirect();
+                return false;
             }
         }
 
-        if ($route->isProtected) {
+        if (in_array('authenticated', $this->accessedRoute->authorization)) {
             if (!Auth::check()) {
-                return redirect('login');
+                return false;
             }
         }
 
-        return $this->callAction(
-            $route->controller,
-            $route->action,
-            $route->getParameters()
-        );
+        return true;
     }
 
     public function callAction($controller, $action, array $parameters)

@@ -6,17 +6,26 @@ class Route
     public $controller;
     public $action;
     private $parameters = [];
+    public $authorization = [];
 
     public $isProtected;
     public $isForGuests;
 
-    public function __construct($uri, $controller, $action, $parameters = [])
+    public function __construct($uri, $controller, $action, $parameters = [], $authorization = [])
     {
         $this->uri = $this->replaceUri($uri);
         $this->controller = $controller;
         $this->action = $action;
         $this->parameters = $parameters;
         $this->isProtected = false;
+        $this->authorization = $authorization;
+    }
+
+    public function authorization(...$parameters)
+    {
+        foreach ($parameters as $parameter) {
+            array_push($this->authorization, $parameter);
+        }
     }
 
     public function protected()
@@ -37,7 +46,17 @@ class Route
         return $key;
     }
 
-    public function getParameters()
+    public function controller()
+    {
+        return $this->controller;
+    }
+
+    public function action()
+    {
+        return $this->action;
+    }
+
+    public function parameters()
     {
         return $this->parameters;
     }
