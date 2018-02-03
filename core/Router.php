@@ -2,36 +2,39 @@
 
 class Router
 {
-    private $routes = [
-        'GET' => [],
-        'POST' => []
-    ];
-
-    private $accessedRoute;
+    private $routes;
     private $request;
+    private $accessedRoute;
 
-    public static function load($routes)
+    private function __construct()
     {
-        $router = new static;
+        $this->routes = [
+            'GET' => [],
+            'POST' => []
+        ];
 
-        require $routes;
-
-        return $router;
+        $this->load(ROUTES);
     }
 
-    public function getRequest()
+    public static function start()
+    {
+        $router = new static;
+        $router->getRequest()->process()->direct();
+    }
+
+    private function load($routes)
+    {
+        require $routes;
+    }
+
+    private function getRequest()
     {
         $this->request = Request::get();
 
         return $this;
     }
 
-    public function request()
-    {
-        return $this->request;
-    }
-
-    public function get($uri, $controller, $action, $parameters = [])
+    private function get($uri, $controller, $action, $parameters = [])
     {
         $route = new Route($uri, $controller, $action, $parameters);
         array_push($this->routes['GET'], $route);
@@ -39,7 +42,7 @@ class Router
         return $route;
     }
 
-    public function post($uri, $controller, $action, $parameters = [])
+    private function post($uri, $controller, $action, $parameters = [])
     {
         $route = new Route($uri, $controller, $action, $parameters);
         array_push($this->routes['POST'], $route);
@@ -47,7 +50,7 @@ class Router
         return $route;
     }
 
-    public function process()
+    private function process()
     {
         $requestMethod = $this->request->getMethod();
         $requestUri = $this->request->getUri();
@@ -67,12 +70,12 @@ class Router
         return $this;
     }
 
-    public function accessedRoute()
+    private function accessedRoute()
     {
         return $this->accessedRoute;
     }
 
-    public function direct()
+    private function direct()
     {
         if ($this->hasAccess()) {
             return $this->callAction(
@@ -85,7 +88,7 @@ class Router
         return redirect('login');
     }
 
-    public function hasAccess()
+    private function hasAccess()
     {
         if (in_array('guests', $this->accessedRoute->authorization)) {
             if (Auth::check()) {
@@ -99,10 +102,16 @@ class Router
             }
         }
 
+        if (in_array('owner', $this->accessedRoute->authorization)) {
+            if (!Auth::check()) {
+                return false;
+            }
+        }
+
         return true;
     }
 
-    public function callAction($controller, $action, array $parameters)
+    private function callAction($controller, $action, array $parameters)
     {
         $controller = new $controller;
 
