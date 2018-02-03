@@ -2,11 +2,12 @@
 
 class Post extends Model
 {
-    protected $author;
+    protected $user_id;
     protected $title;
     protected $body;
     protected $score;
     protected $votes;
+    protected $user;
     protected $comments = [];
 
     public function __construct()
@@ -19,10 +20,9 @@ class Post extends Model
     public function save()
     {
         $sql = "
-            INSERT INTO posts(author, title, body)
-            VALUES({$this->author}, '{$this->title}', '{$this->body}')
+            INSERT INTO posts(user_id, title, body)
+            VALUES({$this->user_id}, '{$this->title}', '{$this->body}')
         ";
-
         $this->db->exec($sql);
 
         $this->id = $this->db->lastInsertId();
@@ -65,15 +65,21 @@ class Post extends Model
 
     public function userId()
     {
-        return $this->author;
+        return $this->user_id;
     }
 
-    public function setAuthor($author)
+    public function user()
     {
-        $this->author = $author;
+        $this->setUser();
+        return $this->user;
     }
 
-    public function getTitle()
+    public function setUserId($userId)
+    {
+        $this->user_id = $userId;
+    }
+
+    public function title()
     {
         return $this->title;
     }
@@ -83,7 +89,7 @@ class Post extends Model
         $this->title = $title;
     }
 
-    public function getBody()
+    public function body()
     {
         return $this->body;
     }
@@ -116,6 +122,11 @@ class Post extends Model
     public function setComments()
     {
         $this->comments = Comment::getBy('post_id', $this->id());
+    }
+
+    public function setUser()
+    {
+        $this->user = User::find($this->userId());
     }
 
 

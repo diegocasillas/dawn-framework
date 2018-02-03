@@ -33,7 +33,7 @@ class PostController extends Controller
 
         $post->setTitle($_REQUEST['title']);
         $post->setBody($_REQUEST['body']);
-        $post->setAuthor(Auth::user()->username());
+        $post->setUserId(Auth::id());
 
         $post->save();
 
@@ -44,16 +44,13 @@ class PostController extends Controller
     {
         $post = Post::find($id);
 
-        return require 'app/views/posts/show.view.php';
+        return view('posts/show', compact('post'));
     }
 
     public function edit($id)
     {
-
         $post = Post::find($id);
-
-
-        return require 'app/views/posts/edit.view.php';
+        return view('posts/edit', compact('post'));
     }
 
     public function update($id)
@@ -65,7 +62,7 @@ class PostController extends Controller
 
         $post->update();
 
-        return require 'app/views/posts/show.view.php';
+        return view('posts/show', compact('post'));
     }
 
     public function vote($id)

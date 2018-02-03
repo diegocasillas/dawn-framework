@@ -3,6 +3,7 @@
 class Auth
 {
     protected $user;
+    protected $owner = false;
 
     public function __construct()
     {
@@ -66,7 +67,13 @@ class Auth
             return false;
         }
 
+        $this->owner = true;
         return true;
+    }
+
+    public function isOwner($element)
+    {
+        return Auth::id() === $element->userId();
     }
 
     protected function authenticate($id)

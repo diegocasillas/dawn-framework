@@ -14,7 +14,7 @@ Router::get('miniframework/posts', 'PostController', 'index')->auth('authenticat
 Router::get('miniframework/posts/create', 'PostController', 'create')->auth('authenticated');
 Router::post('miniframework/posts', 'PostController', 'store')->auth('authenticated');
 
-Router::get('miniframework/posts/{id}', 'PostController', 'show')->auth('authenticated', 'owner');
+Router::get('miniframework/posts/{id}', 'PostController', 'show')->auth('authenticated');
 Router::post('miniframework/posts/{id}', 'CommentController', 'store')->auth('authenticated');
 Router::post('miniframework/posts/{id}/vote', 'PostController', 'vote')->auth('authenticated');
 
