@@ -14,15 +14,15 @@ class Post extends Model
         parent::__construct();
 
         $this->setComments();
-
     }
 
     public function save()
     {
         $sql = "
             INSERT INTO posts(author, title, body)
-            VALUES('{$this->author}', '{$this->title}', '{$this->body}')
+            VALUES({$this->author}, '{$this->title}', '{$this->body}')
         ";
+
         $this->db->exec($sql);
 
         $this->id = $this->db->lastInsertId();
@@ -35,7 +35,7 @@ class Post extends Model
             SET title='{$this->title}', body='{$this->body}'
             WHERE id={$this->id}
         ";
-        
+
         $this->db->exec($sql);
     }
     public function addComment()
@@ -50,20 +50,20 @@ class Post extends Model
             SET score={$this->score}, votes={$this->votes} + 1
             WHERE id={$this->id}
         ";
-    
+
         $this->db->exec($sql);
     }
 
     public function calcScore($vote)
     {
-        $newScore = ($this->getScore() * $this->getVotes() + $vote) / ($this->getVotes() + 1); 
+        $newScore = ($this->getScore() * $this->getVotes() + $vote) / ($this->getVotes() + 1);
 
         $this->setScore($newScore);
 
         return $this->getScore();
     }
 
-    public function getAuthor()
+    public function userId()
     {
         return $this->author;
     }
@@ -95,7 +95,7 @@ class Post extends Model
 
     public function getScore()
     {
-        return round((float) $this->score, 2);
+        return round((float)$this->score, 2);
     }
 
     public function setScore($score)

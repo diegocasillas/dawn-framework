@@ -13,7 +13,7 @@
     <ul>
         <?php foreach ($posts as $post) : ?>
             <div>
-                <h2><a href="/miniframework/posts/<?php echo $post->getId(); ?>"><?php echo $post->getTitle(); ?></a> - <small><?php echo $post->getAuthor(); ?></small></h2>
+                <h2><a href="/miniframework/posts/<?php echo $post->getId(); ?>"><?php echo $post->getTitle(); ?></a> - <small><?php echo $post->userId(); ?></small></h2>
                 <p><?php echo $post->getBody(); ?></p>
 
                 <?php require 'app/views/comments/index.view.php' ?>

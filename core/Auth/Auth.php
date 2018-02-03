@@ -27,12 +27,12 @@ class Auth
         return $auth->user->id();
     }
 
-    public static function check($authorization)
+    public static function check($authorization = [], $model = null, $parameters = null)
     {
         $auth = new static;
 
         foreach ($authorization as $type) {
-            $authorized = $auth->$type();
+            $authorized = $auth->$type($model, $parameters);
 
             if (!$authorized) {
                 return false;
@@ -53,11 +53,20 @@ class Auth
 
     public function guest()
     {
-        if ($this->user === null) {
-            return true;
+        if ($this->user !== null) {
+            return false;
         }
 
-        return false;
+        return true;
+    }
+
+    public function owner($model, $id)
+    {
+        if ($this->user->id() !== $model::find($id)->userId()) {
+            return false;
+        }
+
+        return true;
     }
 
     protected function authenticate($id)

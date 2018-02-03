@@ -7,18 +7,14 @@ class Route
     public $action;
     private $parameters = [];
     public $authorization = [];
+    public $owner;
 
-    public $isProtected;
-    public $isForGuests;
-
-    public function __construct($uri, $controller, $action, $parameters = [], $authorization = [])
+    public function __construct($uri, $controller, $action, $parameters = [])
     {
         $this->uri = $this->replaceUri($uri);
         $this->controller = $controller;
         $this->action = $action;
         $this->parameters = $parameters;
-        $this->isProtected = false;
-        $this->authorization = $authorization;
     }
 
     public function authorization(...$parameters)
@@ -28,22 +24,29 @@ class Route
         }
     }
 
-    public function protected()
-    {
-        $this->isProtected = true;
-    }
-
-    public function guests()
-    {
-        $this->isForGuests = true;
-    }
-
     public function replaceUri($uri)
     {
-        $replaced = str_replace(':any', '.+', $uri);
-        $key = str_replace(':id', '[0-9]+', $replaced);
+        $replaced = str_replace('{any}', '(.+)', $uri);
+        $key = str_replace('{id}', '([0-9]+)', $replaced);
 
         return $key;
+    }
+
+    public function owner()
+    {
+        return $this->owner;
+    }
+
+    public function setOwner($owner)
+    {
+        $this->owner = $owner;
+    }
+
+    public function replaceOwner($owner)
+    {
+        $replaced = str_replace('{owner}', '(.+)', $replaced);
+
+        return $replaced;
     }
 
     public function controller()

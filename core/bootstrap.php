@@ -7,6 +7,8 @@ require 'core/Router.php';
 require 'core/Route.php';
 require 'core/Request.php';
 require 'core/Auth/Auth.php';
+require 'app/controllers/Controller.php';
+require 'app/controllers/ErrorController.php';
 require 'app/controllers/LoginController.php';
 require 'app/controllers/RegisterController.php';
 require 'app/controllers/PostController.php';

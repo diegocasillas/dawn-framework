@@ -1,7 +1,12 @@
 <?php
 
-class PostController
+class PostController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function index()
     {
         $posts = Post::all();
@@ -38,6 +43,7 @@ class PostController
 
     public function edit($id)
     {
+
         $post = Post::find($id);
 
 

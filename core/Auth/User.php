@@ -4,17 +4,11 @@ class User extends Model
 {
     protected $username;
     protected $password;
+    protected $posts = [];
 
-    public function __construct($username = null, $isAuthenticated = false)
+    public function __construct()
     {
         parent::__construct();
-        // $this->username = $username;
-        // $this->isAuthenticated = $isAuthenticated;
-    }
-
-    public function id()
-    {
-        return $this->id;
     }
 
     public function username()
@@ -33,6 +27,11 @@ class User extends Model
         $this->db->exec($sql);
 
         $this->id = $this->db->lastInsertId();
+    }
+
+    public function writePost()
+    {
+        Post::save();
     }
 
     public function setUsername($username)

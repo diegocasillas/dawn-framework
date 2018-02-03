@@ -13,6 +13,11 @@ abstract class Model
         $this->table = strtolower(get_class($this)) . 's';
     }
 
+    public function id()
+    {
+        return $this->id;
+    }
+
     public static function all()
     {
         $instance = new static;

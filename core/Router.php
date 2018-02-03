@@ -62,7 +62,7 @@ class Router
                 }
 
                 $route->setParameters($parameters);
-
+                $route->setOwner($parameters);
                 $this->accessedRoute = $route;
             }
         }
@@ -77,48 +77,24 @@ class Router
 
     private function direct()
     {
-        if (Auth::check($this->accessedRoute->authorization)) {
-            return $this->callAction(
-                $this->accessedRoute->controller(),
-                $this->accessedRoute->action(),
-                $this->accessedRoute->parameters()
-            );
-        }
-
-        return redirect('login');
+        return $this->callAction();
     }
 
     private function accessGranted()
     {
-        $authorization = $this->accessedRoute->authorization;
-
-        if (in_array('guests', $this->accessedRoute->authorization)) {
-            if (Auth::check($authorization)) {
-                return true;
-            }
-        }
-
-        return false;
-
-        if (in_array('authenticated', $this->accessedRoute->authorization)) {
-            if (!Auth::check()) {
-                return false;
-            }
-        }
-
-        if (in_array('owner', $this->accessedRoute->authorization)) {
-            if (!Auth::check()) {
-                return false;
-            }
-        }
-
-        return true;
+        return Auth::check($this->accessedRoute->authorization, $this->accessedRoute->owner());
     }
 
-    private function callAction($controller, $action, array $parameters)
+    private function callAction()
     {
-        $controller = new $controller;
+        $controller = $this->accessedRoute->controller();
+        $authorization = $this->accessedRoute->authorization;
+        $action = $this->accessedRoute->action();
+        $parameters = $this->accessedRoute->parameters();
+        array_push($parameters, "lmao");
+        // return (new $controller($authorization))->$action(...$parameters);
+        return (new $controller())->middleware($authorization, $action, $parameters);
 
-        return $controller->$action(...$parameters);
+        // return Controlador->middleware($authorization, $action, $parameters);
     }
 }
