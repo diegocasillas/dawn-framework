@@ -2,9 +2,9 @@
 
 abstract class Model
 {
-    public $db;
-    public $table;
-    public $id;
+    private $db;
+    private $table;
+    private $id;
 
     public function __construct()
     {

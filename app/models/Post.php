@@ -115,7 +115,7 @@ class Post extends Model
 
     public function setComments()
     {
-        $this->comments = Comment::getBy('post_id', $this->id);
+        $this->comments = Comment::getBy('post_id', $this->id());
     }
 
 
