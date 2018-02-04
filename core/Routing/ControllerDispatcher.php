@@ -7,7 +7,7 @@ class ControllerDispatcher
         $controller = $route->controller();
         $action = $route->action();
         $parameters = $route->parameters();
-        $options = $route->authorization();
+        $options = $route->options();
 
         return (new $controller())->callAction($action, $parameters, $options);
     }

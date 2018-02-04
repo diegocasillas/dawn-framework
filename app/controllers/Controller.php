@@ -19,6 +19,7 @@ class Controller
 
         if ($parameters !== []) {
             $ownerId = $this->model::find(...$parameters)->userId();
+
             $parameters = [];
             array_push($parameters, $ownerId);
         }
