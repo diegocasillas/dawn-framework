@@ -27,12 +27,12 @@ class Auth
         return $auth->user->id();
     }
 
-    public static function check($authorization = [], $model = null, $parameters = null)
+    public static function check($options, ...$parameters)
     {
         $auth = new static;
 
-        foreach ($authorization as $type) {
-            $authorized = $auth->$type($model, $parameters);
+        foreach ($options as $option) {
+            $authorized = $auth->$option(...$parameters);
 
             if (!$authorized) {
                 return false;
@@ -64,11 +64,11 @@ class Auth
         return true;
     }
 
-    public static function owner($model, $id)
+    public static function owner($ownerId)
     {
         $auth = new static;
 
-        if ($auth->user->id() !== $model::find($id)->userId()) {
+        if ($auth->user->id() !== $ownerId) {
             return false;
         }
 

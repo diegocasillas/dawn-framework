@@ -36,7 +36,6 @@ abstract class Model
     public static function find($id)
     {
         $instance = new static;
-
         $sql = "SELECT * FROM {$instance->table} WHERE id='{$id}'";
         $statement = $instance->db->prepare($sql);
         $statement->bindParam(':table', $instance->table);

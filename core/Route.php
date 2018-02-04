@@ -23,6 +23,11 @@ class Route
         }
     }
 
+    public function authorization()
+    {
+        return $this->authorization;
+    }
+
     public function replaceUri($uri)
     {
         $replaced = str_replace('{any}', '(.+)', $uri);

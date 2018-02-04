@@ -19,7 +19,7 @@ class Router
     public static function start()
     {
         $router = new static;
-        $router->getRequest()->process()->direct();
+        return $router;
     }
 
     private function load($routes)
@@ -27,7 +27,7 @@ class Router
         require $routes;
     }
 
-    private function getRequest()
+    public function getRequest()
     {
         $this->request = Request::get();
 
@@ -50,7 +50,7 @@ class Router
         return $route;
     }
 
-    private function process()
+    public function process()
     {
         $requestMethod = $this->request->getMethod();
         $requestUri = $this->request->getUri();
@@ -78,9 +78,10 @@ class Router
         return $this->accessedRoute;
     }
 
-    private function direct()
+    public function direct()
     {
-        return $this->callAction();
+        return ControllerDispatcher::dispatch($this->accessedRoute);
+        // return $this->callAction();
     }
 
     private function callAction()
@@ -90,6 +91,7 @@ class Router
         $action = $this->accessedRoute->action();
         $parameters = $this->accessedRoute->parameters();
 
-        return (new $controller())->middleware($authorization, $action, $parameters);
+        return ControllerDispatcher::dispatch($route);
+        // return (new $controller())->middleware($authorization, $action, $parameters);
     }
 }

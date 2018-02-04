@@ -4,4 +4,6 @@ require 'core/bootstrap.php';
 
 Session::start();
 
-Router::start();
+
+
+$controller = Router::start()->getRequest()->process()->direct();
