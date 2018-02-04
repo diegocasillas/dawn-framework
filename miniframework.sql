@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               10.1.29-MariaDB - mariadb.org binary distribution
+-- Server version:               10.1.26-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win32
--- HeidiSQL Version:             9.5.0.5196
+-- HeidiSQL Version:             9.4.0.5125
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -25,34 +25,33 @@ CREATE TABLE IF NOT EXISTS `comments` (
   PRIMARY KEY (`id`),
   KEY `FK_comments_posts` (`post_id`),
   CONSTRAINT `FK_comments_posts` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 
--- Dumping data for table miniframework.comments: ~4 rows (approximately)
+-- Dumping data for table miniframework.comments: ~8 rows (approximately)
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-INSERT INTO `comments` (`id`, `post_id`, `author`, `body`) VALUES
-	(27, 29, 0, 'First comment'),
-	(28, 29, 0, 'Second comment'),
-	(29, 31, 0, 'First comment'),
-	(30, 30, 0, 'And the first comment xD');
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 
 -- Dumping structure for table miniframework.posts
 CREATE TABLE IF NOT EXISTS `posts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `author` varchar(50) NOT NULL DEFAULT '0',
+  `user_id` int(11) NOT NULL DEFAULT '0',
   `title` varchar(50) NOT NULL DEFAULT '0',
   `body` text NOT NULL,
   `score` float NOT NULL DEFAULT '0',
   `votes` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 
--- Dumping data for table miniframework.posts: ~3 rows (approximately)
+-- Dumping data for table miniframework.posts: ~9 rows (approximately)
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
-INSERT INTO `posts` (`id`, `author`, `title`, `body`, `score`, `votes`) VALUES
-	(29, 'Anon', 'First post', 'First comment', 4, 2),
-	(30, 'Anon', 'Second post', 'Lol, the second post', 5, 0),
-	(31, 'Anon', 'Third post', 'this is the third post', 6.06, 27);
+INSERT INTO `posts` (`id`, `user_id`, `title`, `body`, `score`, `votes`) VALUES
+	(40, 2, 'Lorem Ipsum', 'Duis eu gravida sem. Nulla varius facilisis nunc, at bibendum neque egestas quis. Aenean finibus mollis mauris, vitae sagittis erat mattis at. Fusce felis ipsum, maximus ut nunc sit amet, mollis dictum odio. Praesent consectetur quis nulla eget malesuada. Curabitur condimentum tortor in sapien maximus luctus. Nullam efficitur congue enim, non convallis erat iaculis quis. Aliquam eget vestibulum turpis, non laoreet libero. Nullam sollicitudin, lectus a egestas malesuada, libero enim mattis dui, sit amet pellentesque massa diam ut odio. Fusce in justo rutrum, varius lacus sit amet, ornare nisi.', 0, 0),
+	(41, 1, 'Lorem Ipsum', 'Duis eu gravida sem. Nulla varius facilisis nunc, at bibendum neque egestas quis. Aenean finibus mollis mauris, vitae sagittis erat mattis at. Fusce felis ipsum, maximus ut nunc sit amet, mollis dictum odio. Praesent consectetur quis nulla eget malesuada. Curabitur condimentum tortor in sapien maximus luctus. Nullam efficitur congue enim, non convallis erat iaculis quis. Aliquam eget vestibulum turpis, non laoreet libero. Nullam sollicitudin, lectus a egestas malesuada, libero enim mattis dui, sit amet pellentesque massa diam ut odio. Fusce in justo rutrum, varius lacus sit amet, ornare nisi.', 0, 0),
+	(42, 2, 'Lorem Ipsum', 'Duis eu gravida sem. Nulla varius facilisis nunc, at bibendum neque egestas quis. Aenean finibus mollis mauris, vitae sagittis erat mattis at. Fusce felis ipsum, maximus ut nunc sit amet, mollis dictum odio. Praesent consectetur quis nulla eget malesuada. Curabitur condimentum tortor in sapien maximus luctus. Nullam efficitur congue enim, non convallis erat iaculis quis. Aliquam eget vestibulum turpis, non laoreet libero. Nullam sollicitudin, lectus a egestas malesuada, libero enim mattis dui, sit amet pellentesque massa diam ut odio. Fusce in justo rutrum, varius lacus sit amet, ornare nisi.', 0, 0),
+	(43, 2, 'Lorem Ipsum', 'Duis eu gravida sem. Nulla varius facilisis nunc, at bibendum neque egestas quis. Aenean finibus mollis mauris, vitae sagittis erat mattis at. Fusce felis ipsum, maximus ut nunc sit amet, mollis dictum odio. Praesent consectetur quis nulla eget malesuada. Curabitur condimentum tortor in sapien maximus luctus. Nullam efficitur congue enim, non convallis erat iaculis quis. Aliquam eget vestibulum turpis, non laoreet libero. Nullam sollicitudin, lectus a egestas malesuada, libero enim mattis dui, sit amet pellentesque massa diam ut odio. Fusce in justo rutrum, varius lacus sit amet, ornare nisi.', 0, 0),
+	(44, 2, 'Lorem Ipsum', 'Duis eu gravida sem. Nulla varius facilisis nunc, at bibendum neque egestas quis. Aenean finibus mollis mauris, vitae sagittis erat mattis at. Fusce felis ipsum, maximus ut nunc sit amet, mollis dictum odio. Praesent consectetur quis nulla eget malesuada. Curabitur condimentum tortor in sapien maximus luctus. Nullam efficitur congue enim, non convallis erat iaculis quis. Aliquam eget vestibulum turpis, non laoreet libero. Nullam sollicitudin, lectus a egestas malesuada, libero enim mattis dui, sit amet pellentesque massa diam ut odio. Fusce in justo rutrum, varius lacus sit amet, ornare nisi.', 0, 0),
+	(59, 1, 'asdad', 'asdads', 0, 0),
+	(60, 1, 'y otro mas', 'y ya van 20', 0, 0);
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 
 -- Dumping structure for table miniframework.users
@@ -63,12 +62,17 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
 
--- Dumping data for table miniframework.users: ~0 rows (approximately)
+-- Dumping data for table miniframework.users: ~6 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `username`, `password`) VALUES
-	(1, 'root', '111');
+	(1, 'root', '111'),
+	(2, 'xdlmao', '123'),
+	(52, 'diego', '111'),
+	(53, 'ayyyxd', 'xd'),
+	(54, 'paquitoelchocolatero', 'aasd'),
+	(56, 'poki', '111');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
