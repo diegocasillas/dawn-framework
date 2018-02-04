@@ -21,8 +21,8 @@
         <form class="form-inline my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
           <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
-          <a href="logout"><button class="btn btn-danger ml-2 my-2 my-sm-0">Logout</button></a>
         </form>
+        <a href="logout" class="btn btn-danger ml-2 my-2 my-sm-0">Logout</a>
       </div>
     </nav>
 
@@ -30,11 +30,11 @@
 
 <div class="jumbotron">
         <div class="container">
-          <h1 class="display-3"><?php echo $post->title() ?></h1>
+          <h1 class="display-3"><?php echo $post->title() ?> - <small class="text-muted"><?php echo $post->user()->username() ?></small></h1>
           <p><?php echo $post->body() ?></p>
           <?php if (Auth::isOwner($post)) : ?>
             <p><a class="btn btn-primary btn-lg" href="<?php echo $post->id() ?>/edit" role="button">Edit &raquo;</a></p>
-        <?php endif ?>
+          <?php endif ?>
         </div>
       </div>
 

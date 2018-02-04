@@ -12,7 +12,7 @@ Router::post('miniframework/register', 'RegisterController', 'register')->auth('
 
 Router::get('miniframework/posts', 'PostController', 'index')->auth('authenticated');
 Router::get('miniframework/posts/create', 'PostController', 'create')->auth('authenticated');
-Router::post('miniframework/posts', 'PostController', 'store')->auth('authenticated');
+Router::post('miniframework/posts/create', 'PostController', 'store')->auth('authenticated');
 
 Router::get('miniframework/posts/{id}', 'PostController', 'show')->auth('authenticated');
 Router::post('miniframework/posts/{id}', 'CommentController', 'store')->auth('authenticated');
@@ -20,6 +20,10 @@ Router::post('miniframework/posts/{id}/vote', 'PostController', 'vote')->auth('a
 
 Router::get('miniframework/posts/{id}/edit', 'PostController', 'edit')->auth('owner');
 Router::post('miniframework/posts/{id}/edit', 'PostController', 'update')->auth('owner');
+
+Router::get('miniframework/users/{id}', 'UserController', 'show')->auth('authenticated');
+Router::get('miniframework/users/{id}/edit', 'UserController', 'edit')->auth('owner');
+Router::post('miniframework/users/{id}/edit', 'UserController', 'edit')->auth('owner');
 
 // return $routes = [
 //     '' => [

@@ -21,9 +21,10 @@
         <form class="form-inline my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
           <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
-          <a href="logout"><button class="btn btn-danger ml-2 my-2 my-sm-0">Logout</button></a>
         </form>
-      </div>
+          <a href="logout" class="btn btn-danger ml-2 my-2 my-sm-0">Logout</a>
+        
+      </div>  
     </nav>
 
     <main role="main">
@@ -41,9 +42,8 @@
         <div class="row">
         <?php foreach ($posts as $post) : ?>
           <div class="col-md-4">
-            <h2><?php echo $post->title() ?></h2>
+            <h2><?php echo $post->title() ?> - <small class="text-muted"><?php echo $post->user()->username() ?></small></h2>
             <p><?php echo $post->body() ?></p>
-            <p><?php echo $post->user()->username() ?></p>
             <p><a class="btn btn-secondary" href="posts/<?php echo $post->id() ?>" role="button">View details &raquo;</a></p>
           </div>
         <?php endforeach ?>
