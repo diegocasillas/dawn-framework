@@ -19,7 +19,7 @@ Reading a lot of resources and even more source code lines. Mostly I'm using Lar
 
 I'm trying to make it as clean as I can, but I'm already planning on doing a full refactor when the bedrock is ready.
 
-## I can already see many security flaws
+## I can already see many security flaws.
 Yep, I can see them too. I'm slowly working on it, this will be a long-term project. Any help or advices are welcome!
 
 <hr>
@@ -63,12 +63,12 @@ define('PUBLICFOLDER', '/miniframework/public');
 
 ```sql
 CREATE TABLE `users` (
-`id` INT(11) NOT NULL AUTO_INCREMENT,
-`username` VARCHAR(50) NOT NULL DEFAULT '0',
-`password` VARCHAR(100) NOT NULL DEFAULT '0',
-PRIMARY KEY (`id`),
-UNIQUE INDEX `id` (`id`),
-UNIQUE INDEX `username` (`username`)
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `username` VARCHAR(50) NOT NULL DEFAULT '0',
+    `password` VARCHAR(100) NOT NULL DEFAULT '0',
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `id` (`id`),
+    UNIQUE INDEX `username` (`username`)
 )
 ```
 
