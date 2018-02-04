@@ -24,8 +24,8 @@ Yep, I can see them too. I'm slowly working on it, this will be a long-term proj
   - Really simple cookie authentication implemented. Passwords are not even hashed yet. I'll work on authentication via token.
   
 * Routing
-  - Routes can easily be created and protected for guests, authenticated users or resource's owner (i.e you can make that only you can access to your own profile).
-    * You can add your own rules.
+  - Routes can easily be created and protected for guests, authenticated users or resource's owners (i.e you can make that only you can access your own profile).
+    * You can add your own rules (friends, groups, roles...).
   - REST API ready, kinda.
   
 * Redirections
