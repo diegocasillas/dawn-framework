@@ -25,9 +25,9 @@ CREATE TABLE IF NOT EXISTS `comments` (
   PRIMARY KEY (`id`),
   KEY `FK_comments_posts` (`post_id`),
   CONSTRAINT `FK_comments_posts` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table miniframework.comments: ~8 rows (approximately)
+-- Dumping data for table miniframework.comments: ~0 rows (approximately)
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 
@@ -40,9 +40,9 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `score` float NOT NULL DEFAULT '0',
   `votes` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8;
 
--- Dumping data for table miniframework.posts: ~9 rows (approximately)
+-- Dumping data for table miniframework.posts: ~11 rows (approximately)
 /*!40000 ALTER TABLE `posts` DISABLE KEYS */;
 INSERT INTO `posts` (`id`, `user_id`, `title`, `body`, `score`, `votes`) VALUES
 	(40, 2, 'Lorem Ipsum', 'Duis eu gravida sem. Nulla varius facilisis nunc, at bibendum neque egestas quis. Aenean finibus mollis mauris, vitae sagittis erat mattis at. Fusce felis ipsum, maximus ut nunc sit amet, mollis dictum odio. Praesent consectetur quis nulla eget malesuada. Curabitur condimentum tortor in sapien maximus luctus. Nullam efficitur congue enim, non convallis erat iaculis quis. Aliquam eget vestibulum turpis, non laoreet libero. Nullam sollicitudin, lectus a egestas malesuada, libero enim mattis dui, sit amet pellentesque massa diam ut odio. Fusce in justo rutrum, varius lacus sit amet, ornare nisi.', 0, 0),
@@ -51,7 +51,11 @@ INSERT INTO `posts` (`id`, `user_id`, `title`, `body`, `score`, `votes`) VALUES
 	(43, 2, 'Lorem Ipsum', 'Duis eu gravida sem. Nulla varius facilisis nunc, at bibendum neque egestas quis. Aenean finibus mollis mauris, vitae sagittis erat mattis at. Fusce felis ipsum, maximus ut nunc sit amet, mollis dictum odio. Praesent consectetur quis nulla eget malesuada. Curabitur condimentum tortor in sapien maximus luctus. Nullam efficitur congue enim, non convallis erat iaculis quis. Aliquam eget vestibulum turpis, non laoreet libero. Nullam sollicitudin, lectus a egestas malesuada, libero enim mattis dui, sit amet pellentesque massa diam ut odio. Fusce in justo rutrum, varius lacus sit amet, ornare nisi.', 0, 0),
 	(44, 2, 'Lorem Ipsum', 'Duis eu gravida sem. Nulla varius facilisis nunc, at bibendum neque egestas quis. Aenean finibus mollis mauris, vitae sagittis erat mattis at. Fusce felis ipsum, maximus ut nunc sit amet, mollis dictum odio. Praesent consectetur quis nulla eget malesuada. Curabitur condimentum tortor in sapien maximus luctus. Nullam efficitur congue enim, non convallis erat iaculis quis. Aliquam eget vestibulum turpis, non laoreet libero. Nullam sollicitudin, lectus a egestas malesuada, libero enim mattis dui, sit amet pellentesque massa diam ut odio. Fusce in justo rutrum, varius lacus sit amet, ornare nisi.', 0, 0),
 	(59, 1, 'asdad', 'asdads', 0, 0),
-	(60, 1, 'y otro mas', 'y ya van 20', 0, 0);
+	(60, 1, 'y otro mas', 'y ya van 20', 0, 0),
+	(61, 1, 'Nuevo post', 'aqui esta', 0, 0),
+	(62, 1, 'Nuevo post', 'ay lmao', 0, 0),
+	(63, 1, 'hola probando', 'bieen', 0, 0),
+	(64, 57, 'Hi, im lissu still', 'xDDDDDDDDDDDDDDDDDDD', 0, 0);
 /*!40000 ALTER TABLE `posts` ENABLE KEYS */;
 
 -- Dumping structure for table miniframework.users
@@ -62,9 +66,9 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
--- Dumping data for table miniframework.users: ~6 rows (approximately)
+-- Dumping data for table miniframework.users: ~7 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `username`, `password`) VALUES
 	(1, 'root', '111'),
@@ -72,7 +76,8 @@ INSERT INTO `users` (`id`, `username`, `password`) VALUES
 	(52, 'diego', '111'),
 	(53, 'ayyyxd', 'xd'),
 	(54, 'paquitoelchocolatero', 'aasd'),
-	(56, 'poki', '111');
+	(56, 'poki', '111'),
+	(57, 'lissu', '111');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
