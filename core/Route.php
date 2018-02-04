@@ -7,7 +7,6 @@ class Route
     public $action;
     private $parameters = [];
     public $authorization = [];
-    public $owner;
 
     public function __construct($uri, $controller, $action, $parameters = [])
     {
@@ -30,23 +29,6 @@ class Route
         $key = str_replace('{id}', '([0-9]+)', $replaced);
 
         return $key;
-    }
-
-    public function owner()
-    {
-        return $this->owner;
-    }
-
-    public function setOwner($owner)
-    {
-        $this->owner = $owner;
-    }
-
-    public function replaceOwner($owner)
-    {
-        $replaced = str_replace('{owner}', '(.+)', $replaced);
-
-        return $replaced;
     }
 
     public function controller()
