@@ -1,8 +1,9 @@
 <?php
 
-class Controller
+abstract class Controller
 {
     public $model;
+    public $middleware;
 
     public function __construct()
     {
@@ -12,31 +13,10 @@ class Controller
     // Sends the requested action through a middleware
     public function callAction($action, $parameters = [], $options = null)
     {
-        // Wraps the requested action in an anonymous function for the middleware
-        $next = function () use ($action, $parameters) {
-            $this->$action(...$parameters);
-        };
-
-        if ($parameters !== []) {
-            $ownerId = $this->model::find(...$parameters)->userId();
-
-            $parameters = [];
-            array_push($parameters, $ownerId);
-        }
-
-        $this->middleware($options, $next, ...$parameters);
-    }
-
-    public function middleware($options, $next, ...$parameters)
-    {
-        if (Auth::check($options, ...$parameters)) {
-            $next();
-        } else {
-            if (!Auth::authenticated()) {
-                return redirect('login');
-            }
-
-            redirect('401');
-        }
+        $this->middleware = new Middleware($this);
+        $this->middleware->setOptions($options);
+        $this->middleware->setNext($action, $parameters);
+        $this->middleware->setParameters($parameters, $this->model);
+        $this->middleware->handle($action, $parameters);
     }
 }

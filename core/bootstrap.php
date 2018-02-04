@@ -11,6 +11,7 @@ require 'core/Routing/Request.php';
 require 'core/Routing/ControllerDispatcher.php';
 require 'app/controllers/Controller.php';
 require 'core/Auth/Auth.php';
+require 'core/Auth/Middleware.php';
 require 'app/controllers/ErrorController.php';
 require 'app/controllers/LoginController.php';
 require 'app/controllers/RegisterController.php';
