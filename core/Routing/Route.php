@@ -16,24 +16,19 @@ class Route
         $this->parameters = $parameters;
     }
 
-    public function auth(...$parameters)
-    {
-        foreach ($parameters as $parameter) {
-            array_push($this->options, $parameter);
-        }
-    }
-
-    public function options()
-    {
-        return $this->options;
-    }
-
     public function replaceUri($uri)
     {
         $replaced = str_replace('{any}', '(.+)', $uri);
         $key = str_replace('{id}', '([0-9]+)', $replaced);
 
         return $key;
+    }
+
+    public function auth(...$parameters)
+    {
+        foreach ($parameters as $parameter) {
+            array_push($this->options, $parameter);
+        }
     }
 
     public function controller()
@@ -54,5 +49,10 @@ class Route
     public function setParameters(array $parameters = [])
     {
         $this->parameters = $parameters;
+    }
+
+    public function options()
+    {
+        return $this->options;
     }
 }

@@ -2,36 +2,16 @@
 
 class Router
 {
-    private $routes;
+    private $routes = [
+        'GET' => [],
+        'POST' => []
+    ];
     private $request;
-    private $accessedRoute;
+    private $requestedRoute;
 
     private function __construct()
     {
-        $this->routes = [
-            'GET' => [],
-            'POST' => []
-        ];
-
         $this->load(ROUTES);
-    }
-
-    public static function start()
-    {
-        $router = new static;
-        return $router;
-    }
-
-    private function load($routes)
-    {
-        require $routes;
-    }
-
-    public function getRequest()
-    {
-        $this->request = Request::get();
-
-        return $this;
     }
 
     private function get($uri, $controller, $action, $parameters = [])
@@ -50,7 +30,26 @@ class Router
         return $route;
     }
 
-    public function process()
+    private function load(String $routes)
+    {
+        require $routes;
+    }
+
+    public static function start()
+    {
+        $router = new static;
+
+        return $router;
+    }
+
+    public function getRequest()
+    {
+        $this->request = Request::get();
+
+        return $this;
+    }
+
+    public function processRequest()
     {
         $requestMethod = $this->request->getMethod();
         $requestUri = $this->request->getUri();
@@ -62,24 +61,24 @@ class Router
                 }
 
                 $route->setParameters($parameters);
-                $this->accessedRoute = $route;
+                $this->requestedRoute = $route;
             }
         }
 
-        if ($this->accessedRoute === null) {
+        if ($this->requestedRoute === null) {
             return redirect('404');
         }
 
         return $this;
     }
 
-    public function accessedRoute()
-    {
-        return $this->accessedRoute;
-    }
-
     public function direct()
     {
-        return ControllerDispatcher::dispatch($this->accessedRoute);
+        return ControllerDispatcher::dispatch($this->requestedRoute);
+    }
+
+    public function requestedRoute()
+    {
+        return $this->requestedRoute;
     }
 }

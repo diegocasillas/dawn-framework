@@ -25,9 +25,4 @@ class Session
     {
         return $_SESSION['USER'];
     }
-
-    public static function db()
-    {
-        return $_SESSION['DB'];
-    }
 }

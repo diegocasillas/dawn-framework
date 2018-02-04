@@ -3,6 +3,7 @@
 class Auth
 {
     protected $user;
+    protected $id;
 
     public function __construct()
     {
@@ -10,21 +11,8 @@ class Auth
             $this->user = null;
         } else {
             $this->user = User::find(Session::user());
+            $this->id = $this->user->id();
         }
-    }
-
-    public static function user()
-    {
-        $auth = new static;
-
-        return $auth->user;
-    }
-
-    public static function id()
-    {
-        $auth = new static;
-
-        return $auth->user->id();
     }
 
     public static function check($options, ...$parameters)
@@ -32,9 +20,7 @@ class Auth
         $auth = new static;
 
         foreach ($options as $option) {
-            $authorized = $auth->$option(...$parameters);
-
-            if (!$authorized) {
+            if (!$auth->$option(...$parameters)) {
                 return false;
             }
         }
@@ -68,7 +54,7 @@ class Auth
     {
         $auth = new static;
 
-        if ($auth->user->id() !== $ownerId) {
+        if ($auth->id !== $ownerId) {
             return false;
         }
 
@@ -77,12 +63,19 @@ class Auth
 
     public function isOwner($element)
     {
-        return Auth::id() === $element->userId();
+        $auth = new static;
+
+        return $auth->id === $element->userId();
     }
 
     protected function authenticate($id)
     {
         Session::setUser($id);
+    }
+
+    public static function logout()
+    {
+        Session::destroy();
     }
 
     public static function login($username, $password)
@@ -120,8 +113,17 @@ class Auth
         return redirect();
     }
 
-    public static function logout()
+    public static function user()
     {
-        Session::destroy();
+        $auth = new static;
+
+        return $auth->user;
+    }
+
+    public static function id()
+    {
+        $auth = new static;
+
+        return $auth->id;
     }
 }

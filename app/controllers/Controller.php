@@ -39,17 +39,4 @@ class Controller
             redirect('401');
         }
     }
-
-    // public function middleware($authorization = [], $next, $parameters = [])
-    // {
-    //     if (Auth::check($authorization, $this->model, ...$parameters)) {
-    //         $this->$next(...$parameters);
-    //     } else {
-    //         if (!Auth::authenticated()) {
-    //             return redirect('login');
-    //         }
-
-    //         redirect('401');
-    //     }
-    // }
 }
