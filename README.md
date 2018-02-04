@@ -7,7 +7,7 @@
 
 
 ## What is this?
-Well, right now it's just work in progress. I'm aiming to build a light MVC PHP framework that can be used to write web applications or APIs.
+Well, right now it's just work in progress. I'm aiming to build a light MVC PHP framework from scratch that can be used to write web applications or APIs.
 
 ## There are amazing frameworks already. Stop wasting your time!
 I know. I'm doing this for myself. I want to learn!
