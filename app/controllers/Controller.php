@@ -14,7 +14,11 @@ class Controller
         if (Auth::check($authorization, $this->model, ...$parameters)) {
             $this->$next(...$parameters);
         } else {
-            echo json_encode("Not authorized");
+            if (!Auth::authenticated()) {
+                return redirect('login');
+            }
+
+            redirect('401');
         }
     }
 }

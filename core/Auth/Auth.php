@@ -3,7 +3,6 @@
 class Auth
 {
     protected $user;
-    protected $owner = false;
 
     public function __construct()
     {
@@ -43,31 +42,36 @@ class Auth
         return true;
     }
 
-    public function authenticated()
+    public static function authenticated()
     {
-        if ($this->user === null) {
+        $auth = new static;
+
+        if ($auth->user === null) {
             return false;
         }
 
         return true;
     }
 
-    public function guest()
+    public static function guest()
     {
-        if ($this->user !== null) {
+        $auth = new static;
+
+        if ($auth->user !== null) {
             return false;
         }
 
         return true;
     }
 
-    public function owner($model, $id)
+    public static function owner($model, $id)
     {
-        if ($this->user->id() !== $model::find($id)->userId()) {
+        $auth = new static;
+
+        if ($auth->user->id() !== $model::find($id)->userId()) {
             return false;
         }
 
-        $this->owner = true;
         return true;
     }
 

@@ -2,7 +2,8 @@
 
 Router::get('miniframework', 'PostController', 'index')->auth('authenticated');
 Router::get('miniframework/api', 'PostController', 'apiIndex')->auth('authenticated');
-Router::get('miniframework/404', 'ErrorController', 'error404');
+Router::get('miniframework/404', 'ErrorController', 'notFound');
+Router::get('miniframework/401', 'ErrorController', 'unauthorized');
 Router::get('miniframework/login', 'LoginController', 'showLoginForm')->auth('guest');
 Router::post('miniframework/login', 'LoginController', 'login')->auth('guest');
 Router::get('miniframework/logout', 'LoginController', 'logout')->auth('authenticated');

@@ -62,9 +62,12 @@ class Router
                 }
 
                 $route->setParameters($parameters);
-                $route->setOwner($parameters);
                 $this->accessedRoute = $route;
             }
+        }
+
+        if ($this->accessedRoute === null) {
+            return redirect('404');
         }
 
         return $this;

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>404</title>
+    <title>401</title>
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
     <style>
         html,
@@ -62,7 +62,7 @@ body {
   <body class="text-center">
     <form class="form-signin">
       <img class="mb-4" src="https://files.gamebanana.com/img/ico/sprays/lmoa.png" alt="" width="72" height="72">
-      <h1 class="h3 mb-3 font-weight-normal">404 - Not found</h1>
+      <h1 class="h3 mb-3 font-weight-normal">401 - Unauthorized</h1>
         <a class="btn btn-primary" href="./">Go back</a>
 
 
