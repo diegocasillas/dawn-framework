@@ -1,7 +1,13 @@
 # miniframework
+* [Feature list](#feature-list)
+* [Upcoming features](#upcoming-features)
+* [Get started](#get-started)
+
+<hr>
+
 
 ## What is this?
-Well, right now it's just work in progress. I'm aiming to build a light PHP framework that can be used to write web applications or APIs.
+Well, right now it's just work in progress. I'm aiming to build a light MVC PHP framework that can be used to write web applications or APIs.
 
 ## There are amazing frameworks already. Stop wasting your time!
 I know. I'm doing this for myself. I want to learn!
@@ -36,3 +42,49 @@ Yep, I can see them too. I'm slowly working on it, this will be a long-term proj
 * JSON responses (with status code and additional info).
 * Token authentication.
 * Validation.
+
+<hr>
+
+# Get started
+
+### Database configuration
+- Configure your database settings in *global.php*:
+    
+```php
+define('DB_NAME', 'miniframework');
+define('DB_USER', 'root');
+define('DB_PASSWORD', '');
+define('DB_CONNECTION', 'mysql:host=127.0.0.1');
+
+define('PUBLICFOLDER', '/miniframework/public');
+```
+
+- You will need to create the users table manually:
+
+```sql
+CREATE TABLE `users` (
+`id` INT(11) NOT NULL AUTO_INCREMENT,
+`username` VARCHAR(50) NOT NULL DEFAULT '0',
+`password` VARCHAR(100) NOT NULL DEFAULT '0',
+PRIMARY KEY (`id`),
+UNIQUE INDEX `id` (`id`),
+UNIQUE INDEX `username` (`username`)
+)
+```
+
+### Routes configuration
+* Establish your routes in *core/routes.php*. Use ```Router::get()``` and ```Router::post()```.
+
+  * Arguments:
+    * Route string (from index)
+    * Controller name
+    * Action name
+  
+You can call the method ```auth()``` to authorize different users. Arguments can be: ```'guest'```, ```'authenticated'``` or ```'owner'```.
+
+```php
+Router::get('miniframework/login', 'LoginController', 'showLoginForm')->auth('guest');
+```
+
+### Write your app!
+* Now you can write your own models, views and controllers and make your own app!
