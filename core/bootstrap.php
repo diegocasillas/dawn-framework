@@ -24,6 +24,7 @@ require 'app/models/Comment.php';
 
 define('CONFIG', require 'config.php');
 define('ROUTES', 'core/routes.php');
+define('ROUTES_API', 'core/routesAPI.php');
 
 $db = Connection::make(CONFIG['database']);
 

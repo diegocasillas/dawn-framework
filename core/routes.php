@@ -1,7 +1,7 @@
 <?php
 
 // Login, logout and register
-Router::get('miniframework/login', 'LoginController', 'showLoginForm')->auth('guest')->name('login');
+Router::get('miniframework/login', 'LoginController', 'showLoginForm')->auth('guest');
 Router::post('miniframework/login', 'LoginController', 'login')->auth('guest');
 Router::get('miniframework/logout', 'LoginController', 'logout')->auth('authenticated');
 Router::get('miniframework/register', 'RegisterController', 'showRegistrationForm')->auth('guest');

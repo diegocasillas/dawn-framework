@@ -3,21 +3,32 @@
 class Router
 {
     private $routes = [
-        'GET' => [],
-        'POST' => []
+        'WEB' => [
+            'GET' => [],
+            'POST' => []
+        ],
+        'API' => [
+            'GET' => [],
+            'POST' => [],
+            'PUT' => [],
+            'PATCH' => [],
+            'DELETE' => []
+        ]
     ];
     private $request;
     private $requestedRoute;
 
     private function __construct()
     {
-        $this->load(ROUTES);
+        $this->load();
     }
+
+    // private function api($uri, $controller,)
 
     private function get($uri, $controller, $action, $parameters = [])
     {
         $route = new Route($uri, $controller, $action, $parameters);
-        array_push($this->routes['GET'], $route);
+        array_push($this->routes['WEB']['GET'], $route);
 
         return $route;
     }
@@ -25,14 +36,16 @@ class Router
     private function post($uri, $controller, $action, $parameters = [])
     {
         $route = new Route($uri, $controller, $action, $parameters);
-        array_push($this->routes['POST'], $route);
+        array_push($this->routes['WEB']['POST'], $route);
 
         return $route;
     }
 
-    private function load(String $routes)
+    private function load()
     {
-        require $routes;
+        require ROUTES;
+        require ROUTES_API;
+
     }
 
     public static function start()
@@ -44,18 +57,21 @@ class Router
 
     public function getRequest()
     {
+
         $this->request = Request::get();
 
         return $this;
+
     }
 
     public function processRequest()
     {
-        $requestMethod = $this->request->getMethod();
-        $requestUri = $this->request->getUri();
+        $method = $this->request->getMethod();
+        $uri = $this->request->getUri();
+        $endpoint = $this->request->getEndpoint();
 
-        foreach ($this->routes[$requestMethod] as $route) {
-            if (preg_match('#^' . $route->uri . '$#', $requestUri, $parameters)) {
+        foreach ($this->routes[$endpoint][$method] as $route) {
+            if (preg_match('#^' . $route->uri . '$#', $uri, $parameters)) {
                 if (isset($parameters[0])) {
                     unset($parameters[0]);
                 }
