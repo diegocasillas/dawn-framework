@@ -7,6 +7,7 @@ class Route
     public $action;
     private $parameters = [];
     public $options = [];
+    public $name;
 
     public function __construct($uri, $controller, $action, $parameters = [])
     {
@@ -29,6 +30,8 @@ class Route
         foreach ($parameters as $parameter) {
             array_push($this->options, $parameter);
         }
+
+        return $this;
     }
 
     public function controller()
@@ -54,5 +57,10 @@ class Route
     public function options()
     {
         return $this->options;
+    }
+
+    public function name($name)
+    {
+        $this->name = $name;
     }
 }
