@@ -1,4 +1,8 @@
-# miniframework
+<p align="center">
+  <img width="150" src="https://i.imgur.com/S7kzAwk.png">
+  <h1 align="center">Dawn</h1>
+</p>
+
 * [Feature list](#feature-list)
 * [Upcoming features](#upcoming-features)
 * [Get started](#get-started)
