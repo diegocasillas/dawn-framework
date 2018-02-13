@@ -1,6 +1,6 @@
 <?php
 
-require 'core/bootstrap.php';
+require 'dawn/bootstrap.php';
 
 Session::start();
 
