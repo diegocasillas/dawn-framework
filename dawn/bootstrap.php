@@ -1,17 +1,17 @@
 <?php
 
 require 'global.php';
-require 'core/helpers.php';
-require 'core/Session.php';
-require 'core/Database/Connection.php';
-require 'core/Routing/Router.php';
-require 'core/Routing/Route.php';
-require 'core/Routing/Uri.php';
-require 'core/Routing/Request.php';
-require 'core/Routing/ControllerDispatcher.php';
+require 'dawn/helpers.php';
+require 'dawn/Session.php';
+require 'dawn/Database/Connection.php';
+require 'dawn/Routing/Router.php';
+require 'dawn/Routing/Route.php';
+require 'dawn/Routing/Uri.php';
+require 'dawn/Routing/Request.php';
+require 'dawn/Routing/ControllerDispatcher.php';
 require 'app/controllers/Controller.php';
-require 'core/Auth/Auth.php';
-require 'core/Auth/Middleware.php';
+require 'dawn/Auth/Auth.php';
+require 'dawn/Auth/Middleware.php';
 require 'app/controllers/ErrorController.php';
 require 'app/controllers/LoginController.php';
 require 'app/controllers/RegisterController.php';
@@ -23,8 +23,8 @@ require 'app/models/Post.php';
 require 'app/models/Comment.php';
 
 define('CONFIG', require 'config.php');
-define('ROUTES', 'core/routes.php');
-define('ROUTES_API', 'core/routesAPI.php');
+define('ROUTES', 'dawn/routes.php');
+define('ROUTES_API', 'dawn/routesAPI.php');
 
 $db = Connection::make(CONFIG['database']);
 
