@@ -58,5 +58,41 @@ final class AppTest extends TestCase
             $app->getServiceProviders()
         );
     }
+
+    public function testSetServiceProvidersWorks()
+    {
+        $app = new App('test');
+        $serviceProviders = [
+            'SERVICE_PROVIDER' => $this->createMock(ServiceProvider::class),
+            'SERVICE_PROVIDER_2' => $this->createMock(ServiceProvider::class),
+            'SERVICE_PROVIDER_3' => $this->createMock(ServiceProvider::class),
+        ];
+
+        $this->assertSame($serviceProviders, $app->setServiceProviders($serviceProviders));
+    }
+
+    public function testSetServiceProviderReturnsFalseIfEmptyKey()
+    {
+        $app = new App('test');
+        $serviceProviders = [
+            'SERVICE_PROVIDER' => $this->createMock(ServiceProvider::class),
+            '' => $this->createMock(ServiceProvider::class),
+            'SERVICE_PROVIDER_3' => $this->createMock(ServiceProvider::class),
+        ];
+
+        $this->assertFalse($app->setServiceProviders($serviceProviders));
+    }
+
+    public function testSetServiceProviderReturnsFalseIfValueIsNotObject()
+    {
+        $app = new App('test');
+        $serviceProviders = [
+            'SERVICE_PROVIDER' => $this->createMock(ServiceProvider::class),
+            'SERVICE_PROVIDER_2' => "I'm not an object",
+            'SERVICE_PROVIDER_3' => $this->createMock(ServiceProvider::class),
+        ];
+
+        $this->assertFalse($app->setServiceProviders($serviceProviders));
+    }
 }
 

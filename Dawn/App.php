@@ -34,5 +34,14 @@ class App
 
     public function setServiceProviders(array $serviceProviders)
     {
+        foreach ($serviceProviders as $key => $value) {
+            if (empty($key) || !is_object($value)) {
+                return false;
+            }
+        }
+
+        $this->serviceProviders = $serviceProviders;
+
+        return $this->serviceProviders;
     }
 }
