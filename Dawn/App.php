@@ -20,6 +20,8 @@ class App
     public function bootstrap()
     {
         $this->bind('router', new Routing\Router([ROUTES, ROUTES_API]));
+
+        return $this;
     }
 
     public function run()
