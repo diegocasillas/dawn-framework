@@ -49,7 +49,7 @@ class App
 
     public function run()
     {
-        $this->get('router')->start();
+        $this->router->start();
     }
 
     public function bind(string $serviceProviderName, $serviceProvider)
