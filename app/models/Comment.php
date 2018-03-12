@@ -1,6 +1,8 @@
 <?php
 
-class Comment extends Dawn\Database\Model
+use Dawn\Database\Model;
+
+class Comment extends Model
 {
     private $postId;
     private $author;
