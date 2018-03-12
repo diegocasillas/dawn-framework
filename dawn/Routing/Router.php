@@ -1,7 +1,10 @@
 <?php
 
+namespace Dawn\Routing;
+
 class Router
 {
+    private $routesFiles = [];
     private $routes = [
         'WEB' => [
             'GET' => [],
@@ -18,9 +21,9 @@ class Router
     private $request;
     private $requestedRoute;
 
-    private function __construct()
+    public function __construct(array $routesFiles)
     {
-        $this->load();
+        $this->routesFiles = $routesFiles;
     }
 
     // private function api($uri, $controller,)
@@ -41,30 +44,32 @@ class Router
         return $route;
     }
 
-    private function load()
+    public function load()
     {
-        require ROUTES;
-        require ROUTES_API;
+        $router = $this;
 
+        foreach ($this->routesFiles as $routesFile) {
+            require $routesFile;
+        }
+
+        return $this;
     }
 
-    public static function start()
+    public function start()
     {
-        $router = new static;
+        $this->load()->getRequest()->processRequest()->direct();
 
-        return $router;
+        return $this;
     }
 
-    public function getRequest()
+    private function getRequest()
     {
-
         $this->request = Request::get();
 
         return $this;
-
     }
 
-    public function processRequest()
+    private function processRequest()
     {
         $method = $this->request->getMethod();
         $uri = $this->request->getUri();
@@ -88,7 +93,7 @@ class Router
         return $this;
     }
 
-    public function direct()
+    private function direct()
     {
         return ControllerDispatcher::dispatch($this->requestedRoute);
     }

@@ -2,6 +2,6 @@
 
 require 'dawn/bootstrap.php';
 
-Session::start();
-
-Router::start()->getRequest()->processRequest()->direct();
+$app = new Dawn\App('Dawn', __DIR__);
+$app->bootstrap();
+$app->run();

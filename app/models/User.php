@@ -1,6 +1,6 @@
 <?php
 
-class User extends Model
+class User extends Dawn\Database\Model
 {
     protected $username;
     protected $password;

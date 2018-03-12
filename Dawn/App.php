@@ -7,13 +7,25 @@ class App
     protected $name;
     protected $serviceProviders = [];
 
-    public function __construct(string $name)
+    public function __construct(string $name, string $basePath = null)
     {
         if (empty($name)) {
             throw new \Exception("The name can't be empty");
         }
 
         $this->name = $name;
+        $this->basePath = $basePath;
+    }
+
+    public function bootstrap()
+    {
+        $this->bind('database', Database\Connection::make(CONFIG['database']));
+        $this->bind('router', new Routing\Router([ROUTES, ROUTES_API]));
+    }
+
+    public function run()
+    {
+        $this->get('router')->start();
     }
 
     public function bind(string $serviceProviderName, $serviceProvider)
@@ -24,6 +36,11 @@ class App
 
         $this->serviceProviders[$serviceProviderName] = $serviceProvider;
 
+        return $this->serviceProviders[$serviceProviderName];
+    }
+
+    public function get(string $serviceProviderName)
+    {
         return $this->serviceProviders[$serviceProviderName];
     }
 

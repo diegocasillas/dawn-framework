@@ -1,5 +1,7 @@
 <?php
 
+namespace Dawn\Routing;
+
 class ControllerDispatcher
 {
     public static function dispatch(Route $route)

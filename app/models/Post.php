@@ -1,6 +1,6 @@
 <?php
 
-class Post extends Model
+class Post extends Dawn\Database\Model
 {
     protected $user_id;
     protected $title;
