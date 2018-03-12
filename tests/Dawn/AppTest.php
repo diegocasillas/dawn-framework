@@ -5,20 +5,34 @@ declare (strict_types = 1);
 use PHPUnit\Framework\TestCase;
 use \Exception;
 use Dawn\App;
+use Dawn\Routing\Router;
 use Dawn\ServiceProvider;
 
 
 final class AppTest extends TestCase
 {
-    public function testExceptionIfEmptyName()
+
+    public function testBootstrapRouter()
     {
-        $this->expectException(Exception::class);
-        new App('');
+        $app = new App('test');
+
+        $this->assertInstanceOf(
+            Dawn\Routing\Router::class,
+            $app->bootstrapRouter()
+        );
     }
 
-    public function testCorrectInstanceIfNotEmptyName()
+    public function testRegisterServiceProviders()
     {
-        $this->assertInstanceOf(App::class, new App('test'));
+        $app = new App('test');
+
+        $serviceProviders = [
+            'SERVICE_PROVIDER' => ServiceProvider::class,
+            'SERVICE_PROVIDER_2' => ServiceProvider::class,
+            'SERVICE_PROVIDER_3' => ServiceProvider::class
+        ];
+
+        $app->registerServiceProviders($serviceProviders);
     }
 
     public function testBindReturnsNullIfEmptyServiceProviderName()

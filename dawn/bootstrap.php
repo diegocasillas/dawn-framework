@@ -29,6 +29,7 @@ Session::start();
 define('CONFIG', require 'config.php');
 define('ROUTES', 'dawn/routes.php');
 define('ROUTES_API', 'dawn/routesAPI.php');
+define('SERVICE_PROVIDERS', []);
 
 $app = new Dawn\App('Dawn', __DIR__);
 

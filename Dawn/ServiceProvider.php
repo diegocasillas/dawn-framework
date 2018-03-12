@@ -8,4 +8,9 @@ class ServiceProvider
     {
 
     }
+
+    public function register()
+    {
+
+    }
 }
