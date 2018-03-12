@@ -19,7 +19,6 @@ class App
 
     public function bootstrap()
     {
-        $this->bind('database', Database\Connection::make(CONFIG['database']));
         $this->bind('router', new Routing\Router([ROUTES, ROUTES_API]));
     }
 
