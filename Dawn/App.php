@@ -16,7 +16,7 @@ class App
 
     public function bootstrap()
     {
-        $this->registerServiceProviders(SERVICE_PROVIDERS);
+        $this->registerServiceProviders(CONFIG['service providers']);
 
         return $this;
     }
