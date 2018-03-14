@@ -2,6 +2,7 @@
 
 namespace Dawn\Database;
 
+use ReflectionClass;
 use PDO;
 use Dawn\Database\Connection;
 
@@ -13,9 +14,8 @@ abstract class Model
 
     public function __construct()
     {
-        global $db;
         $this->connection = Connection::make(CONFIG['database']);
-        $this->table = strtolower(get_class($this)) . 's';
+        $this->table = strtolower((new ReflectionClass(get_class($this)))->getShortName()) . 's';
     }
 
     public function id()

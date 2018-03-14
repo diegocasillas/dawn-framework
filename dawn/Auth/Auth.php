@@ -1,5 +1,10 @@
 <?php
 
+namespace Dawn\Auth;
+
+use Dawn\Session;
+use App\Models\User;
+
 class Auth
 {
     protected $user;

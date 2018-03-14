@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Controllers;
+
+use Dawn\Routing\Controller;
+
 class RegisterController extends Controller
 {
     public static function showRegistrationForm()

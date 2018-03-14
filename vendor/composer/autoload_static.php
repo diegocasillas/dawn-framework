@@ -8,6 +8,8 @@ class ComposerStaticInitaab6c40d25faac7cfa61934e1b053f82
 {
     public static $files = array (
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+        '6e2fbbb362a32fc36f5274053bc9bd7b' => __DIR__ . '/../..' . '/global.php',
+        'af8b2603567876f747e1f176e886d95f' => __DIR__ . '/../..' . '/Dawn/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -23,6 +25,12 @@ class ComposerStaticInitaab6c40d25faac7cfa61934e1b053f82
         array (
             'Doctrine\\Instantiator\\' => 22,
             'DeepCopy\\' => 9,
+            'Dawn\\' => 5,
+        ),
+        'A' => 
+        array (
+            'App\\Models\\' => 11,
+            'App\\Controllers\\' => 16,
         ),
     );
 
@@ -44,6 +52,18 @@ class ComposerStaticInitaab6c40d25faac7cfa61934e1b053f82
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
+        ),
+        'Dawn\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/Dawn',
+        ),
+        'App\\Models\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/models',
+        ),
+        'App\\Controllers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/controllers',
         ),
     );
 

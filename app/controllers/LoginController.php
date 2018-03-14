@@ -1,5 +1,10 @@
 <?php
 
+
+namespace App\Controllers;
+
+use Dawn\Routing\Controller;
+
 class LoginController extends Controller
 {
     public function showLoginForm()

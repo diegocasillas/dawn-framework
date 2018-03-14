@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Models;
+
 use Dawn\Database\Model;
 
 class Comment extends Model

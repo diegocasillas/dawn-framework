@@ -1,5 +1,10 @@
 <?php
 
+namespace Dawn\Routing;
+
+use \ReflectionClass;
+use Dawn\Auth\Middleware;
+
 abstract class Controller
 {
     public $model;
@@ -7,7 +12,7 @@ abstract class Controller
 
     public function __construct()
     {
-        $this->model = str_replace('Controller', '', get_class($this));
+        $this->model = str_replace('Controller', '', (new ReflectionClass(get_class($this)))->getShortName());
     }
 
     // Sends the requested action through a middleware

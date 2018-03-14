@@ -1,5 +1,11 @@
 <?php
 
+namespace App\Controllers;
+
+use Dawn\Routing\Controller;
+use App\Models\Post;
+use Dawn\Auth\Auth;
+
 class PostController extends Controller
 {
     public function __construct()
