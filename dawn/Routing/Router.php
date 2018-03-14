@@ -4,6 +4,7 @@ namespace Dawn\Routing;
 
 class Router
 {
+    private $app;
     private $routesFiles = [];
     private $routes = [
         'WEB' => [
@@ -21,8 +22,9 @@ class Router
     private $request;
     private $requestedRoute;
 
-    public function __construct(array $routesFiles)
+    public function __construct($app = null, array $routesFiles)
     {
+        $this->app = $app;
         $this->routesFiles = $routesFiles;
     }
 

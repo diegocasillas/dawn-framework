@@ -17,26 +17,15 @@ class App
 
     public function bootstrap()
     {
-        $this->bootstrapRouter();
         $this->registerServiceProviders(SERVICE_PROVIDERS);
-        $this->bootServiceProviders();
 
         return $this;
-    }
-
-    public function bootstrapRouter()
-    {
-        $this->router = new Routing\Router([ROUTES, ROUTES_API]);
-
-        return $this->router;
     }
 
     public function registerServiceProviders($serviceProviders)
     {
         foreach ($serviceProviders as $key => $serviceProviderClass) {
-            $serviceProvider = (new $serviceProviderClass())->register();
-
-            $this->bind($key, $serviceProvider);
+            $serviceProvider = (new $serviceProviderClass($this))->register();
         }
     }
 
@@ -49,16 +38,16 @@ class App
 
     public function run()
     {
-        $this->router->start();
+        $this->serviceProviders['router']->start();
     }
 
-    public function bind(string $serviceProviderName, $serviceProvider)
+    public function bind(string $serviceProviderName, $service)
     {
         if (empty($serviceProviderName)) {
             return null;
         }
 
-        $this->serviceProviders[$serviceProviderName] = $serviceProvider;
+        $this->serviceProviders[$serviceProviderName] = $service;
 
         return $this->serviceProviders[$serviceProviderName];
     }

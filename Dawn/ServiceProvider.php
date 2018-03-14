@@ -2,15 +2,12 @@
 
 namespace Dawn;
 
-class ServiceProvider
+abstract class ServiceProvider
 {
-    public function __construct()
+    protected $app;
+
+    public function __construct($app)
     {
-
-    }
-
-    public function register()
-    {
-
+        $this->app = $app;
     }
 }
