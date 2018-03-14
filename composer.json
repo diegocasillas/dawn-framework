@@ -1,4 +1,6 @@
 {
+    "name": "Dawn",
+    "description": "Light PHP framework",
     "require-dev": {
         "phpunit/phpunit": "^7"
     },
