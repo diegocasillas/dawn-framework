@@ -8,7 +8,6 @@ class ComposerStaticInitaab6c40d25faac7cfa61934e1b053f82
 {
     public static $files = array (
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
-        '6e2fbbb362a32fc36f5274053bc9bd7b' => __DIR__ . '/../..' . '/global.php',
         'af8b2603567876f747e1f176e886d95f' => __DIR__ . '/../..' . '/Dawn/helpers.php',
     );
 

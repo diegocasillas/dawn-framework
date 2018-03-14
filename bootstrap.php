@@ -11,4 +11,4 @@ Session::start();
 
 $app = new App('Dawn', __DIR__);
 
-return $app->bootstrap();
+return $app->bootstrap(CONFIG['service providers']);

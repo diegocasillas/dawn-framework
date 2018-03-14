@@ -14,14 +14,14 @@ class App
         $this->basePath = $basePath;
     }
 
-    public function bootstrap()
+    public function bootstrap(array $serviceProviders)
     {
-        $this->registerServiceProviders(CONFIG['service providers']);
+        $this->registerServiceProviders($serviceProviders);
 
         return $this;
     }
 
-    public function registerServiceProviders($serviceProviders)
+    public function registerServiceProviders(array $serviceProviders)
     {
         foreach ($serviceProviders as $key => $serviceProviderClass) {
             $serviceProvider = (new $serviceProviderClass($this))->register();

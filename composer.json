@@ -9,7 +9,6 @@
             "App\\Models\\": "app/models/"
         },
         "files": [
-            "global.php",
             "Dawn/helpers.php"
         ]
     },
