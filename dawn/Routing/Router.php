@@ -32,7 +32,7 @@ class Router
 
     private function get($uri, $controller, $action, $parameters = [])
     {
-        $route = new Route($uri, $controller, $action, $parameters);
+        $route = new Route($uri, "App\\Controllers\\{$controller}", $action, $parameters);
         array_push($this->routes['WEB']['GET'], $route);
 
         return $route;
@@ -40,7 +40,7 @@ class Router
 
     private function post($uri, $controller, $action, $parameters = [])
     {
-        $route = new Route($uri, $controller, $action, $parameters);
+        $route = new Route($uri, "App\\Controllers\\{$controller}", $action, $parameters);
         array_push($this->routes['WEB']['POST'], $route);
 
         return $route;

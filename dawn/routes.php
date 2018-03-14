@@ -1,11 +1,11 @@
 <?php
 
 // Login, logout and register
-$router->get('miniframework/login', 'LoginController', 'showLoginForm')->auth('guest');
-$router->post('miniframework/login', 'LoginController', 'login')->auth('guest');
-$router->get('miniframework/logout', 'LoginController', 'logout')->auth('authenticated');
-$router->get('miniframework/register', 'RegisterController', 'showRegistrationForm')->auth('guest');
-$router->post('miniframework/register', 'RegisterController', 'register')->auth('guest');
+$router->get('miniframework/login', 'Auth\LoginController', 'showLoginForm')->auth('guest');
+$router->post('miniframework/login', 'Auth\LoginController', 'login')->auth('guest');
+$router->get('miniframework/logout', 'Auth\LoginController', 'logout')->auth('authenticated');
+$router->get('miniframework/register', 'Auth\RegisterController', 'showRegistrationForm')->auth('guest');
+$router->post('miniframework/register', 'Auth\RegisterController', 'register')->auth('guest');
 
 // Users
 $router->get('miniframework/users/{id}', 'UserController', 'show')->auth('authenticated');

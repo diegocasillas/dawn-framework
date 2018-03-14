@@ -1,9 +1,10 @@
 <?php
 
 
-namespace App\Controllers;
+namespace App\Controllers\Auth;
 
 use Dawn\Routing\Controller;
+use Dawn\Auth\Auth;
 
 class LoginController extends Controller
 {
