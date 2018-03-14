@@ -13,7 +13,7 @@ class RoutingServiceProvider extends ServiceProvider
 
     private function registerRouter()
     {
-        $router = new Router($this->app, [ROUTES, ROUTES_API]);
+        $router = new Router($this->app, CONFIG['routes']);
         $this->app->bind('router', $router);
     }
 }

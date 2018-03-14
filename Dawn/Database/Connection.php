@@ -8,8 +8,8 @@ class Connection
     {
         try {
             return new \PDO(
-                $config['connection'] . ';dbname=' . $config['name'],
-                $config['username'],
+                "mysql:host=" . $config['connection'] . ';dbname=' . $config['name'],
+                $config['user'],
                 $config['password']
             );
         } catch (PDOException $e) {

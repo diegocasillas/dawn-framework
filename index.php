@@ -1,5 +1,5 @@
 <?php
 
-$app = require 'dawn/bootstrap.php';
+$app = require 'bootstrap.php';
 
 $app->run();

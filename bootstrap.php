@@ -2,6 +2,8 @@
 
 require 'vendor/autoload.php';
 
+define('CONFIG', require 'config.php');
+
 use Dawn\Session;
 use Dawn\App;
 

@@ -23,6 +23,7 @@ class ComposerStaticInitaab6c40d25faac7cfa61934e1b053f82
         ),
         'D' => 
         array (
+            'Dotenv\\' => 7,
             'Doctrine\\Instantiator\\' => 22,
             'DeepCopy\\' => 9,
             'Dawn\\' => 5,
@@ -44,6 +45,10 @@ class ComposerStaticInitaab6c40d25faac7cfa61934e1b053f82
         'Webmozart\\Assert\\' => 
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
+        ),
+        'Dotenv\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
         ),
         'Doctrine\\Instantiator\\' => 
         array (

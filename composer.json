@@ -12,5 +12,8 @@
             "global.php",
             "Dawn/helpers.php"
         ]
+    },
+    "require": {
+        "vlucas/phpdotenv": "^2.4"
     }
 }
