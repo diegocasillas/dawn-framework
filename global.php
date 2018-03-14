@@ -10,4 +10,7 @@ define('PUBLICFOLDER', '/miniframework/public');
 define('CONFIG', require 'config.php');
 define('ROUTES', 'dawn/routes.php');
 define('ROUTES_API', 'dawn/routesAPI.php');
-define('SERVICE_PROVIDERS', ['router' => '\\Dawn\\Routing\\RoutingServiceProvider']);
+define('SERVICE_PROVIDERS', [
+    'router' => '\\Dawn\\Routing\\RoutingServiceProvider',
+    'auth' => '\\Dawn\\Auth\\AuthServiceProvider'
+]);

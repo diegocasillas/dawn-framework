@@ -6,7 +6,6 @@ class App
 {
     protected $name;
     protected $basePath;
-    protected $router;
     protected $serviceProviders = [];
 
     public function __construct(string $name = null, string $basePath = null)
@@ -41,13 +40,13 @@ class App
         $this->serviceProviders['router']->start();
     }
 
-    public function bind(string $serviceProviderName, $service)
+    public function bind(string $serviceProviderName, $serviceProvider)
     {
         if (empty($serviceProviderName)) {
             return null;
         }
 
-        $this->serviceProviders[$serviceProviderName] = $service;
+        $this->serviceProviders[$serviceProviderName] = $serviceProvider;
 
         return $this->serviceProviders[$serviceProviderName];
     }
