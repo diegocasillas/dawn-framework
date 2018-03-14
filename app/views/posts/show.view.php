@@ -1,3 +1,5 @@
+<?php use Dawn\Auth\Auth; ?>
+
 <!DOCTYPE html>
 <html>
 <head>

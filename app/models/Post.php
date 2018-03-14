@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Models;
+
+use Dawn\Database\Model;
+
 class Post extends Model
 {
     protected $user_id;
@@ -23,9 +27,9 @@ class Post extends Model
             INSERT INTO posts(user_id, title, body)
             VALUES({$this->user_id}, '{$this->title}', '{$this->body}')
         ";
-        $this->db->exec($sql);
+        $this->connection->exec($sql);
 
-        $this->id = $this->db->lastInsertId();
+        $this->id = $this->connection->lastInsertId();
     }
 
     public function update()
@@ -36,7 +40,7 @@ class Post extends Model
             WHERE id={$this->id}
         ";
 
-        $this->db->exec($sql);
+        $this->connection->exec($sql);
     }
     public function addComment()
     {
@@ -51,7 +55,7 @@ class Post extends Model
             WHERE id={$this->id}
         ";
 
-        $this->db->exec($sql);
+        $this->connection->exec($sql);
     }
 
     public function calcScore($vote)

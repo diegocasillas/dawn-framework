@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Models;
+
+use Dawn\Database\Model;
+
 class User extends Model
 {
     protected $username;
@@ -24,9 +28,9 @@ class User extends Model
     public function create()
     {
         $sql = "INSERT INTO {$this->table}(username, password) VALUES('{$this->username}', '{$this->password}')";
-        $this->db->exec($sql);
+        $this->connection->exec($sql);
 
-        $this->id = $this->db->lastInsertId();
+        $this->id = $this->connection->lastInsertId();
     }
 
     public function writePost()

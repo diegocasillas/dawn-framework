@@ -1,5 +1,10 @@
 <?php
 
+namespace Dawn\Routing;
+
+use App\Controllers\Auth;
+use App\Controllers;
+
 class ControllerDispatcher
 {
     public static function dispatch(Route $route)

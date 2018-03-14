@@ -1,8 +1,11 @@
 <?php
 
+namespace Dawn\Auth;
+
 class Middleware
 {
     public $controller;
+
     public $options;
     public $next;
     public $parameters = [];
@@ -28,11 +31,12 @@ class Middleware
 
     public function setParameters($parameters, $model)
     {
+        $model = "\\App\\Models\\{$model}";
+
         if ($parameters !== []) {
             $ownerId = $model::find(...$parameters)->userId();
             array_push($this->parameters, $ownerId);
         }
-
     }
 
     public function handle($action, $parameters)

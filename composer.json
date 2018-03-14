@@ -1,0 +1,16 @@
+{
+    "require-dev": {
+        "phpunit/phpunit": "^7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dawn\\": "Dawn/",
+            "App\\Controllers\\": "app/controllers/",
+            "App\\Models\\": "app/models/"
+        },
+        "files": [
+            "global.php",
+            "Dawn/helpers.php"
+        ]
+    }
+}

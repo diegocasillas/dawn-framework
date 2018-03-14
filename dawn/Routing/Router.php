@@ -1,7 +1,11 @@
 <?php
 
+namespace Dawn\Routing;
+
 class Router
 {
+    private $app;
+    private $routesFiles = [];
     private $routes = [
         'WEB' => [
             'GET' => [],
@@ -18,16 +22,17 @@ class Router
     private $request;
     private $requestedRoute;
 
-    private function __construct()
+    public function __construct($app = null, array $routesFiles)
     {
-        $this->load();
+        $this->app = $app;
+        $this->routesFiles = $routesFiles;
     }
 
     // private function api($uri, $controller,)
 
     private function get($uri, $controller, $action, $parameters = [])
     {
-        $route = new Route($uri, $controller, $action, $parameters);
+        $route = new Route($uri, "App\\Controllers\\{$controller}", $action, $parameters);
         array_push($this->routes['WEB']['GET'], $route);
 
         return $route;
@@ -35,36 +40,38 @@ class Router
 
     private function post($uri, $controller, $action, $parameters = [])
     {
-        $route = new Route($uri, $controller, $action, $parameters);
+        $route = new Route($uri, "App\\Controllers\\{$controller}", $action, $parameters);
         array_push($this->routes['WEB']['POST'], $route);
 
         return $route;
     }
 
-    private function load()
+    public function load()
     {
-        require ROUTES;
-        require ROUTES_API;
+        $router = $this;
 
+        foreach ($this->routesFiles as $routesFile) {
+            require $routesFile;
+        }
+
+        return $this;
     }
 
-    public static function start()
+    public function start()
     {
-        $router = new static;
+        $this->load()->getRequest()->processRequest()->direct();
 
-        return $router;
+        return $this;
     }
 
-    public function getRequest()
+    private function getRequest()
     {
-
         $this->request = Request::get();
 
         return $this;
-
     }
 
-    public function processRequest()
+    private function processRequest()
     {
         $method = $this->request->getMethod();
         $uri = $this->request->getUri();
@@ -88,7 +95,7 @@ class Router
         return $this;
     }
 
-    public function direct()
+    private function direct()
     {
         return ControllerDispatcher::dispatch($this->requestedRoute);
     }

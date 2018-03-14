@@ -1,5 +1,7 @@
 <?php
 
+namespace Dawn\Routing;
+
 class Request
 {
     protected $uri;

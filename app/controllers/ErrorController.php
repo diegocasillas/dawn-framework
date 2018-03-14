@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Controllers;
+
+use Dawn\Routing\Controller;
+
 class ErrorController extends Controller
 {
     public function notFound()

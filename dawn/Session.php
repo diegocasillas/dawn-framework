@@ -1,5 +1,7 @@
 <?php
 
+namespace Dawn;
+
 class Session
 {
     public static function start()

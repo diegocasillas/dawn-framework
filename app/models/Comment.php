@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Models;
+
+use Dawn\Database\Model;
+
 class Comment extends Model
 {
     private $postId;
@@ -19,7 +23,7 @@ class Comment extends Model
             INSERT INTO comments(post_id, author, body)
             VALUES({$this->postId}, '{$this->author}', '{$this->body}')
         ";
-        
+
         $this->db->exec($sql);
 
         $this->id = $this->db->lastInsertId();

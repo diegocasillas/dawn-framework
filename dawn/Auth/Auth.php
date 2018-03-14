@@ -1,12 +1,20 @@
 <?php
 
+namespace Dawn\Auth;
+
+use Dawn\Session;
+use App\Models\User;
+
 class Auth
 {
+    protected $app;
     protected $user;
     protected $id;
 
-    public function __construct()
+    public function __construct($app = null)
     {
+        $this->app = $app;
+
         if (Session::user() === null) {
             $this->user = null;
         } else {

@@ -1,7 +1,5 @@
 <?php
 
-require 'dawn/bootstrap.php';
+$app = require 'dawn/bootstrap.php';
 
-Session::start();
-
-Router::start()->getRequest()->processRequest()->direct();
+$app->run();
