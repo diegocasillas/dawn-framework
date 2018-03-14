@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use Dawn\Routing\Controller;
 use App\Models\Post;
 use Dawn\Auth\Auth;
 

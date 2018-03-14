@@ -3,7 +3,7 @@
 
 namespace App\Controllers\Auth;
 
-use Dawn\Routing\Controller;
+use App\Controllers\Controller;
 use Dawn\Auth\Auth;
 
 class LoginController extends Controller
