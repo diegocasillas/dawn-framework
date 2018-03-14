@@ -29,11 +29,15 @@ class Router
     }
 
     // private function api($uri, $controller,)
+    private function map($endpoint, $method, $route)
+    {
+        array_push($this->routes[$endpoint][$method], $route);
+    }
 
     private function get($uri, $controller, $action, $parameters = [])
     {
         $route = new Route($uri, "App\\Controllers\\{$controller}", $action, $parameters);
-        array_push($this->routes['WEB']['GET'], $route);
+        $this->map('WEB', 'GET', $route);
 
         return $route;
     }
@@ -41,7 +45,7 @@ class Router
     private function post($uri, $controller, $action, $parameters = [])
     {
         $route = new Route($uri, "App\\Controllers\\{$controller}", $action, $parameters);
-        array_push($this->routes['WEB']['POST'], $route);
+        $this->map('WEB', 'POST', $route);
 
         return $route;
     }
