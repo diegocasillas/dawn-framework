@@ -1,8 +1,5 @@
 <?php
 
-$dotenv = new Dotenv\Dotenv(__DIR__);
-$dotenv->load();
-
 return [
     'app name' => getenv('APP_NAME'),
     'base' => __DIR__,

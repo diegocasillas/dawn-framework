@@ -4,26 +4,25 @@ namespace Dawn;
 
 class App
 {
-    protected $name;
     protected $basePath;
     protected $serviceProviders = [];
 
-    public function __construct(string $name = null, string $basePath = null)
+    public function __construct(string $basePath = null, array $config)
     {
-        $this->name = $name;
         $this->basePath = $basePath;
+        $this->config = $config;
     }
 
-    public function bootstrap(array $serviceProviders)
+    public function bootstrap()
     {
-        $this->registerServiceProviders($serviceProviders);
+        $this->registerServiceProviders();
 
         return $this;
     }
 
-    public function registerServiceProviders(array $serviceProviders)
+    public function registerServiceProviders()
     {
-        foreach ($serviceProviders as $key => $serviceProviderClass) {
+        foreach ($this->config['service providers'] as $key => $serviceProviderClass) {
             $serviceProvider = (new $serviceProviderClass($this))->register();
         }
     }
