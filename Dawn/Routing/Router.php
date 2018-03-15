@@ -17,6 +17,10 @@ class Router
             'PUT' => [],
             'PATCH' => [],
             'DELETE' => []
+        ],
+        'ADMIN' => [
+            'GET' => [],
+            'POST' => []
         ]
     ];
     private $request;
@@ -46,6 +50,14 @@ class Router
     {
         $route = new Route($uri, "App\\Controllers\\{$controller}", $action, $parameters);
         $this->map('WEB', 'POST', $route);
+
+        return $route;
+    }
+
+    private function adminGet($uri, $controller, $action, $parameters = [])
+    {
+        $route = new Route($uri, "Dawn\\Admin\\Controllers\\{$controller}", $action, $parameters);
+        $this->map('ADMIN', 'GET', $route);
 
         return $route;
     }
@@ -107,5 +119,10 @@ class Router
     public function requestedRoute()
     {
         return $this->requestedRoute;
+    }
+
+    public function getRoutes()
+    {
+        return $this->routes;
     }
 }

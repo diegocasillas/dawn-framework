@@ -14,7 +14,8 @@ return [
 
     'routes' => [
         'web' => 'app/routes/routes.php',
-        'api' => 'app/routes/routesAPI.php'
+        'api' => 'app/routes/routesAPI.php',
+        'admin' => 'Dawn/Admin/routesAdmin.php'
     ],
 
     'service providers' => [
