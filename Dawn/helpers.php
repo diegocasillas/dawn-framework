@@ -1,5 +1,11 @@
 <?php
 
+function connection()
+{
+    global $app;
+    return $app->connection();
+}
+
 function view($name, $data = [])
 {
     extract($data);

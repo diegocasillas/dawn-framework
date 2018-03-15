@@ -5,6 +5,7 @@ namespace Dawn\Database;
 use ReflectionClass;
 use PDO;
 use Dawn\Database\Connection;
+use Dawn\App;
 
 abstract class Model
 {
@@ -14,7 +15,7 @@ abstract class Model
 
     public function __construct()
     {
-        $this->connection = Connection::make(CONFIG['database']);
+        $this->connection = connection();
         $this->table = strtolower((new ReflectionClass(get_class($this)))->getShortName()) . 's';
     }
 
@@ -41,6 +42,7 @@ abstract class Model
     public static function find($id)
     {
         $instance = new static;
+
         $sql = "SELECT * FROM {$instance->table} WHERE id='{$id}'";
         $statement = $instance->connection->prepare($sql);
         $statement->bindParam(':table', $instance->table);
@@ -88,16 +90,4 @@ abstract class Model
     {
         return (int)$this->id;
     }
-
-    //  ################################## Inheritance
-    //  public function save()
-    // {
-    //     $sql = "
-    //         INSERT INTO {$this->table}(author, title, body)
-    //         VALUES('{$this->author}', '{$this->title}', '{$this->body}')
-    //     ";
-    //     $this->connection->exec($sql);
-
-    //     $this->id = $this->connection->lastInsertId();
-    // }
 }

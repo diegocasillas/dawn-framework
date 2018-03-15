@@ -2,18 +2,29 @@
 
 namespace Dawn\Database;
 
+use PDO;
+
 class Connection
 {
-    public static function make($config)
+    private $app;
+    private $config;
+
+    public function __construct($app)
+    {
+        $this->app = $app;
+        $this->config = $app->getConfig()['database'];
+    }
+
+    public function make()
     {
         try {
-            return new \PDO(
-                "mysql:host=" . $config['connection'] . ';dbname=' . $config['name'],
-                $config['user'],
-                $config['password']
+            return new PDO(
+                "mysql:host=" . $this->config['connection'] . ';dbname=' . $this->config['name'],
+                $this->config['user'],
+                $this->config['password']
             );
         } catch (PDOException $e) {
-            die($e->getMessage());
+            die("Couldn't connect to the database");
         }
     }
 }

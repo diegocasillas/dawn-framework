@@ -22,10 +22,10 @@ class Router
     private $request;
     private $requestedRoute;
 
-    public function __construct($app = null, array $routesFiles)
+    public function __construct($app = null)
     {
         $this->app = $app;
-        $this->routesFiles = $routesFiles;
+        $this->routesFiles = $app->getConfig()['routes'];
     }
 
     // private function api($uri, $controller,)

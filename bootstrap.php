@@ -12,6 +12,6 @@ use Dawn\App;
 
 Session::start();
 
-$app = new App(__DIR__, CONFIG);
+$app = new App(CONFIG);
 
 return $app->bootstrap();

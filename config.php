@@ -18,6 +18,7 @@ return [
     ],
 
     'service providers' => [
+        'database' => '\\Dawn\\Database\\DatabaseServiceProvider',
         'router' => '\\Dawn\\Routing\\RoutingServiceProvider',
         'auth' => '\\Dawn\\Auth\\AuthServiceProvider'
     ]
