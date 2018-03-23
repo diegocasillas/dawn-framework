@@ -40,7 +40,7 @@ class Router
 
     private function get($uri, $controller, $action, $parameters = [])
     {
-        $route = new Route($uri, "App\\Controllers\\{$controller}", $action, $parameters);
+        $route = new Route($uri, 'GET', "App\\Controllers\\{$controller}", $action, $parameters);
         $this->map('WEB', 'GET', $route);
 
         return $route;
@@ -48,7 +48,7 @@ class Router
 
     private function post($uri, $controller, $action, $parameters = [])
     {
-        $route = new Route($uri, "App\\Controllers\\{$controller}", $action, $parameters);
+        $route = new Route($uri, 'POST', "App\\Controllers\\{$controller}", $action, $parameters);
         $this->map('WEB', 'POST', $route);
 
         return $route;
@@ -56,7 +56,7 @@ class Router
 
     private function adminGet($uri, $controller, $action, $parameters = [])
     {
-        $route = new Route($uri, "Dawn\\Admin\\Controllers\\{$controller}", $action, $parameters);
+        $route = new Route($uri, 'GET', "Dawn\\Admin\\Controllers\\{$controller}", $action, $parameters);
         $this->map('ADMIN', 'GET', $route);
 
         return $route;
