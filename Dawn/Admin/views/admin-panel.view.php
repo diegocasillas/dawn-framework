@@ -12,16 +12,16 @@
     <h1>Admin panel</h1>
     <hr>
 
-    <h2 class="mb-4">Routes <button class="btn btn-success">Save</button></h2>
+    <h2 class="mb-4">Routes <button class="btn btn-success float-right">Save</button></h2>
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
+        <li class="nav-item col-4 p-0 text-center">
             <a class="nav-link active" id="web-tab" data-toggle="tab" href="#web" role="tab" aria-controls="web" aria-selected="true">Web</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item col-4 p-0 text-center">
             <a class="nav-link" id="api-tab" data-toggle="tab" href="#api" role="tab" aria-controls="api" aria-selected="false">API</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item col-4 p-0 text-center">
             <a class="nav-link" id="admin-tab" data-toggle="tab" href="#admin" role="tab" aria-controls="admin" aria-selected="false">Admin</a>
         </li>
     </ul>
@@ -29,10 +29,10 @@
     <div class="tab-content border border-top-0 p-3" id="myTabContent">
         <div class="tab-pane fade show active" id="web" role="tabpanel" aria-labelledby="web-tab">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                <li class="nav-item">
+                <li class="nav-item col-6 p-0 text-center">
                     <a class="nav-link active" id="pills-web-get-tab" data-toggle="pill" href="#pills-web-get" role="tab" aria-controls="pills-web-get" aria-selected="true">GET</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item col-6 p-0 text-center">
                     <a class="nav-link" id="pills-web-post-tab" data-toggle="pill" href="#pills-web-post" role="tab" aria-controls="pills-web-post" aria-selected="false">POST</a>
                 </li>
             </ul>
@@ -74,7 +74,7 @@
                             <?php endforeach; ?>
                         </div>
 
-                        <div class="btn btn-primary" onclick="addNewRouteField(this)">Add new route</div>
+                        <div class="btn btn-primary col-12" onclick="addNewRouteField(this)">Add new route</div>
                     </form>
                 </div>
 
