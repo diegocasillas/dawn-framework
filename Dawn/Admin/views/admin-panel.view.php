@@ -54,23 +54,27 @@
                                 Authentication
                             </div>
                         </div>
+                        
+                        <div id="routes">
+                            <?php foreach ($routes['WEB']['GET'] as $route) : ?>
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        <input type="text" class="form-control" value="<?php echo $route->getOriginalUri() ?>">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" value="<?php echo $route->getController() ?>">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" value="<?php echo $route->getAction() ?>">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" value="<?php echo $route->options()[0] ?>">
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
 
-                        <?php foreach ($routes['WEB']['GET'] as $route) : ?>
-                            <div class="row mb-2">
-                                <div class="col">
-                                    <input type="text" class="form-control" value="<?php echo $route->getOriginalUri() ?>">
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" value="<?php echo $route->getController() ?>">
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" value="<?php echo $route->getAction() ?>">
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" value="<?php echo $route->options()[0] ?>">
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
+                        <div class="btn btn-primary" onclick="addNewRouteField(this)">Add new route</div>
                     </form>
                 </div>
 
@@ -117,9 +121,33 @@
     </div>
 
     
-
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+        function addNewRouteField(button) {
+            var newItem = document.createElement("input");
+            var template = `
+                <div class="row mb-2">
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="URI">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Controller">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Action">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Authentication">
+                    </div>
+                </div>
+            `;
+
+            var routes = document.getElementById('routes');
+            routes.innerHTML += template;
+        }
+    </script>
 </body>
 </html>
