@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="http://localhost/miniframework/node_modules/bootstrap/dist/css/bootstrap.css">
 </head>
 
-<body class="container">
+<body class="container pt-4 pb-4">
     <h1>Admin panel</h1>
     <hr>
 
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                         
-                        <div id="routes">
+                        <div id="routes-web-get">
                             <?php foreach ($routes['WEB']['GET'] as $route) : ?>
                                 <div class="row mb-2">
                                     <div class="col">
@@ -74,7 +74,7 @@
                             <?php endforeach; ?>
                         </div>
 
-                        <div class="btn btn-primary col-12" onclick="addNewRouteField(this)">Add new route</div>
+                        <div class="btn btn-primary col-12" onclick="addNewRouteField('routes-web-get')">Add new route</div>
                     </form>
                 </div>
 
@@ -94,23 +94,26 @@
                                 Authentication
                             </div>
                         </div>
+                        <div id="routes-web-post">
+                            <?php foreach ($routes['WEB']['POST'] as $route) : ?>
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        <input type="text" class="form-control" value="<?php echo $route->getOriginalUri() ?>">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" value="<?php echo $route->getController() ?>">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" value="<?php echo $route->getAction() ?>">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" class="form-control" value="<?php echo $route->options()[0] ?>">
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
 
-                        <?php foreach ($routes['WEB']['POST'] as $route) : ?>
-                            <div class="row mb-2">
-                                <div class="col">
-                                    <input type="text" class="form-control" value="<?php echo $route->getOriginalUri() ?>">
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" value="<?php echo $route->getController() ?>">
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" value="<?php echo $route->getAction() ?>">
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" value="<?php echo $route->options()[0] ?>">
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
+                        <div class="btn btn-primary col-12" onclick="addNewRouteField('routes-web-post')">Add new route</div>
                     </form>
                 </div>
             </div>
@@ -126,7 +129,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <script>
-        function addNewRouteField(button) {
+        function addNewRouteField(type) {
             var newItem = document.createElement("input");
             var template = `
                 <div class="row mb-2">
@@ -145,7 +148,7 @@
                 </div>
             `;
 
-            var routes = document.getElementById('routes');
+            var routes = document.getElementById(type);
             routes.innerHTML += template;
         }
     </script>

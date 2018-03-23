@@ -12,4 +12,9 @@ class AdminController extends Controller
 
         return require 'Dawn/Admin/views/admin-panel.view.php';
     }
+
+    public function saveRoutes()
+    {
+
+    }
 }
