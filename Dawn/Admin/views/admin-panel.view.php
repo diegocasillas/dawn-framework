@@ -53,11 +53,13 @@
                             <div class="col">
                                 Authentication
                             </div>
+                            <div class="col-1">
+                            </div>
                         </div>
                         
                         <div id="routes-web-get">
-                            <?php foreach ($routes['WEB']['GET'] as $route) : ?>
-                                <div class="row mb-2">
+                            <?php foreach ($routes['WEB']['GET'] as $index => $route) : ?>
+                                <div id="route-web-get-<?php echo $index ?>" class="row mb-2">
                                     <div class="col">
                                         <input type="text" class="form-control" value="<?php echo $route->getOriginalUri() ?>">
                                     </div>
@@ -69,6 +71,9 @@
                                     </div>
                                     <div class="col">
                                         <input type="text" class="form-control" value="<?php echo $route->options()[0] ?>">
+                                    </div>
+                                    <div class="col-1">
+                                        <button class="btn btn-danger col-12" onclick="deleteRoute(this.parentNode.parentNode)">X</button>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -93,6 +98,7 @@
                             <div class="col">
                                 Authentication
                             </div>
+                            <div class="col-1"></div>
                         </div>
                         <div id="routes-web-post">
                             <?php foreach ($routes['WEB']['POST'] as $route) : ?>
@@ -108,6 +114,9 @@
                                     </div>
                                     <div class="col">
                                         <input type="text" class="form-control" value="<?php echo $route->options()[0] ?>">
+                                    </div>
+                                    <div class="col-1">
+                                        <button class="btn btn-danger col-12" onclick="deleteRoute(this.parentNode.parentNode)">X</button>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -145,11 +154,18 @@
                     <div class="col">
                         <input type="text" class="form-control" placeholder="Authentication">
                     </div>
+                    <div class="col-1">
+                        <button class="btn btn-danger col-12" onclick="deleteRoute(this.parentNode.parentNode)">X</button>
+                    </div>
                 </div>
             `;
 
             var routes = document.getElementById(type);
             routes.innerHTML += template;
+        }
+
+        function deleteRoute(route) {
+            route.remove();
         }
     </script>
 </body>
