@@ -17,7 +17,7 @@ class RegisterController extends Controller
         $username = $_REQUEST['username'];
         $password = $_REQUEST['password'];
 
-        Auth::register($username, $password);
+        auth()->register($username, $password);
 
         redirect();
     }

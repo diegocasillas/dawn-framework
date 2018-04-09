@@ -94,7 +94,7 @@ class Auth
         return $jwt;
     }
 
-    public static function logout()
+    public function logout()
     {
         Session::destroy();
     }
@@ -115,18 +115,17 @@ class Auth
         return redirect();
     }
 
-    public static function register($username, $password)
+    public function register($username, $password)
     {
-        $auth = new static;
-        $auth->user = new User();
+        $this->user = new User();
 
-        $auth->user->setUsername($username);
-        $auth->user->setPassword(password_hash($password, PASSWORD_BCRYPT));
+        $this->user->setUsername($username);
+        $this->user->setPassword(password_hash($password, PASSWORD_BCRYPT));
 
         // check if user already exists
-        if (!$auth->user->getBy('username', $auth->user->username())) {
-            $auth->user->create();
-            $auth->authenticate($auth->user->id());
+        if (!$this->user->getBy('username', $this->user->username())) {
+            $this->user->create();
+            $this->authenticate($this->user->id());
         }
 
         return redirect();
