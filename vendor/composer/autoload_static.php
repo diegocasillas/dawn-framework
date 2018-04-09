@@ -8,7 +8,7 @@ class ComposerStaticInitaab6c40d25faac7cfa61934e1b053f82
 {
     public static $files = array (
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
-        'af8b2603567876f747e1f176e886d95f' => __DIR__ . '/../..' . '/Dawn/helpers.php',
+        'ec15c93aebc4cd3289ea3e282e141b40' => __DIR__ . '/../..' . '/Dawn/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -19,6 +19,10 @@ class ComposerStaticInitaab6c40d25faac7cfa61934e1b053f82
         'W' => 
         array (
             'Webmozart\\Assert\\' => 17,
+        ),
+        'F' => 
+        array (
+            'Firebase\\JWT\\' => 13,
         ),
         'D' => 
         array (
@@ -44,6 +48,10 @@ class ComposerStaticInitaab6c40d25faac7cfa61934e1b053f82
         'Webmozart\\Assert\\' => 
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
         'Dotenv\\' => 
         array (

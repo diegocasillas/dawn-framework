@@ -2,6 +2,8 @@
 
 namespace Dawn;
 
+use \Firebase\JWT\JWT;
+
 class Session
 {
     public static function start()
@@ -25,6 +27,10 @@ class Session
 
     public static function user()
     {
-        return $_SESSION['USER'];
+        if ($_SESSION['USER'] === null) {
+            return null;
+        }
+
+        return JWT::decode($_SESSION['USER'], app()->getKey(), array('HS256'))->id;
     }
 }

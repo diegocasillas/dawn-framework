@@ -4,13 +4,18 @@ namespace Dawn;
 
 class App
 {
+    protected $appName;
+    protected $config;
+    protected $key;
     protected $basePath;
     protected $serviceProviders = [];
 
-    public function __construct(string $basePath = null, array $config)
+    public function __construct(array $config)
     {
-        $this->basePath = $basePath;
         $this->config = $config;
+        $this->appName = $config['app name'];
+        $this->key = $config['key'];
+        $this->basePath = $config['base'];
     }
 
     public function bootstrap()
@@ -53,6 +58,21 @@ class App
     public function get(string $serviceProviderName)
     {
         return $this->serviceProviders[$serviceProviderName];
+    }
+
+    public function connection()
+    {
+        return $this->get('connection');
+    }
+
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    public function getKey()
+    {
+        return $this->key;
     }
 
     public function getServiceProviders()

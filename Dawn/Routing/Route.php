@@ -4,16 +4,20 @@ namespace Dawn\Routing;
 
 class Route
 {
+    public $originalUri;
     public $uri;
+    public $method;
     public $controller;
     public $action;
     private $parameters = [];
     public $options = [];
     public $name;
 
-    public function __construct($uri, $controller, $action, $parameters = [])
+    public function __construct($uri, $method, $controller, $action, $parameters = [])
     {
+        $this->originalUri = $uri;
         $this->uri = $this->replaceUri($uri);
+        $this->method = $method;
         $this->controller = $controller;
         $this->action = $action;
         $this->parameters = $parameters;
@@ -64,5 +68,30 @@ class Route
     public function name($name)
     {
         $this->name = $name;
+    }
+
+    public function getOriginalUri()
+    {
+        return $this->originalUri;
+    }
+
+    public function getUri()
+    {
+        return $this->uri;
+    }
+
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
+    public function getController()
+    {
+        return $this->controller;
+    }
+
+    public function getAction()
+    {
+        return $this->action;
     }
 }

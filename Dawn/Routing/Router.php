@@ -17,15 +17,19 @@ class Router
             'PUT' => [],
             'PATCH' => [],
             'DELETE' => []
+        ],
+        'ADMIN' => [
+            'GET' => [],
+            'POST' => []
         ]
     ];
     private $request;
     private $requestedRoute;
 
-    public function __construct($app = null, array $routesFiles)
+    public function __construct($app = null)
     {
         $this->app = $app;
-        $this->routesFiles = $routesFiles;
+        $this->routesFiles = $app->getConfig()['routes'];
     }
 
     // private function api($uri, $controller,)
@@ -36,7 +40,7 @@ class Router
 
     private function get($uri, $controller, $action, $parameters = [])
     {
-        $route = new Route($uri, "App\\Controllers\\{$controller}", $action, $parameters);
+        $route = new Route($uri, 'GET', "App\\Controllers\\{$controller}", $action, $parameters);
         $this->map('WEB', 'GET', $route);
 
         return $route;
@@ -44,8 +48,16 @@ class Router
 
     private function post($uri, $controller, $action, $parameters = [])
     {
-        $route = new Route($uri, "App\\Controllers\\{$controller}", $action, $parameters);
+        $route = new Route($uri, 'POST', "App\\Controllers\\{$controller}", $action, $parameters);
         $this->map('WEB', 'POST', $route);
+
+        return $route;
+    }
+
+    private function adminGet($uri, $controller, $action, $parameters = [])
+    {
+        $route = new Route($uri, 'GET', "Dawn\\Admin\\Controllers\\{$controller}", $action, $parameters);
+        $this->map('ADMIN', 'GET', $route);
 
         return $route;
     }
@@ -107,5 +119,10 @@ class Router
     public function requestedRoute()
     {
         return $this->requestedRoute;
+    }
+
+    public function getRoutes()
+    {
+        return $this->routes;
     }
 }

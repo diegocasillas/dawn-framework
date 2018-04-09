@@ -4,6 +4,7 @@ return [
     'app name' => getenv('APP_NAME'),
     'base' => __DIR__,
     'public' => __DIR__ . '/public',
+    'key' => getenv('KEY'),
 
     'database' => [
         'name' => getenv('DB_NAME'),
@@ -14,10 +15,12 @@ return [
 
     'routes' => [
         'web' => 'app/routes/routes.php',
-        'api' => 'app/routes/routesAPI.php'
+        'api' => 'app/routes/routesAPI.php',
+        'admin' => 'Dawn/Admin/routesAdmin.php'
     ],
 
     'service providers' => [
+        'database' => '\\Dawn\\Database\\DatabaseServiceProvider',
         'router' => '\\Dawn\\Routing\\RoutingServiceProvider',
         'auth' => '\\Dawn\\Auth\\AuthServiceProvider'
     ]

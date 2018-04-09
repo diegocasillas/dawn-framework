@@ -9,7 +9,7 @@
 
 <body>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-      <a class="navbar-brand" href="../"><?php echo Auth::user()->username() ?></a>
+      <a class="navbar-brand" href="../"><?php echo auth()->user()->username() ?></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -34,7 +34,7 @@
         <div class="container">
           <h1 class="display-3"><?php echo $post->title() ?> - <small class="text-muted"><?php echo $post->user()->username() ?></small></h1>
           <p><?php echo $post->body() ?></p>
-          <?php if (Auth::isOwner($post)) : ?>
+          <?php if (auth()->isOwner($post)) : ?>
             <p><a class="btn btn-primary btn-lg" href="<?php echo $post->id() ?>/edit" role="button">Edit &raquo;</a></p>
           <?php endif ?>
         </div>

@@ -17,6 +17,8 @@ class Request
 
         if (preg_match('#/api/#', $request->uri)) {
             $request->endpoint = 'API';
+        } else if (preg_match('#/admin/#', $request->uri)) {
+            $request->endpoint = 'ADMIN';
         } else {
             $request->endpoint = 'WEB';
         }
