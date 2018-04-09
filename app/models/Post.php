@@ -132,12 +132,4 @@ class Post extends Model
     {
         $this->user = User::find($this->userId());
     }
-
-
-
-
-
-
-
-
 }

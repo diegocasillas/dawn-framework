@@ -1,5 +1,3 @@
-alert("works");
-
 function addNewRouteField(button) {
     var newItem = document.createElement("input");
 

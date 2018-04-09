@@ -1,0 +1,83 @@
+{
+    "name": "web-token/jwt-framework",
+    "description": "JSON Object Signing and Encryption library for PHP and Symfony Bundle.",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "keywords": ["JWS", "JWT", "JWE", "JWA", "JWK", "JWKSet", "Jot", "Jose", "RFC7515", "RFC7516", "RFC7517", "RFC7518", "RFC7519", "RFC7520", "Bundle", "Symfony"],
+    "homepage": "https://github.com/web-token/jwt-framework",
+    "authors": [
+        {
+            "name": "Florent Morselli",
+            "homepage": "https://github.com/Spomky"
+        },{
+            "name": "All contributors",
+            "homepage": "https://github.com/web-token/jwt-framework/contributors"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Jose\\":  "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jose\\Test\\":  "tests/",
+            "Jose\\Performance\\":  "performance/"
+        }
+    },
+    "require": {
+        "php": "^7.1",
+        "ext-gmp": "*",
+        "ext-mbstring": "*",
+        "lib-openssl": "*",
+        "fgrosse/phpasn1": "^2.0",
+        "paragonie/sodium_compat": "^1.2",
+        "spomky-labs/aes-key-wrap": "^4.0.1",
+        "spomky-labs/base64url": "^1.0",
+        "symfony/config": "^3.3|^4.0",
+        "symfony/console": "^3.3|^4.0",
+        "symfony/dependency-injection": "^3.3|^4.0",
+        "symfony/framework-bundle": "^3.3|^4.0",
+        "symfony/http-kernel": "^3.3|^4.0"
+    },
+    "require-dev": {
+        "ext-curl": "*",
+        "bjeavons/zxcvbn-php": "^0.3.0",
+        "guzzlehttp/psr7": "^1.4",
+        "matthiasnoback/symfony-config-test": "^3.1",
+        "php-http/httplug-bundle": "^1.7",
+        "php-http/mock-client": "^1.0",
+        "phpunit/phpunit": "^6.0",
+        "satooshi/php-coveralls": "^1.0",
+        "symfony/browser-kit": "^3.3|^4.0",
+        "symfony/finder": "^3.3|^4.0",
+        "symfony/phpunit-bridge": "^3.3|^4.0",
+        "symfony/yaml": "^3.3|^4.0"
+    },
+    "replace": {
+        "web-token/jwt-core": "self.version",
+        "web-token/jwt-checker": "self.version",
+        "web-token/jwt-signature": "self.version",
+        "web-token/jwt-encryption": "self.version",
+        "web-token/jwt-key-mgmt": "self.version",
+        "web-token/jwt-console": "self.version",
+        "web-token/jwt-bundle": "self.version"
+    },
+   "suggest":{
+       "bjeavons/zxcvbn-php": "Adds key quality check for oct keys.",
+       "php-http/httplug": "To enable JKU/X5U support.",
+       "php-http/httplug-bundle": "To enable JKU/X5U support.",
+       "php-http/message-factory": "To enable JKU/X5U support."
+   },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "conflict": {
+        "spomky-labs/jose": "*"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

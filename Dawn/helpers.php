@@ -6,6 +6,12 @@ function app()
     return $app;
 }
 
+function auth()
+{
+    global $app;
+    return $app->get('auth');
+}
+
 function connection()
 {
     global $app;

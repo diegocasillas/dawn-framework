@@ -96,7 +96,7 @@ class Auth
         $auth->user->setPassword($password);
 
         if ($id = $auth->user->getColumnBy('id', 'username', $auth->user->username())) {
-            if ($auth->user->getColumnBy('password', 'id', $id) === $auth->user->password()) {
+            if (password_verify($auth->user->password(), $auth->user->getColumnBy('password', 'id', $id))) {
                 $auth->authenticate($id);
             }
         }
@@ -110,7 +110,7 @@ class Auth
         $auth->user = new User();
 
         $auth->user->setUsername($username);
-        $auth->user->setPassword($password);
+        $auth->user->setPassword(password_hash($password, PASSWORD_BCRYPT));
 
         // check if user already exists
         if (!$auth->user->getBy('username', $auth->user->username())) {
