@@ -31,7 +31,7 @@ Yep, I can see them too. I'm slowly working on it, this will be a long-term proj
 # Feature list
 
 * Authentication
-  - Really simple cookie authentication implemented. Passwords are not even hashed yet. I'll work on authentication via token.
+  - Really simple cookie authentication implemented with JWT.
   
 * Routing
   - Routes can easily be created and protected for guests, authenticated users or resource's owners (i.e you can make that only you can access your own profile).
@@ -39,13 +39,15 @@ Yep, I can see them too. I'm slowly working on it, this will be a long-term proj
   - REST API ready, kinda.
   
 * Redirections
-  - If the user accesses an unauthorized resource, he/she/it/they will be redirected.
+  - If the user accesses an unauthorized resource, he will be redirected.
   
 # Upcoming features
 
 * JSON responses (with status code and additional info).
-* Token authentication.
 * Validation.
+* Admin panel to manage routes.
+* Unit tests.
+* Documentation.
 
 <hr>
 

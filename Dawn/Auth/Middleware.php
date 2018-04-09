@@ -34,7 +34,7 @@ class Middleware
         $model = "\\App\\Models\\{$model}";
 
         if ($parameters !== []) {
-            $ownerId = $model::find(...$parameters)->userId();
+            $ownerId = (new $model())->find(...$parameters)->userId();
             array_push($this->parameters, $ownerId);
         }
     }

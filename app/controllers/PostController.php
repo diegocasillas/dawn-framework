@@ -14,7 +14,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::all();
+        $posts = (new Post())->all();
 
         $posts = array_reverse($posts);
 
@@ -23,7 +23,7 @@ class PostController extends Controller
 
     public function apiIndex()
     {
-        $posts = Post::all();
+        $posts = (new Post())->all();
         echo json_encode($posts);
     }
 
@@ -47,20 +47,20 @@ class PostController extends Controller
 
     public function show($id)
     {
-        $post = Post::find($id);
+        $post = (new Post())->find($id);
 
         return view('posts/show', compact('post'));
     }
 
     public function edit($id)
     {
-        $post = Post::find($id);
+        $post = (new Post())->find($id);
         return view('posts/edit', compact('post'));
     }
 
     public function update($id)
     {
-        $post = Post::find($id);
+        $post = (new Post())->find($id);
 
         $post->setTitle($_REQUEST['title']);
         $post->setBody($_REQUEST['body']);
@@ -72,7 +72,7 @@ class PostController extends Controller
 
     public function vote($id)
     {
-        $post = Post::find($id);
+        $post = (new Post())->find($id);
 
         $vote = (float)$_REQUEST['vote'];
 

@@ -24,62 +24,54 @@ abstract class Model
         return $this->id;
     }
 
-    public static function all()
+    public function all()
     {
-        $instance = new static;
-
-        $sql = "SELECT * FROM {$instance->table}";
-        $statement = $instance->connection->prepare($sql);
-        $statement->bindParam(':table', $instance->table);
+        $sql = "SELECT * FROM {$this->table}";
+        $statement = $this->connection->prepare($sql);
+        $statement->bindParam(':table', $this->table);
 
         $statement->execute();
 
-        $result = $statement->fetchAll(PDO::FETCH_CLASS, get_class($instance));
+        $result = $statement->fetchAll($this->connection::FETCH_CLASS, get_class($this));
 
         return $result;
     }
 
-    public static function find($id)
+    public function find($id)
     {
-        $instance = new static;
-
-        $sql = "SELECT * FROM {$instance->table} WHERE id='{$id}'";
-        $statement = $instance->connection->prepare($sql);
-        $statement->bindParam(':table', $instance->table);
+        $sql = "SELECT * FROM {$this->table} WHERE id='{$id}'";
+        $statement = $this->connection->prepare($sql);
+        $statement->bindParam(':table', $this->table);
 
         $statement->execute();
 
-        $statement->setFetchMode(PDO::FETCH_CLASS, get_class($instance));
+        $statement->setFetchMode(PDO::FETCH_CLASS, get_class($this));
 
         $result = $statement->fetch();
 
         return $result;
     }
 
-    public static function getBy($key, $value)
+    public function getBy($key, $value)
     {
-        $instance = new static;
-
-        $sql = "SELECT * FROM {$instance->table} WHERE {$key}='{$value}'";
-        $statement = $instance->connection->prepare($sql);
-        $statement->bindParam(':table', $instance->table);
+        $sql = "SELECT * FROM {$this->table} WHERE {$key}='{$value}'";
+        $statement = $this->connection->prepare($sql);
+        $statement->bindParam(':table', $this->table);
 
         $statement->execute();
 
-        $result = $statement->fetchAll(PDO::FETCH_CLASS, get_class($instance));
+        $result = $statement->fetchAll(PDO::FETCH_CLASS, get_class($this));
 
 
         return $result;
     }
 
-    public static function getColumnBy($column, $key, $value)
+    public function getColumnBy($column, $key, $value)
     {
-        $instance = new static;
+        $sql = "SELECT {$column} FROM {$this->table} WHERE {$key}='{$value}'";
 
-        $sql = "SELECT {$column} FROM {$instance->table} WHERE {$key}='{$value}'";
-
-        $statement = $instance->connection->prepare($sql);
-        $statement->bindParam(':table', $instance->table);
+        $statement = $this->connection->prepare($sql);
+        $statement->bindParam(':table', $this->table);
 
         $statement->execute();
 

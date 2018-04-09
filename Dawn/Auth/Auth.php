@@ -19,7 +19,7 @@ class Auth
         if (Session::user() === null) {
             $this->user = null;
         } else {
-            $this->user = User::find(Session::user());
+            $this->user = (new User())->find(Session::user());
             $this->id = $this->user->id();
         }
     }

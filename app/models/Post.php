@@ -125,11 +125,11 @@ class Post extends Model
 
     public function setComments()
     {
-        $this->comments = Comment::getBy('post_id', $this->id());
+        $this->comments = (new Comment())->getBy('post_id', $this->id());
     }
 
     public function setUser()
     {
-        $this->user = User::find($this->userId());
+        $this->user = (new User())->find($this->userId());
     }
 }
