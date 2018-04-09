@@ -16,6 +16,6 @@
     },
     "require": {
         "vlucas/phpdotenv": "^2.4",
-        "web-token/jwt-framework": "^1.0"
+        "firebase/php-jwt": "^5.0"
     }
 }
