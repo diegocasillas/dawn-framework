@@ -4,6 +4,7 @@ namespace Dawn\Auth;
 
 use Dawn\Session;
 use App\Models\User;
+use \Firebase\JWT\JWT;
 
 class Auth
 {
@@ -78,7 +79,19 @@ class Auth
 
     protected function authenticate($id)
     {
-        Session::setUser($id);
+        Session::setUser($this->generateJWT($id));
+    }
+
+    protected function generateJWT($id)
+    {
+        $secret = $this->app->getKey();
+        $token = array(
+            "id" => $id
+        );
+
+        $jwt = JWT::encode($token, $secret);
+
+        return $jwt;
     }
 
     public static function logout()
@@ -86,18 +99,16 @@ class Auth
         Session::destroy();
     }
 
-    public static function login($username, $password)
+    public function login($username, $password)
     {
-        $auth = new static;
+        $this->user = new User();
 
-        $auth->user = new User();
+        $this->user->setUsername($username);
+        $this->user->setPassword($password);
 
-        $auth->user->setUsername($username);
-        $auth->user->setPassword($password);
-
-        if ($id = $auth->user->getColumnBy('id', 'username', $auth->user->username())) {
-            if (password_verify($auth->user->password(), $auth->user->getColumnBy('password', 'id', $id))) {
-                $auth->authenticate($id);
+        if ($id = $this->user->getColumnBy('id', 'username', $this->user->username())) {
+            if (password_verify($this->user->password(), $this->user->getColumnBy('password', 'id', $id))) {
+                $this->authenticate($id);
             }
         }
 

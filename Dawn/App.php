@@ -6,6 +6,7 @@ class App
 {
     protected $appName;
     protected $config;
+    protected $key;
     protected $basePath;
     protected $serviceProviders = [];
 
@@ -13,6 +14,7 @@ class App
     {
         $this->config = $config;
         $this->appName = $config['app name'];
+        $this->key = $config['key'];
         $this->basePath = $config['base'];
     }
 
@@ -66,6 +68,11 @@ class App
     public function getConfig()
     {
         return $this->config;
+    }
+
+    public function getKey()
+    {
+        return $this->key;
     }
 
     public function getServiceProviders()

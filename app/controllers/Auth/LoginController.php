@@ -18,7 +18,7 @@ class LoginController extends Controller
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        Auth::login($username, $password);
+        auth()->login($username, $password);
 
         redirect();
     }
