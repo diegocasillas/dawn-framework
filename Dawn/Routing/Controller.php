@@ -7,8 +7,9 @@ use Dawn\Auth\Middleware;
 
 abstract class Controller
 {
-    public $model;
-    public $middleware;
+    protected $app;
+    protected $model;
+    protected $middleware;
 
     public function __construct()
     {
@@ -23,5 +24,15 @@ abstract class Controller
         $this->middleware->setNext($action, $parameters);
         $this->middleware->setParameters($parameters, $this->model);
         $this->middleware->handle($action, $parameters);
+    }
+
+    public function getApp()
+    {
+        return $this->app;
+    }
+
+    public function setApp($app)
+    {
+        $this->app = $app;
     }
 }

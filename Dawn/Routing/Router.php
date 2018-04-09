@@ -113,7 +113,7 @@ class Router
 
     private function direct()
     {
-        return ControllerDispatcher::dispatch($this->requestedRoute);
+        return ControllerDispatcher::dispatch($this->app, $this->requestedRoute);
     }
 
     public function requestedRoute()

@@ -4,7 +4,7 @@ namespace Dawn\Auth;
 
 use Dawn\Session;
 use App\Models\User;
-use \Firebase\JWT\JWT;
+use Firebase\JWT\JWT;
 
 class Auth
 {

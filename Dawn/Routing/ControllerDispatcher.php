@@ -7,13 +7,16 @@ use App\Controllers;
 
 class ControllerDispatcher
 {
-    public static function dispatch(Route $route)
+    public static function dispatch($app, Route $route)
     {
         $controller = $route->controller();
         $action = $route->action();
         $parameters = $route->parameters();
         $options = $route->options();
 
-        return (new $controller())->callAction($action, $parameters, $options);
+        $dispatchedController = new $controller();
+        $dispatchedController->setApp($app);
+
+        return $dispatchedController->callAction($action, $parameters, $options);
     }
 }

@@ -9,6 +9,7 @@ class App
     protected $key;
     protected $basePath;
     protected $serviceProviders = [];
+    protected $controller;
 
     public function __construct(array $config)
     {
@@ -91,5 +92,15 @@ class App
         $this->serviceProviders = $serviceProviders;
 
         return $this->serviceProviders;
+    }
+
+    public function setController($controller)
+    {
+        $this->controller = $controller;
+    }
+
+    public function getController()
+    {
+        return $this->controller;
     }
 }
