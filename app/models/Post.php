@@ -18,18 +18,19 @@ class Post extends Model
     {
         parent::__construct();
 
-        $this->setComments();
+        // $this->setComments();
     }
 
     public function save()
     {
-        $sql = "
-            INSERT INTO posts(user_id, title, body)
-            VALUES({$this->user_id}, '{$this->title}', '{$this->body}')
-        ";
-        $this->connection->exec($sql);
-
-        $this->id = $this->connection->lastInsertId();
+        $this->queryBuilder->insert(
+            'posts',
+            ['user_id', 'title', 'body'],
+            [$this->user_id, $this->title, $this->body]
+        );
+        die($this->queryBuilder->getQuery());
+        $this->queryBuilder->exec($sql);
+        // $this->id = $this->db->lastInsertId();
     }
 
     public function update()
@@ -40,7 +41,7 @@ class Post extends Model
             WHERE id={$this->id}
         ";
 
-        $this->connection->exec($sql);
+        $this->queryBuilder->select()->from([$this->table])->exec($sql);
     }
     public function addComment()
     {
@@ -55,7 +56,7 @@ class Post extends Model
             WHERE id={$this->id}
         ";
 
-        $this->connection->exec($sql);
+        $this->db->exec($sql);
     }
 
     public function calcScore($vote)
@@ -123,10 +124,10 @@ class Post extends Model
         return $this->comments;
     }
 
-    public function setComments()
-    {
-        $this->comments = (new Comment())->getBy('post_id', $this->id());
-    }
+    // public function setComments()
+    // {
+    //     $this->comments = (new Comment())->getBy('post_id', $this->id());
+    // }
 
     public function setUser()
     {

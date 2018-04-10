@@ -24,9 +24,9 @@ class Comment extends Model
             VALUES({$this->postId}, '{$this->author}', '{$this->body}')
         ";
 
-        $this->db->exec($sql);
+        $this->queryBuilder->exec($sql);
 
-        $this->id = $this->db->lastInsertId();
+        $this->id = $this->queryBuilder->lastInsertId();
     }
 
     public function getPostId()

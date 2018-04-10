@@ -5,15 +5,16 @@ namespace Dawn\Auth;
 class Middleware
 {
     public $controller;
-
+    public $auth;
     public $options;
     public $next;
     public $parameters = [];
     public $model;
 
-    public function __construct($controller)
+    public function __construct($controller, $auth)
     {
         $this->controller = $controller;
+        $this->auth = $auth;
     }
 
     public function setOptions($options = [])
@@ -41,10 +42,11 @@ class Middleware
 
     public function handle($action, $parameters)
     {
-        if (Auth::check($this->options, ...$this->parameters)) {
+        if ($this->auth->check($this->options, ...$this->parameters)) {
+
             $this->controller->$action(...$parameters);
         } else {
-            if (!Auth::authenticated()) {
+            if (!$this->auth->authenticated()) {
                 return redirect('login');
             }
 

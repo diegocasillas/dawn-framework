@@ -4,18 +4,18 @@ namespace Dawn\Database;
 
 use ReflectionClass;
 use PDO;
-use Dawn\Database\Connection;
+use Dawn\Database\QueryBuilder;
 use Dawn\App;
 
 abstract class Model
 {
-    protected $connection;
+    protected $queryBuilder;
     protected $table;
     protected $id;
 
     public function __construct()
     {
-        $this->connection = connection();
+        $this->queryBuilder = app()->get('query builder');
         $this->table = strtolower((new ReflectionClass(get_class($this)))->getShortName()) . 's';
     }
 
@@ -26,27 +26,19 @@ abstract class Model
 
     public function all()
     {
-        $sql = "SELECT * FROM {$this->table}";
-        $statement = $this->connection->prepare($sql);
-        $statement->bindParam(':table', $this->table);
-
-        $statement->execute();
-
-        $result = $statement->fetchAll($this->connection::FETCH_CLASS, get_class($this));
+        $this->queryBuilder->select()->from([$this->table])->exec();
+        $statement = $this->queryBuilder->getStatement();
+        $result = $statement->fetchAll(PDO::FETCH_CLASS, get_class($this));
 
         return $result;
     }
 
     public function find($id)
     {
-        $sql = "SELECT * FROM {$this->table} WHERE id='{$id}'";
-        $statement = $this->connection->prepare($sql);
-        $statement->bindParam(':table', $this->table);
+        $this->queryBuilder->select()->from([$this->table])->where('id', '=', $id)->exec();
 
-        $statement->execute();
-
+        $statement = $this->queryBuilder->getStatement();
         $statement->setFetchMode(PDO::FETCH_CLASS, get_class($this));
-
         $result = $statement->fetch();
 
         return $result;
@@ -54,28 +46,22 @@ abstract class Model
 
     public function getBy($key, $value)
     {
-        $sql = "SELECT * FROM {$this->table} WHERE {$key}='{$value}'";
-        $statement = $this->connection->prepare($sql);
-        $statement->bindParam(':table', $this->table);
-
-        $statement->execute();
-
+        $this->queryBuilder->select()->from([$this->table])->where($key, '=', $value)->exec();
+        $statement = $this->queryBuilder->getStatement();
         $result = $statement->fetchAll(PDO::FETCH_CLASS, get_class($this));
-
 
         return $result;
     }
 
-    public function getColumnBy($column, $key, $value)
+    public function getColumnBy($column, $key, $value, $number = false)
     {
-        $sql = "SELECT {$column} FROM {$this->table} WHERE {$key}='{$value}'";
+        if (!$number) {
+            $this->queryBuilder->select()->from([$this->table])->where($key, '=', $value)->exec();
+        } else {
+            $this->queryBuilder->select()->from([$this->table])->where($key, '=', $value, true)->exec();
+        }
 
-        $statement = $this->connection->prepare($sql);
-        $statement->bindParam(':table', $this->table);
-
-        $statement->execute();
-
-        return $statement->fetch()[$column];
+        return $this->queryBuilder->getStatement()->fetch()[$column];
     }
 
     public function getId()

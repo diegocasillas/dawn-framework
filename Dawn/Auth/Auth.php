@@ -24,12 +24,10 @@ class Auth
         }
     }
 
-    public static function check($options, ...$parameters)
+    public function check($options, ...$parameters)
     {
-        $auth = new static;
-
         foreach ($options as $option) {
-            if (!$auth->$option(...$parameters)) {
+            if (!$this->$option(...$parameters)) {
                 return false;
             }
         }
@@ -37,33 +35,27 @@ class Auth
         return true;
     }
 
-    public static function authenticated()
+    public function authenticated()
     {
-        $auth = new static;
-
-        if ($auth->user === null) {
+        if ($this->user === null) {
             return false;
         }
 
         return true;
     }
 
-    public static function guest()
+    public function guest()
     {
-        $auth = new static;
-
-        if ($auth->user !== null) {
+        if ($this->user !== null) {
             return false;
         }
 
         return true;
     }
 
-    public static function owner($ownerId)
+    public function owner($ownerId)
     {
-        $auth = new static;
-
-        if ($auth->id !== $ownerId) {
+        if ($this->id !== $ownerId) {
             return false;
         }
 
@@ -72,9 +64,7 @@ class Auth
 
     public function isOwner($element)
     {
-        $auth = new static;
-
-        return $auth->id === $element->userId();
+        return $this->id === $element->userId();
     }
 
     protected function authenticate($id)
@@ -107,7 +97,7 @@ class Auth
         $this->user->setPassword($password);
 
         if ($id = $this->user->getColumnBy('id', 'username', $this->user->username())) {
-            if (password_verify($this->user->password(), $this->user->getColumnBy('password', 'id', $id))) {
+            if (password_verify($this->user->password(), $this->user->getColumnBy('password', 'id', $id, true))) {
                 $this->authenticate($id);
             }
         }
@@ -131,17 +121,13 @@ class Auth
         return redirect();
     }
 
-    public static function user()
+    public function user()
     {
-        $auth = new static;
-
-        return $auth->user;
+        return $this->user;
     }
 
-    public static function id()
+    public function id()
     {
-        $auth = new static;
-
-        return $auth->id;
+        return $this->id;
     }
 }

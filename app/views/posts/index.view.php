@@ -9,7 +9,7 @@
 
 <body>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-      <a class="navbar-brand" href="../"><?php echo Auth::user()->username() ?></a>
+      <a class="navbar-brand" href="../"><?php echo auth()->user()->username() ?></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -34,7 +34,7 @@
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
         <div class="container">
-          <h1 class="display-3">Hello, <?php echo Auth::user()->username() ?>!</h1>
+          <!-- <h1 class="display-3">Hello, <?php echo auth()->user()->username() ?>!</h1> -->
           <p>You can create your posts here!</p>
           <p><a class="btn btn-primary btn-lg" href="posts/create" role="button">Create new post &raquo;</a></p>
         </div>
