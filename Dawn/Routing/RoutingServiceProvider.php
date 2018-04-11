@@ -2,7 +2,7 @@
 
 namespace Dawn\Routing;
 
-use Dawn\ServiceProvider;
+use Dawn\App\ServiceProvider;
 
 class RoutingServiceProvider extends ServiceProvider
 {

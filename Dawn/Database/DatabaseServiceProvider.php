@@ -2,7 +2,7 @@
 
 namespace Dawn\Database;
 
-use Dawn\ServiceProvider;
+use Dawn\App\ServiceProvider;
 use Dawn\Database\Connection;
 
 class DatabaseServiceProvider extends ServiceProvider

@@ -16,6 +16,7 @@ abstract class Model
     public function __construct()
     {
         $this->queryBuilder = app()->get('query builder');
+        $this->queryBuilder->setModel(get_class($this));
         $this->table = strtolower((new ReflectionClass(get_class($this)))->getShortName()) . 's';
     }
 
@@ -26,25 +27,21 @@ abstract class Model
 
     public function all()
     {
-        $this->queryBuilder->select()->from([$this->table])->exec();
+        $this->queryBuilder->select()->from($this->table)->exec();
 
-        return $this->queryBuilder->fetch(get_class($this));
+        return $this->queryBuilder->fetch();
     }
 
     public function find($id)
     {
-        $this->queryBuilder->select()->from([$this->table])->where('id', '=', $id)->exec();
+        $this->queryBuilder->select()->from($this->table)->where('id', '=', $id)->exec();
 
-        $statement = $this->queryBuilder->getPreparedStatement();
-        $statement->setFetchMode(PDO::FETCH_CLASS, get_class($this));
-        $result = $statement->fetch();
-
-        return $result;
+        return $this->queryBuilder->fetch();
     }
 
     public function getBy($key, $value)
     {
-        $this->queryBuilder->select()->from([$this->table])->where($key, '=', $value)->exec();
+        $this->queryBuilder->select()->from($this->table)->where($key, '=', $value)->exec();
         $statement = $this->queryBuilder->getPreparedStatement();
         $result = $statement->fetchAll(PDO::FETCH_CLASS, get_class($this));
 
@@ -54,9 +51,9 @@ abstract class Model
     public function getColumnBy($column, $key, $value, $number = false)
     {
         if (!$number) {
-            $this->queryBuilder->select()->from([$this->table])->where($key, '=', $value)->exec();
+            $this->queryBuilder->select()->from($this->table)->where($key, '=', $value)->exec();
         } else {
-            $this->queryBuilder->select()->from([$this->table])->where($key, '=', $value, true)->exec();
+            $this->queryBuilder->select()->from($this->table)->where($key, '=', $value, true)->exec();
         }
 
         return $this->queryBuilder->getPreparedStatement()->fetch()[$column];

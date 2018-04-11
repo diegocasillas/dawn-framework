@@ -1,6 +1,6 @@
 <?php
 
-namespace Dawn;
+namespace Dawn\App;
 
 abstract class ServiceProvider
 {

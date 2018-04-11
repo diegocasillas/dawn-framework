@@ -116,6 +116,8 @@ class Auth
         if (!$this->user->getBy('username', $this->user->username())) {
             $this->user->create();
             $this->authenticate($this->user->id());
+        } else {
+            die("user exists");
         }
 
         return redirect();

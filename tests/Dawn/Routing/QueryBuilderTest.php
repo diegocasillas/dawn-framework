@@ -21,7 +21,7 @@ final class QueryBuilderTest extends TestCase
     public function testSelectOneColumn()
     {
         $queryBuilder = new QueryBuilder();
-        $queryBuilder->select(["column"]);
+        $queryBuilder->select("column");
 
         $this->assertSame(
             "SELECT column",
@@ -54,7 +54,7 @@ final class QueryBuilderTest extends TestCase
     public function testFromOneColumn()
     {
         $queryBuilder = new QueryBuilder();
-        $queryBuilder->from(["column"]);
+        $queryBuilder->from("column");
 
         $this->assertSame(
             " FROM column",
@@ -111,8 +111,8 @@ final class QueryBuilderTest extends TestCase
         $queryBuilder = new QueryBuilder();
 
         $this->assertSame(
-            "column='value'",
-            $queryBuilder->compare("column", "=", "value")
+            " WORD column='value'",
+            $queryBuilder->compare("WORD", "column", "=", "value")
         );
     }
 
@@ -121,8 +121,8 @@ final class QueryBuilderTest extends TestCase
         $queryBuilder = new QueryBuilder();
 
         $this->assertSame(
-            "column=1",
-            $queryBuilder->compare("column", "=", 1)
+            " WORD column=1",
+            $queryBuilder->compare("WORD", "column", "=", 1)
         );
     }
 
@@ -131,8 +131,8 @@ final class QueryBuilderTest extends TestCase
         $queryBuilder = new QueryBuilder();
 
         $this->assertSame(
-            "column LIKE 'value'",
-            $queryBuilder->compare("column", "like", "value")
+            " WORD column LIKE 'value'",
+            $queryBuilder->compare("WORD", "column", "like", "value")
         );
     }
 

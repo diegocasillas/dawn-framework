@@ -10,22 +10,35 @@ class QueryBuilder
     protected $query;
     protected $preparedStatement;
 
-    public function __construct($app = null, $connection = null, $model = null)
+    public function __construct($app = null, $connection = null)
     {
         $this->app = $app;
         $this->connection = $connection;
-        $this->model = $model;
     }
 
-    public function select(array $columns = ['*'])
+    public function select($columns = '*')
     {
-        $this->query .= "SELECT " . implode(', ', $columns);
+        $this->query .= "SELECT ";
+
+        if (is_array($columns)) {
+            $this->query .= implode(', ', $columns);
+        } else {
+            $this->query .= $columns;
+        }
+
         return $this;
     }
 
-    public function from(array $columns = ['*'])
+    public function from($columns = '*')
     {
-        $this->query .= " FROM " . implode(', ', $columns);
+        $this->query .= " FROM ";
+
+        if (is_array($columns)) {
+            $this->query .= implode(', ', $columns);
+        } else {
+            $this->query .= $columns;
+        }
+
         return $this;
     }
 
@@ -115,7 +128,7 @@ class QueryBuilder
     public function quote($value)
     {
         if (is_string($value)) {
-            $value = " '$value' ";
+            $value = "'$value'";
         }
 
         return $value;
@@ -133,9 +146,16 @@ class QueryBuilder
         return $this->preparedStatement->execute();
     }
 
-    public function fetch($class)
+    public function fetch()
     {
-        return $this->preparedStatement->fetchAll($this->connection::FETCH_CLASS, $class);
+        $this->preparedStatement->setFetchMode($this->connection::FETCH_CLASS, $this->model);
+        $result = $this->preparedStatement->fetchAll();
+
+        if (count($result) === 1) {
+            $result = $result[0];
+        }
+
+        return $result;
     }
 
     public function lastInsertId()
@@ -166,5 +186,10 @@ class QueryBuilder
     public function getConnection()
     {
         return $this->connection;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
     }
 }

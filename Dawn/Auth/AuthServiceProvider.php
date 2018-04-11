@@ -2,7 +2,7 @@
 
 namespace Dawn\Auth;
 
-use Dawn\ServiceProvider;
+use Dawn\App\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
