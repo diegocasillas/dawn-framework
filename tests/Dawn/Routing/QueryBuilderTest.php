@@ -139,10 +139,11 @@ final class QueryBuilderTest extends TestCase
     public function testInsert()
     {
         $queryBuilder = new QueryBuilder();
+        $queryBuilder->insert('table', ['column1' => 'value1', 'column2' => 1]);
 
         $this->assertSame(
-            "column LIKE 'value'",
-            $queryBuilder->compare("column", "like", "value")
+            "INSERT INTO table (column1, column2) VALUES ('value1', 1)",
+            $queryBuilder->getQuery()
         );
     }
 

@@ -23,26 +23,27 @@ class Post extends Model
 
     public function save()
     {
-        $this->queryBuilder->insert(
-            'posts',
-            ['user_id', 'title', 'body'],
-            [$this->user_id, $this->title, $this->body]
-        );
+        $data = [
+            'user_id' => $this->user_id,
+            'title' => $this->title,
+            'body' => $this->body
+        ];
 
-        $this->queryBuilder->exec();
+        $this->queryBuilder->insert('posts', $data)->exec();
+
         $this->id = $this->queryBuilder->lastInsertId();
     }
 
     public function update()
     {
-        $sql = "
-            UPDATE posts
-            SET title='{$this->title}', body='{$this->body}'
-            WHERE id={$this->id}
-        ";
+        $data = [
+            'title' => $this->title,
+            'body' => $this->body
+        ];
 
-        $this->queryBuilder->select()->from([$this->table])->exec($sql);
+        $this->queryBuilder->update('posts', $data)->where('id', '=', (int)$this->id)->exec();
     }
+
     public function addComment()
     {
         Comment::save($this);
