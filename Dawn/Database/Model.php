@@ -27,17 +27,15 @@ abstract class Model
     public function all()
     {
         $this->queryBuilder->select()->from([$this->table])->exec();
-        $statement = $this->queryBuilder->getStatement();
-        $result = $statement->fetchAll(PDO::FETCH_CLASS, get_class($this));
 
-        return $result;
+        return $this->queryBuilder->fetch(get_class($this));
     }
 
     public function find($id)
     {
         $this->queryBuilder->select()->from([$this->table])->where('id', '=', $id)->exec();
 
-        $statement = $this->queryBuilder->getStatement();
+        $statement = $this->queryBuilder->getPreparedStatement();
         $statement->setFetchMode(PDO::FETCH_CLASS, get_class($this));
         $result = $statement->fetch();
 
@@ -47,7 +45,7 @@ abstract class Model
     public function getBy($key, $value)
     {
         $this->queryBuilder->select()->from([$this->table])->where($key, '=', $value)->exec();
-        $statement = $this->queryBuilder->getStatement();
+        $statement = $this->queryBuilder->getPreparedStatement();
         $result = $statement->fetchAll(PDO::FETCH_CLASS, get_class($this));
 
         return $result;
@@ -61,7 +59,7 @@ abstract class Model
             $this->queryBuilder->select()->from([$this->table])->where($key, '=', $value, true)->exec();
         }
 
-        return $this->queryBuilder->getStatement()->fetch()[$column];
+        return $this->queryBuilder->getPreparedStatement()->fetch()[$column];
     }
 
     public function getId()

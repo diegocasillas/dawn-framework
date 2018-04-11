@@ -29,7 +29,7 @@ class Post extends Model
             'body' => $this->body
         ];
 
-        $this->queryBuilder->insert('posts', $data)->exec();
+        $this->queryBuilder->insert($this->table, $data)->exec();
 
         $this->id = $this->queryBuilder->lastInsertId();
     }

@@ -133,6 +133,11 @@ class QueryBuilder
         return $this->preparedStatement->execute();
     }
 
+    public function fetch($class)
+    {
+        return $this->preparedStatement->fetchAll($this->connection::FETCH_CLASS, $class);
+    }
+
     public function lastInsertId()
     {
         return $this->connection->lastInsertId();
@@ -143,12 +148,17 @@ class QueryBuilder
         $this->query = null;
     }
 
+    public function clearPreparedStatement()
+    {
+        $this->preparedStatement = null;
+    }
+
     public function getQuery()
     {
         return $this->query;
     }
 
-    public function getpreparedStatement()
+    public function getPreparedStatement()
     {
         return $this->preparedStatement;
     }
