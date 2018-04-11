@@ -28,9 +28,9 @@ class Post extends Model
             ['user_id', 'title', 'body'],
             [$this->user_id, $this->title, $this->body]
         );
-        die($this->queryBuilder->getQuery());
-        $this->queryBuilder->exec($sql);
-        // $this->id = $this->db->lastInsertId();
+
+        $this->queryBuilder->exec();
+        $this->id = $this->queryBuilder->lastInsertId();
     }
 
     public function update()
@@ -81,7 +81,7 @@ class Post extends Model
 
     public function setUserId($userId)
     {
-        $this->user_id = $userId;
+        $this->user_id = (int)$userId;
     }
 
     public function title()

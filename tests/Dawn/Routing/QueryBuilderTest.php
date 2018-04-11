@@ -122,7 +122,7 @@ final class QueryBuilderTest extends TestCase
 
         $this->assertSame(
             "column=1",
-            $queryBuilder->compare("column", "=", "1", true)
+            $queryBuilder->compare("column", "=", 1)
         );
     }
 
@@ -136,10 +136,20 @@ final class QueryBuilderTest extends TestCase
         );
     }
 
+    public function testInsert()
+    {
+        $queryBuilder = new QueryBuilder();
+
+        $this->assertSame(
+            "column LIKE 'value'",
+            $queryBuilder->compare("column", "like", "value")
+        );
+    }
+
     public function testFullQuery()
     {
         $queryBuilder = new QueryBuilder();
-        $queryBuilder->select(['column1, column2'])->from(['column1, column2'])->where('column1', 'like', 'value')->and('column2', '=', '1', true);
+        $queryBuilder->select(['column1, column2'])->from(['column1, column2'])->where('column1', 'like', 'value')->and('column2', '=', 1);
 
         $this->assertSame(
             "SELECT column1, column2 FROM column1, column2 WHERE column1 LIKE 'value' AND column2=1",

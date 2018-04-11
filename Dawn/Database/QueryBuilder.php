@@ -29,31 +29,31 @@ class QueryBuilder
         return $this;
     }
 
-    public function where($column, $operator, $value, $number = false)
+    public function where($column, $operator, $value)
     {
-        $this->query .= " WHERE " . $this->compare($column, $operator, $value, $number);
+        $this->query .= " WHERE " . $this->compare($column, $operator, $value);
         return $this;
     }
 
-    public function and($column, $operator, $value, $number = false)
+    public function and($column, $operator, $value)
     {
-        $this->query .= " AND " . $this->compare($column, $operator, $value, $number);
+        $this->query .= " AND " . $this->compare($column, $operator, $value);
         return $this;
     }
 
-    public function or($column, $operator, $value, $number = false)
+    public function or($column, $operator, $value)
     {
-        $this->query .= " OR " . $this->compare($column, $operator, $value, $number);
+        $this->query .= " OR " . $this->compare($column, $operator, $value);
         return $this;
     }
 
-    public function compare($column, $operator, $value, $number = false)
+    public function compare($column, $operator, $value)
     {
         if (strtoupper($operator) === "LIKE") {
             $operator = " LIKE ";
         }
 
-        if ($number === false) {
+        if (is_string($value)) {
             return "$column$operator'$value'";
         }
 
@@ -62,22 +62,19 @@ class QueryBuilder
 
     public function insert($table, array $columns = [], array $values)
     {
+        $this->query .= "INSERT INTO " . $table . $this->makeColumnsString($columns) . " VALUES(" . $this->makeValuesString($table, $columns, $values) . ")";
+        return $this;
+    }
+
+    public function makeColumnsString($columns)
+    {
+        $columnsString = "";
+
         if (!empty($columns)) {
             $columnsString = "(" . implode(', ', $columns) . ")";
         }
 
-        $this->query .= "INSERT INTO " . $table . $columnsString . " VALUES(" . $this->makeValuesString($table, $columns, $values) . ")";
-        return $this;
-    }
-
-    public function stringOrNumber($table, $column)
-    {
-        $sql = "SELECT " . $column . " FROM " . $table;
-        $statement = $this->connection->query($sql);
-        // die(var_dump($sql));
-        $meta = $statement->getColumnMeta(0);
-
-        return $meta['native_type'];
+        return $columnsString;
     }
 
     public function makeValuesString($table, $columns, $values)
@@ -85,16 +82,15 @@ class QueryBuilder
         $valuesString = "";
 
         foreach ($values as $index => $value) {
-            echo $value;
-            var_dump($this->stringOrNumber($table, $columns[$index]));
-            if ($this->stringOrNumber($table, $columns[$index]) === "number") {
-                $valuesString .= "$value";
+            if (is_string($value)) {
+                $values[$index] = "'$value'";
             } else {
-                $valuesString .= "'$value'";
+                $value .= "$value";
             }
         }
-        echo $valuesString;
-        die();
+
+        $valuesString = implode(', ', $values);
+
         return $valuesString;
     }
 
@@ -105,8 +101,19 @@ class QueryBuilder
         }
 
         $this->statement = $this->connection->prepare($this->query);
-        $this->query = null;
+        $this->clearQuery();
+
         return $this->statement->execute();
+    }
+
+    public function lastInsertId()
+    {
+        return $this->connection->lastInsertId();
+    }
+
+    public function clearQuery()
+    {
+        $this->query = null;
     }
 
     public function getQuery()
@@ -117,5 +124,10 @@ class QueryBuilder
     public function getStatement()
     {
         return $this->statement;
+    }
+
+    public function getConnection()
+    {
+        return $this->connection;
     }
 }

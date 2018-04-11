@@ -9,10 +9,10 @@ class Connection
     private $app;
     private $config;
 
-    public function __construct($app)
+    public function __construct($app, $config)
     {
         $this->app = $app;
-        $this->config = $app->getConfig()['database'];
+        $this->config = $config;
     }
 
     public function make()
