@@ -9,6 +9,7 @@ class QueryBuilder
     protected $model;
     protected $query;
     protected $preparedStatement;
+    protected $queryData;
 
     public function __construct($app = null, $connection = null)
     {
@@ -26,6 +27,8 @@ class QueryBuilder
             $this->query .= $columns;
         }
 
+        $this->queryData['SELECT'] = $columns;
+
         return $this;
     }
 
@@ -39,18 +42,28 @@ class QueryBuilder
             $this->query .= $columns;
         }
 
+        $this->queryData['FROM'] = $columns;
+
         return $this;
     }
 
     public function where($column, $operator, $value)
     {
         $this->query .= $this->compare('WHERE', $column, $operator, $value);
+
+        $this->queryData['WHERE'] = [
+            'column' => $column,
+            'operator' => $operator,
+            'value' => $value
+        ];
+
         return $this;
     }
 
     public function and($column, $operator, $value)
     {
         $this->query .= $this->compare('AND', $column, $operator, $value);
+
         return $this;
     }
 
@@ -141,21 +154,50 @@ class QueryBuilder
         }
 
         $this->preparedStatement = $this->connection->prepare($this->query);
+        $this->preparedStatement->execute();
         $this->clearQuery();
 
-        return $this->preparedStatement->execute();
+        return $this;
     }
 
-    public function fetch()
+    public function fetch($mode = 'class')
     {
-        $this->preparedStatement->setFetchMode($this->connection::FETCH_CLASS, $this->model);
-        $result = $this->preparedStatement->fetchAll();
+        switch ($mode) {
+            case 'class':
+                $this->preparedStatement->setFetchMode($this->connection::FETCH_CLASS, $this->model);
+                $result = $this->preparedStatement->fetchAll();
+
+                break;
+
+            case 'array':
+                $result = $this->preparedStatement->fetchAll();
+
+                break;
+
+            case 'column':
+                $result = $this->preparedStatement->fetchAll($this->connection::FETCH_COLUMN, 0);
+
+                break;
+
+        }
 
         if (count($result) === 1) {
             $result = $result[0];
         }
 
         return $result;
+    }
+
+    public function fetchColumn()
+    {
+        return $this->preparedStatement->fetchColumn();
+    }
+
+    public function get($mode = 'class')
+    {
+        $this->exec();
+
+        return $this->fetch($mode);
     }
 
     public function lastInsertId()

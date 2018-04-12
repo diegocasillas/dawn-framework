@@ -3,14 +3,14 @@
 namespace Dawn\Database;
 
 use ReflectionClass;
-use PDO;
-use Dawn\Database\QueryBuilder;
 use Dawn\App;
+use Dawn\Database\QueryBuilder;
 
 abstract class Model
 {
     protected $queryBuilder;
     protected $table;
+    protected $primaryKey;
     protected $id;
 
     public function __construct()
@@ -18,6 +18,7 @@ abstract class Model
         $this->queryBuilder = app()->get('query builder');
         $this->queryBuilder->setModel(get_class($this));
         $this->table = strtolower((new ReflectionClass(get_class($this)))->getShortName()) . 's';
+        $this->primaryKey = 'id';
     }
 
     public function id()
@@ -27,36 +28,22 @@ abstract class Model
 
     public function all()
     {
-        $this->queryBuilder->select()->from($this->table)->exec();
-
-        return $this->queryBuilder->fetch();
+        return $this->queryBuilder->select()->from($this->table)->get();
     }
 
-    public function find($id)
+    public function find($primaryKey)
     {
-        $this->queryBuilder->select()->from($this->table)->where('id', '=', $id)->exec();
-
-        return $this->queryBuilder->fetch();
+        return $this->queryBuilder->select()->from($this->table)->where($this->primaryKey, '=', $primaryKey)->get();
     }
 
     public function getBy($key, $value)
     {
-        $this->queryBuilder->select()->from($this->table)->where($key, '=', $value)->exec();
-        $statement = $this->queryBuilder->getPreparedStatement();
-        $result = $statement->fetchAll(PDO::FETCH_CLASS, get_class($this));
-
-        return $result;
+        return $this->queryBuilder->select()->from($this->table)->where($key, '=', $value)->get();
     }
 
-    public function getColumnBy($column, $key, $value, $number = false)
+    public function getColumnBy($column, $key, $value)
     {
-        if (!$number) {
-            $this->queryBuilder->select()->from($this->table)->where($key, '=', $value)->exec();
-        } else {
-            $this->queryBuilder->select()->from($this->table)->where($key, '=', $value, true)->exec();
-        }
-
-        return $this->queryBuilder->getPreparedStatement()->fetch()[$column];
+        return $this->queryBuilder->select($column)->from($this->table)->where($key, '=', $value)->get('column');
     }
 
     public function getId()
