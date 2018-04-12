@@ -6,15 +6,17 @@ class QueryBuilder
 {
     protected $app;
     protected $connection;
+    protected $pagination;
     protected $model;
     protected $query;
     protected $preparedStatement;
     protected $queryData;
 
-    public function __construct($app = null, $connection = null)
+    public function __construct(App $app = null, Connection $connection = null, Pagination $pagination = null)
     {
         $this->app = $app;
         $this->connection = $connection;
+        $this->pagination = $pagination
     }
 
     public function select($columns = '*')

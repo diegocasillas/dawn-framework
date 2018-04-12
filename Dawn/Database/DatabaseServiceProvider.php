@@ -22,6 +22,6 @@ class DatabaseServiceProvider extends ServiceProvider
 
     public function registerQueryBuilder()
     {
-        $this->app->bind('query builder', new QueryBuilder($this->app, $this->app->get('connection')));
+        $this->app->bind('query builder', new QueryBuilder($this->app, $this->app->get('connection'), new Pagination()));
     }
 }
