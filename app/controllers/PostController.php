@@ -4,9 +4,12 @@ namespace App\Controllers;
 
 use App\Models\Post;
 use Dawn\Auth\Auth;
+use Dawn\Routing\Response;
 
 class PostController extends Controller
 {
+    public $prueba = "asdads";
+
     public function __construct()
     {
         parent::__construct();
@@ -82,5 +85,10 @@ class PostController extends Controller
         $post->vote();
 
         return redirect("posts/{$post->getId()}");
+    }
+
+    public function api()
+    {
+        return (new Response(view("posts/create")));
     }
 }

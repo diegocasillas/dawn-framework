@@ -12,7 +12,7 @@ class QueryBuilder
     protected $preparedStatement;
     protected $queryData;
 
-    public function __construct(App $app = null, Connection $connection = null, Pagination $pagination = null)
+    public function __construct($app = null, $connection = null, $pagination = null)
     {
         $this->app = $app;
         $this->connection = $connection;

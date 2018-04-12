@@ -1,5 +1,7 @@
 <?php
 
+$router->get('miniframework/apitest', 'PostController', 'api');
+
 // Login, logout and register
 $router->get('miniframework/login', 'Auth\LoginController', 'showLoginForm')->auth('guest');
 $router->post('miniframework/login', 'Auth\LoginController', 'login')->auth('guest');
