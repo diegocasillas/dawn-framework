@@ -16,7 +16,7 @@ class QueryBuilder
     {
         $this->app = $app;
         $this->connection = $connection;
-        $this->pagination = $pagination
+        $this->pagination = $pagination;
     }
 
     public function select($columns = '*')
