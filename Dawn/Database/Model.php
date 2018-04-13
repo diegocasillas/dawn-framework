@@ -6,12 +6,13 @@ use ReflectionClass;
 use Dawn\App;
 use Dawn\Database\QueryBuilder;
 
-abstract class Model
+abstract class Model implements \JsonSerializable
 {
     protected $queryBuilder;
     protected $table;
     protected $primaryKey;
     protected $id;
+    protected $hidden = [];
 
     public function __construct()
     {
@@ -49,5 +50,34 @@ abstract class Model
     public function getId()
     {
         return (int)$this->id;
+    }
+
+    public function hidden()
+    {
+        return [
+            'queryBuilder', 'table', 'primaryKey'
+        ];
+    }
+
+    public function aa()
+    {
+        $this->hidden = parent::hidden();
+    }
+
+    public function jsonSerialize()
+    {
+        $json = [];
+
+        foreach ($this->hidden() as $hidden) {
+            array_push($this->hidden, $hidden);
+        }
+
+        foreach ($this as $key => $value) {
+            if (!in_array($key, $this->hidden) && $key !== 'hidden') {
+                $json[$key] = $value;
+            }
+        }
+
+        return $json;
     }
 }

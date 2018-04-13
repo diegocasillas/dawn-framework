@@ -4,17 +4,15 @@ namespace Dawn\Routing;
 
 class Response
 {
-    public $data;
     public $statusCode;
     public $statusMessage;
-    public $headers;
+    public $data;
+    protected $json = false;
 
-    public function __construct($data = null, $statusCode = 200, $headers = [])
+    public function __construct($data = null, $statusCode = 200)
     {
         $this->data = $data;
         $this->statusCode = $statusCode;
-        $this->statusMessage = $this->autoMessage($statusCode);
-        $this->headers = $headers;
     }
 
     public function status($code, $message = null)
@@ -30,12 +28,34 @@ class Response
         return $this;
     }
 
+    public function data($data)
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
     public function json()
     {
-        $json = json_encode($this);
-        echo $json;
+        $this->header('Content-Type', 'application/json');
 
-        return $json;
+        $this->json = true;
+
+        return $this;
+    }
+
+    public function header($name, $value)
+    {
+        header($name . ": " . $value);
+
+        return $this;
+    }
+
+    public function token($token)
+    {
+        $this->header('Authentication', 'Bearer ' . $token);
+
+        return $this;
     }
 
     public function autoMessage($code)
@@ -110,7 +130,20 @@ class Response
         return $this->statusMessage;
     }
 
-    function getData()
+    public function send()
+    {
+        http_response_code($this->statusCode);
+
+        $this->statusMessage = $this->autoMessage($this->statusCode);
+
+        if ($this->json === true) {
+            echo json_encode($this);
+        }
+
+        return $this;
+    }
+
+    public function getData()
     {
         return $this->data;
     }
@@ -128,15 +161,5 @@ class Response
     public function setStatusCode($statusCode)
     {
         $this->statusCode = $statusCode;
-    }
-
-    public function getHeaders()
-    {
-        return $this->headers;
-    }
-
-    public function setHeaders($headers)
-    {
-        $this->headers = $headers;
     }
 }

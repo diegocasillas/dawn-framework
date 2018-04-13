@@ -16,6 +16,7 @@ class ControllerDispatcher
 
         $dispatchedController = new $controller();
         $dispatchedController->setApp($app);
+        $dispatchedController->setResponse(new Response());
 
         return $dispatchedController->callAction($action, $parameters, $options);
     }

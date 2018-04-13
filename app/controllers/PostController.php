@@ -89,6 +89,8 @@ class PostController extends Controller
 
     public function api()
     {
-        return (new Response(view("posts/create")));
+        $post = new Post();
+
+        return $this->response->data($post->all())->header('asdasd', 'hfdfsdf')->token('8yfsaoyfoadyfo')->json()->send();
     }
 }

@@ -80,6 +80,11 @@ class Post extends Model
         return $this->user;
     }
 
+    public function hidden()
+    {
+        return ['body', 'score'];
+    }
+
     public function setUserId($userId)
     {
         $this->user_id = (int)$userId;
