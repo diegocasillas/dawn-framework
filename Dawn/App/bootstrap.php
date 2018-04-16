@@ -10,8 +10,6 @@ define('CONFIG', require 'config.php');
 use Dawn\Session;
 use Dawn\App\App;
 
-Session::start();
-
 $app = new App(CONFIG);
 
 return $app->bootstrap();

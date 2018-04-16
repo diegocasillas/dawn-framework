@@ -3,6 +3,7 @@
 namespace Dawn\Auth;
 
 use Dawn\App\ServiceProvider;
+use Dawn\Session;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,8 @@ class AuthServiceProvider extends ServiceProvider
 
     private function registerAuth()
     {
-        $auth = new Auth($this->app);
+        $token = $this->app->get('session')->token();
+        $auth = new Auth($this->app, $token);
         $this->app->bind('auth', $auth);
     }
 }

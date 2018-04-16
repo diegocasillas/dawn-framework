@@ -9,17 +9,19 @@ use Firebase\JWT\JWT;
 class Auth
 {
     protected $app;
+    protected $token;
     protected $user;
     protected $id;
 
-    public function __construct($app = null)
+    public function __construct($app, $token)
     {
         $this->app = $app;
+        $this->token = $token;
 
-        if (Session::user() === null) {
+        if ($token === null) {
             $this->user = null;
         } else {
-            $this->user = (new User())->find(Session::user());
+            $this->user = (new User())->find($this->decodeToken($this->token));
             $this->id = $this->user->id();
         }
     }
@@ -69,10 +71,10 @@ class Auth
 
     protected function authenticate($id)
     {
-        Session::setUser($this->generateJWT($id));
+        $this->app->get('session')->setUser($id);
     }
 
-    protected function generateJWT($id)
+    protected function generateToken($id)
     {
         $secret = $this->app->getKey();
         $token = array(
@@ -84,9 +86,14 @@ class Auth
         return $jwt;
     }
 
+    protected function decodeToken($token)
+    {
+        return JWT::decode($token, app()->getKey(), array('HS256'))->id;
+    }
+
     public function logout()
     {
-        Session::destroy();
+        $this->app->get('session')->destroy();
     }
 
     public function login($username, $password)
@@ -98,7 +105,7 @@ class Auth
 
         if ($id = $this->user->getColumnBy('id', 'username', $this->user->username())) {
             if (password_verify($this->user->password(), $this->user->getColumnBy('password', 'id', $id, true))) {
-                $this->authenticate($id);
+                $this->authenticate($this->generateToken($id));
             }
         }
 

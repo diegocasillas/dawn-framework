@@ -4,7 +4,7 @@ return [
     'app name' => getenv('APP_NAME'),
     'base' => __DIR__,
     'public' => __DIR__ . '/public',
-    'key' => getenv('KEY'),
+    'key' => base64_encode(getenv('KEY')),
 
     'database' => [
         'name' => getenv('DB_NAME'),
@@ -22,6 +22,7 @@ return [
     'service providers' => [
         'database' => '\\Dawn\\Database\\DatabaseServiceProvider',
         'router' => '\\Dawn\\Routing\\RoutingServiceProvider',
+        'session' => '\\Dawn\\SessionServiceProvider',
         'auth' => '\\Dawn\\Auth\\AuthServiceProvider'
     ]
 ];

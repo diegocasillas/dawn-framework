@@ -6,31 +6,43 @@ use \Firebase\JWT\JWT;
 
 class Session
 {
-    public static function start()
-    {
-        session_start();
+    public $app;
+    public $token;
+    public $tokenKey = 'access_token';
 
-        if (!isset($_SESSION['USER'])) {
-            $_SESSION['USER'] = null;
-        }
+    public function __construct($app)
+    {
+        $this->app = $app;
     }
 
-    public static function destroy()
+    public function start()
     {
-        session_destroy();
+        $this->loadToken();
     }
 
-    public static function setUser($userId)
+    public function destroy()
     {
-        $_SESSION['USER'] = $userId;
+        $this->token = null;
+        $this->app->deleteCookie($this->tokenKey);
     }
 
-    public static function user()
+    public function setUser($userId)
     {
-        if ($_SESSION['USER'] === null) {
-            return null;
-        }
+        header("Set-Cookie: $this->tokenKey=$userId; httpOnly");
+    }
 
-        return JWT::decode($_SESSION['USER'], app()->getKey(), array('HS256'))->id;
+    public function getTokenKey()
+    {
+        return $this->tokenKey;
+    }
+
+    public function loadToken()
+    {
+        $this->token = $this->app->cookie($this->tokenKey);
+    }
+
+    public function token()
+    {
+        return $this->token;
     }
 }

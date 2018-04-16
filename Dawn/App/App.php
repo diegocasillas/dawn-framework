@@ -76,6 +76,23 @@ class App
         return $this->key;
     }
 
+    public function cookie($key)
+    {
+        if (array_key_exists($key, $_COOKIE)) {
+            return $_COOKIE[$key];
+        }
+
+        return null;
+    }
+
+    public function deleteCookie($key)
+    {
+        if (array_key_exists($key, $_COOKIE)) {
+            setcookie($key, "");
+            unset($_COOKIE[$key]);
+        }
+    }
+
     public function getServiceProviders()
     {
         return $this->serviceProviders;
