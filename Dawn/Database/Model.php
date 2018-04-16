@@ -12,6 +12,7 @@ abstract class Model implements \JsonSerializable
     protected $table;
     protected $primaryKey;
     protected $id;
+    protected $visible = [];
     protected $hidden = [];
 
     public function __construct()
@@ -20,7 +21,7 @@ abstract class Model implements \JsonSerializable
         $this->queryBuilder->setModel(get_class($this));
         $this->table = strtolower((new ReflectionClass(get_class($this)))->getShortName()) . 's';
         $this->primaryKey = 'id';
-        $this->hide(['queryBuilder', 'table', 'primaryKey']);
+        $this->hidden(['queryBuilder', 'table', 'primaryKey', 'visible', 'hidden']);
     }
 
     public function id()
@@ -53,30 +54,43 @@ abstract class Model implements \JsonSerializable
         return (int)$this->id;
     }
 
-    public function aa()
+    protected function visible(array $properties = [])
     {
-        $this->hidden = parent::hidden();
+        foreach ($this as $key => $value) {
+            if (in_array($key, $properties) || !in_array($key, $this->hidden)) {
+                $this->visible[$key] = $value;
+            }
+        }
+
+        return $this->visible;
     }
 
-    public function hide(array $properties)
+    protected function hidden(array $properties = [])
     {
         foreach ($properties as $property) {
-            array_push($this->hidden, $property);
+            if (!in_array($property, $this->hidden)) {
+                array_push($this->hidden, $property);
+            }
         }
 
         return $this->hidden;
     }
 
-    public function jsonSerialize()
+    public function hide(array $items = null)
     {
-        $json = [];
-
-        foreach ($this as $key => $value) {
-            if (!in_array($key, $this->hidden) && $key !== 'hidden') {
-                $json[$key] = $value;
-            }
+        if ($items !== null) {
+            $hide = array_map(function ($item) {
+                return $item->visible();
+            }, $items);
+        } else {
+            $hide = $this->visible();
         }
 
-        return $json;
+        return $hide;
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->visible();
     }
 }

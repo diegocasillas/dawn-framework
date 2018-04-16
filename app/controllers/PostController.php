@@ -91,6 +91,6 @@ class PostController extends Controller
     {
         $post = new Post();
 
-        return $this->response->data($post->all())->header('asdasd', 'hfdfsdf')->token('8yfsaoyfoadyfo')->json()->send();
+        return $this->response($post->all())->header('asdasd', 'hfdfsdf')->token('8yfsaoyfoadyfo')->json()->send();
     }
 }

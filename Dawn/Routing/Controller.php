@@ -30,6 +30,14 @@ abstract class Controller
 
     }
 
+    public function response($data, $statusCode = 200)
+    {
+        $this->response->data($data);
+        $this->response->status($statusCode);
+
+        return $this->response;
+    }
+
     public function getApp()
     {
         return $this->app;

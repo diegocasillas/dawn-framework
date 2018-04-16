@@ -18,13 +18,7 @@ class Post extends Model
     {
         parent::__construct();
         // $this->setComments();
-        $this->hide(['user_id']);
-
-    }
-
-    public function hidden()
-    {
-        return ['user_id'];
+        $this->hidden(['user_id']);
     }
 
     public function save()
