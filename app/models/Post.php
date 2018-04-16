@@ -17,8 +17,14 @@ class Post extends Model
     public function __construct()
     {
         parent::__construct();
-
         // $this->setComments();
+        $this->hide(['user_id']);
+
+    }
+
+    public function hidden()
+    {
+        return ['user_id'];
     }
 
     public function save()
@@ -78,11 +84,6 @@ class Post extends Model
     {
         $this->setUser();
         return $this->user;
-    }
-
-    public function hidden()
-    {
-        return ['body', 'score'];
     }
 
     public function setUserId($userId)

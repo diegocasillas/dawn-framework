@@ -20,6 +20,7 @@ abstract class Model implements \JsonSerializable
         $this->queryBuilder->setModel(get_class($this));
         $this->table = strtolower((new ReflectionClass(get_class($this)))->getShortName()) . 's';
         $this->primaryKey = 'id';
+        $this->hide(['queryBuilder', 'table', 'primaryKey']);
     }
 
     public function id()
@@ -52,25 +53,23 @@ abstract class Model implements \JsonSerializable
         return (int)$this->id;
     }
 
-    public function hidden()
-    {
-        return [
-            'queryBuilder', 'table', 'primaryKey'
-        ];
-    }
-
     public function aa()
     {
         $this->hidden = parent::hidden();
     }
 
+    public function hide(array $properties)
+    {
+        foreach ($properties as $property) {
+            array_push($this->hidden, $property);
+        }
+
+        return $this->hidden;
+    }
+
     public function jsonSerialize()
     {
         $json = [];
-
-        foreach ($this->hidden() as $hidden) {
-            array_push($this->hidden, $hidden);
-        }
 
         foreach ($this as $key => $value) {
             if (!in_array($key, $this->hidden) && $key !== 'hidden') {
