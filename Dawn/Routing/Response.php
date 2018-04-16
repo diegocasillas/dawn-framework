@@ -125,7 +125,9 @@ class Response
             511 => 'Network Authentication Required'
         ];
 
-        $this->statusMessage = $statuses[$code];
+        if (array_key_exists($code, $statuses)) {
+            $this->statusMessage = $statuses[$code];
+        }
 
         return $this->statusMessage;
     }
