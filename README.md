@@ -6,6 +6,7 @@
 * [Feature list](#feature-list)
 * [Upcoming features](#upcoming-features)
 * [Get started](#get-started)
+* [License](#license)
 
 <hr>
 
@@ -95,5 +96,5 @@ Router::get('miniframework/login', 'LoginController', 'showLoginForm')->auth('gu
 ### Write your app!
 * Now you can write your own models, views and controllers and make your own app!
 
-### License
+# License
 Dawn is under [MIT License](https://github.com/diegocasillasdev/dawn/blob/master/LICENSE)
