@@ -3,6 +3,7 @@
 namespace Dawn;
 
 use \Firebase\JWT\JWT;
+use Dawn\Routing\Response;
 
 class Session
 {
@@ -38,6 +39,10 @@ class Session
             case 'session':
                 $_SESSION[$this->tokenKey] = $userId;
                 break;
+            case 'local storage':
+                (new Response($userId))->json()->send();
+                die();
+                break;
         }
     }
 
@@ -56,10 +61,11 @@ class Session
                 $this->token = $this->app->session($this->tokenKey);
                 break;
             case 'local storage':
-                $this->token = $this->app->localStorage($this->tokenKey);
+                if (array_key_exists('Authorization', getallheaders())) {
+                    $this->token = substr(getallheaders()['Authorization'], 7);
+                }
                 break;
         }
-
     }
 
     public function getToken()
