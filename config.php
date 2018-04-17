@@ -7,9 +7,14 @@ return [
     'key' => base64_encode(getenv('KEY')),
 
     /**
-     * Values: 'cookie', 'session', 'local storage'
+     * Values:
+     *      mode => 'cookie', 'session', 'local storage'
+     *      expires => time in seconds, example: 3600
      */
-    'session' => 'cookie',
+    'session' => [
+        'mode' => 'cookie',
+        'expires' => 864000
+    ],
 
     'database' => [
         'name' => getenv('DB_NAME'),

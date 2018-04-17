@@ -32,7 +32,7 @@ class Session
 
     public function setUser($userId)
     {
-        switch ($this->config) {
+        switch ($this->config['mode']) {
             case 'cookie':
                 header("Set-Cookie: $this->tokenKey=$userId; HttpOnly");
                 break;
@@ -53,7 +53,7 @@ class Session
 
     public function loadToken()
     {
-        switch ($this->config) {
+        switch ($this->config['mode']) {
             case 'cookie':
                 $this->token = $this->app->cookie($this->tokenKey);
                 break;
@@ -67,7 +67,10 @@ class Session
                 break;
         }
     }
-
+    public function getConfig()
+    {
+        return $this->config;
+    }
     public function getToken()
     {
         return $this->token;

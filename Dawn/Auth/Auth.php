@@ -7,6 +7,7 @@ use App\Models\User;
 use Firebase\JWT\JWT;
 use phpDocumentor\Reflection\Types\Integer;
 use PHPUnit\Util\Json;
+use Firebase\JWT\ExpiredException;
 
 class Auth
 {
@@ -68,14 +69,20 @@ class Auth
         $this->app->get('session')->setUser($id);
     }
 
-    protected function generateToken(array $tokenData = []) : string
+    protected function generateToken(array $tokenData = [])
     {
         return JWT::encode($tokenData, $this->app->getKey());
     }
 
-    protected function decodeToken(string $token) : object
+    protected function decodeToken(string $token)
     {
-        return JWT::decode($token, app()->getKey(), array('HS256'));
+        try {
+            $decodedToken = JWT::decode($token, app()->getKey(), array('HS256'));
+        } catch (ExpiredException $e) {
+            $decodedToken = null;
+        }
+
+        return $decodedToken;
     }
 
     public function logout()
@@ -92,7 +99,7 @@ class Auth
 
         if ($id = $this->user->getColumnBy('id', 'username', $this->user->username())) {
             if (password_verify($this->user->password(), $this->user->getColumnBy('password', 'id', $id, true))) {
-                $this->authenticate($this->generateToken(['id' => $id]));
+                $this->authenticate($this->generateToken(['iss' => $_SERVER['SERVER_NAME'], 'iat' => time(), 'exp' => time() + app()->get('session')->getConfig()['expires'], 'id' => $id]));
             }
         }
 
@@ -122,8 +129,12 @@ class Auth
         if ($this->token === null) {
             $this->user = null;
         } else {
-            $this->user = (new User())->find($this->decodeToken($this->token)->id);
-            $this->id = $this->user->id();
+            if ($this->decodeToken($this->token) !== null) {
+                $this->user = (new User())->find($this->decodeToken($this->token)->id);
+                $this->id = $this->user->id();
+            } else {
+                $this->user = null;
+            }
         }
     }
 
