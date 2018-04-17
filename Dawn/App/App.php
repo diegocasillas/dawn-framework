@@ -46,7 +46,7 @@ class App
     public function bootServices()
     {
         foreach ($this->serviceProviders as $serviceProvider) {
-            $serviceProvider = (new $serviceProvider($this))->boot();
+            $serviceProvider->boot();
         }
     }
 

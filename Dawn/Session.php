@@ -34,7 +34,7 @@ class Session
     {
         switch ($this->config) {
             case 'cookie':
-                header("Set-Cookie: $this->tokenKey=$userId; httpOnly");
+                header("Set-Cookie: $this->tokenKey=$userId; HttpOnly");
                 break;
             case 'session':
                 $_SESSION[$this->tokenKey] = $userId;
@@ -62,7 +62,7 @@ class Session
                 break;
             case 'local storage':
                 if (array_key_exists('Authorization', getallheaders())) {
-                    $this->token = substr(getallheaders()['Authorization'], 7);
+                    $this->token = substr(getallheaders()['Authorization'], strlen('Bearer '));
                 }
                 break;
         }

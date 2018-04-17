@@ -6,6 +6,9 @@ return [
     'public' => __DIR__ . '/public',
     'key' => base64_encode(getenv('KEY')),
 
+    /**
+     * Values: 'cookie', 'session', 'local storage'
+     */
     'session' => 'cookie',
 
     'database' => [
