@@ -14,8 +14,15 @@ class AuthServiceProvider extends ServiceProvider
 
     private function registerAuth()
     {
-        $token = $this->app->get('session')->token();
-        $auth = new Auth($this->app, $token);
+        $auth = new Auth($this->app);
         $this->app->bind('auth', $auth);
+    }
+
+    public function boot()
+    {
+        $token = $this->app->get('session')->token();
+        $auth = $this->app->get('auth');
+        $auth->setToken($token);
+        $auth->findUser($token);
     }
 }

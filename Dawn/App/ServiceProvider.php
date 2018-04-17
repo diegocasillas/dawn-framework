@@ -2,7 +2,7 @@
 
 namespace Dawn\App;
 
-abstract class ServiceProvider
+abstract class ServiceProvider implements ServiceProviderInterface
 {
     protected $app;
 

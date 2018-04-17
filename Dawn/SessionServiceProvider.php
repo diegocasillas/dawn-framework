@@ -15,7 +15,12 @@ class SessionServiceProvider extends ServiceProvider
     private function registerSession()
     {
         $session = new Session($this->app);
-        $session->start();
         $this->app->bind('session', $session);
+    }
+
+    public function boot()
+    {
+        $session = $this->app->get('session');
+        $session->start();
     }
 }

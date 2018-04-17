@@ -4,27 +4,27 @@ namespace Dawn\Database;
 
 use PDO;
 
-class Connection
+class Connection extends PDO
 {
     private $app;
     private $config;
 
     public function __construct($app, $config)
     {
-        $this->app = $app;
-        $this->config = $config;
-    }
-
-    public function make()
-    {
         try {
-            return new PDO(
-                "mysql:host=" . $this->config['connection'] . ';dbname=' . $this->config['name'],
-                $this->config['user'],
-                $this->config['password']
+            parent::__construct(
+                "mysql:host=" . $config['connection'] . ';dbname=' . $config['name'],
+                $config['user'],
+                $config['password']
             );
-        } catch (PDOException $e) {
-            die("Couldn't connect to the database");
+
+            $this->app = $app;
+            $this->config = $config;
+        } catch (\PDOException $e) {
+            echo "Could not connect to the database. Check '/.env' file and make sure that the database server is running.";
+            echo "<hr>";
+            echo $e->getMessage();
+            die();
         }
     }
 }

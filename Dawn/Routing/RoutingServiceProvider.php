@@ -11,6 +11,11 @@ class RoutingServiceProvider extends ServiceProvider
         $this->registerRouter();
     }
 
+    public function boot()
+    {
+
+    }
+
     private function registerRouter()
     {
         $router = new Router($this->app);

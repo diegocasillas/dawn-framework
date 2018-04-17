@@ -9,6 +9,7 @@ class App
     protected $key;
     protected $basePath;
     protected $serviceProviders = [];
+    protected $services = [];
     protected $controller;
 
     public function __construct(array $config)
@@ -21,44 +22,53 @@ class App
 
     public function bootstrap()
     {
-        $this->registerServiceProviders();
+        $this->loadServiceProviders();
+        $this->registerServices();
+        $this->bootServices();
 
         return $this;
     }
 
-    public function registerServiceProviders()
+    public function loadServiceProviders()
     {
-        foreach ($this->config['service providers'] as $key => $serviceProviderClass) {
-            $serviceProvider = (new $serviceProviderClass($this))->register();
+        foreach ($this->config['service providers'] as $key => $serviceProvider) {
+            $this->serviceProviders[$key] = new $serviceProvider($this);
         }
     }
 
-    public function bootServiceProviders()
+    public function registerServices()
     {
         foreach ($this->serviceProviders as $serviceProvider) {
-            $serviceProvider->boot();
+            $serviceProvider = (new $serviceProvider($this))->register();
+        }
+    }
+
+    public function bootServices()
+    {
+        foreach ($this->serviceProviders as $serviceProvider) {
+            $serviceProvider = (new $serviceProvider($this))->boot();
         }
     }
 
     public function run()
     {
-        $this->serviceProviders['router']->start();
+        $this->services['router']->start();
     }
 
-    public function bind(string $serviceProviderName, $serviceProvider)
+    public function bind(string $serviceName, $service)
     {
-        if (empty($serviceProviderName)) {
+        if (empty($serviceName)) {
             return null;
         }
 
-        $this->serviceProviders[$serviceProviderName] = $serviceProvider;
+        $this->services[$serviceName] = $service;
 
-        return $this->serviceProviders[$serviceProviderName];
+        return $this->services[$serviceName];
     }
 
-    public function get(string $serviceProviderName)
+    public function get(string $service)
     {
-        return $this->serviceProviders[$serviceProviderName];
+        return $this->services[$service];
     }
 
     public function connection()

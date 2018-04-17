@@ -5,6 +5,8 @@ namespace Dawn\Auth;
 use Dawn\Session;
 use App\Models\User;
 use Firebase\JWT\JWT;
+use phpDocumentor\Reflection\Types\Integer;
+use PHPUnit\Util\Json;
 
 class Auth
 {
@@ -13,17 +15,9 @@ class Auth
     protected $user;
     protected $id;
 
-    public function __construct($app, $token)
+    public function __construct($app)
     {
         $this->app = $app;
-        $this->token = $token;
-
-        if ($token === null) {
-            $this->user = null;
-        } else {
-            $this->user = (new User())->find($this->decodeToken($this->token));
-            $this->id = $this->user->id();
-        }
     }
 
     public function check($options, ...$parameters)
@@ -74,21 +68,14 @@ class Auth
         $this->app->get('session')->setUser($id);
     }
 
-    protected function generateToken($id)
+    protected function generateToken(array $tokenData = []) : string
     {
-        $secret = $this->app->getKey();
-        $token = array(
-            "id" => $id
-        );
-
-        $jwt = JWT::encode($token, $secret);
-
-        return $jwt;
+        return JWT::encode($tokenData, $this->app->getKey());
     }
 
-    protected function decodeToken($token)
+    protected function decodeToken(string $token) : object
     {
-        return JWT::decode($token, app()->getKey(), array('HS256'))->id;
+        return JWT::decode($token, app()->getKey(), array('HS256'));
     }
 
     public function logout()
@@ -105,7 +92,7 @@ class Auth
 
         if ($id = $this->user->getColumnBy('id', 'username', $this->user->username())) {
             if (password_verify($this->user->password(), $this->user->getColumnBy('password', 'id', $id, true))) {
-                $this->authenticate($this->generateToken($id));
+                $this->authenticate($this->generateToken(['id' => $id]));
             }
         }
 
@@ -128,6 +115,21 @@ class Auth
         }
 
         return redirect();
+    }
+
+    public function findUser()
+    {
+        if ($this->token === null) {
+            $this->user = null;
+        } else {
+            $this->user = (new User())->find($this->decodeToken($this->token)->id);
+            $this->id = $this->user->id();
+        }
+    }
+
+    public function setToken($token)
+    {
+        $this->token = $token;
     }
 
     public function user()
