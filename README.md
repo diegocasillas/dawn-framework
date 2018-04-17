@@ -6,6 +6,7 @@
 * [Feature list](#feature-list)
 * [Upcoming features](#upcoming-features)
 * [Get started](#get-started)
+* [License](#license)
 
 <hr>
 
@@ -40,10 +41,10 @@ Yep, I can see them too. I'm slowly working on it, this will be a long-term proj
   
 * Redirections
   - If the user accesses an unauthorized resource, he will be redirected.
-  
-# Upcoming features
 
 * JSON responses (with status code and additional info).
+
+# Upcoming features
 * Validation.
 * Admin panel to manage routes.
 * Unit tests.
@@ -94,3 +95,6 @@ Router::get('miniframework/login', 'LoginController', 'showLoginForm')->auth('gu
 
 ### Write your app!
 * Now you can write your own models, views and controllers and make your own app!
+
+# License
+Dawn is under [MIT License](https://github.com/diegocasillasdev/dawn/blob/master/LICENSE)
