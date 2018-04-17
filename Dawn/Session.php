@@ -10,6 +10,7 @@ class Session
     private $app;
     private $config = 'cookie';
     private $token;
+    private $expires;
     private $tokenKey = 'access_token';
 
     public function __construct($app, $config)
@@ -40,10 +41,20 @@ class Session
                 $_SESSION[$this->tokenKey] = $userId;
                 break;
             case 'local storage':
-                (new Response($userId))->json()->send();
+                (new Response([$this->tokenKey => $userId, 'expires' => $this->getExpires()]))->json()->send();
                 die();
                 break;
         }
+    }
+
+    public function getExpires()
+    {
+        return $this->expires;
+    }
+
+    public function setExpires($expires)
+    {
+        $this->expires = $expires;
     }
 
     public function getTokenKey()

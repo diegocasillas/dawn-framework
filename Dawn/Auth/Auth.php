@@ -64,8 +64,9 @@ class Auth
         return $this->id === $element->userId();
     }
 
-    protected function authenticate($id)
+    protected function authenticate($id, $expires)
     {
+        $this->app->get('session')->setExpires($expires);
         $this->app->get('session')->setUser($id);
     }
 
@@ -99,7 +100,17 @@ class Auth
 
         if ($id = $this->user->getColumnBy('id', 'username', $this->user->username())) {
             if (password_verify($this->user->password(), $this->user->getColumnBy('password', 'id', $id, true))) {
-                $this->authenticate($this->generateToken(['iss' => $_SERVER['SERVER_NAME'], 'iat' => time(), 'exp' => time() + app()->get('session')->getConfig()['expires'], 'id' => $id]));
+                $tokenData = [
+                    'iss' => $_SERVER['SERVER_NAME'],
+                    'iat' => time(),
+                    'exp' => time() + app()->get('session')->getConfig()['expires'],
+                    'id' => $id
+                ];
+
+                $this->authenticate(
+                    $this->generateToken($tokenData),
+                    time() + app()->get('session')->getConfig()['expires']
+                );
             }
         }
 
