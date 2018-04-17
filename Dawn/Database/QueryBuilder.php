@@ -180,7 +180,6 @@ class QueryBuilder
                 $result = $this->preparedStatement->fetchAll($this->connection::FETCH_COLUMN, 0);
 
                 break;
-
         }
 
         if (count($result) === 1) {

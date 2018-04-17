@@ -20,7 +20,7 @@ class DatabaseServiceProvider extends ServiceProvider
         $this->app->bind('connection', $connection);
     }
 
-    public function registerQueryBuilder()
+    private function registerQueryBuilder()
     {
         $this->app->bind('query builder', new QueryBuilder($this->app, $this->app->get('connection')));
     }

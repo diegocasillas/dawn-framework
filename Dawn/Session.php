@@ -6,13 +6,15 @@ use \Firebase\JWT\JWT;
 
 class Session
 {
-    public $app;
-    public $token;
-    public $tokenKey = 'access_token';
+    private $app;
+    private $config = 'cookie';
+    private $token;
+    private $tokenKey = 'access_token';
 
-    public function __construct($app)
+    public function __construct($app, $config)
     {
         $this->app = $app;
+        $this->config = $config;
     }
 
     public function start()
@@ -24,11 +26,19 @@ class Session
     {
         $this->token = null;
         $this->app->deleteCookie($this->tokenKey);
+        $this->app->deleteSession($this->tokenKey);
     }
 
     public function setUser($userId)
     {
-        header("Set-Cookie: $this->tokenKey=$userId; httpOnly");
+        switch ($this->config) {
+            case 'cookie':
+                header("Set-Cookie: $this->tokenKey=$userId; httpOnly");
+                break;
+            case 'session':
+                $_SESSION[$this->tokenKey] = $userId;
+                break;
+        }
     }
 
     public function getTokenKey()
@@ -38,10 +48,21 @@ class Session
 
     public function loadToken()
     {
-        $this->token = $this->app->cookie($this->tokenKey);
+        switch ($this->config) {
+            case 'cookie':
+                $this->token = $this->app->cookie($this->tokenKey);
+                break;
+            case 'session':
+                $this->token = $this->app->session($this->tokenKey);
+                break;
+            case 'local storage':
+                $this->token = $this->app->localStorage($this->tokenKey);
+                break;
+        }
+
     }
 
-    public function token()
+    public function getToken()
     {
         return $this->token;
     }

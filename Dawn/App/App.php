@@ -95,6 +95,25 @@ class App
         return null;
     }
 
+    public function session($key)
+    {
+        session_start();
+
+        if (array_key_exists($key, $_SESSION)) {
+            return $_SESSION[$key];
+        }
+
+        return null;
+    }
+
+    public function deleteSession($key)
+    {
+        if (array_key_exists($key, $_SESSION)) {
+            unset($_SESSION[$key]);
+            session_destroy();
+        }
+    }
+
     public function deleteCookie($key)
     {
         if (array_key_exists($key, $_COOKIE)) {

@@ -20,7 +20,7 @@ class AuthServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $token = $this->app->get('session')->token();
+        $token = $this->app->get('session')->getToken();
         $auth = $this->app->get('auth');
         $auth->setToken($token);
         $auth->findUser($token);

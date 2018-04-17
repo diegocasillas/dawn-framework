@@ -6,6 +6,8 @@ return [
     'public' => __DIR__ . '/public',
     'key' => base64_encode(getenv('KEY')),
 
+    'session' => 'cookie',
+
     'database' => [
         'name' => getenv('DB_NAME'),
         'user' => getenv('DB_USER'),
