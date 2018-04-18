@@ -1,9 +1,8 @@
 <?php
 
-namespace Dawn;
+namespace Dawn\Session;
 
 use Dawn\App\ServiceProvider;
-use Dawn\Session;
 
 class SessionServiceProvider extends ServiceProvider
 {

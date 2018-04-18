@@ -24,15 +24,15 @@ return [
     ],
 
     'routes' => [
-        'web' => 'app/routes/routes.php',
-        'api' => 'app/routes/routesAPI.php',
-        'admin' => 'Dawn/Admin/routesAdmin.php'
+        'web' => 'app/routes/web.php',
+        'api' => 'app/routes/api.php',
+        'admin' => 'Dawn/Admin/routes.php'
     ],
 
     'service providers' => [
         'database' => '\\Dawn\\Database\\DatabaseServiceProvider',
         'router' => '\\Dawn\\Routing\\RoutingServiceProvider',
-        'session' => '\\Dawn\\SessionServiceProvider',
+        'session' => '\\Dawn\\Session\\SessionServiceProvider',
         'auth' => '\\Dawn\\Auth\\AuthServiceProvider'
     ]
 ];

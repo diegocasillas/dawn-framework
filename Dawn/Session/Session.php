@@ -1,8 +1,7 @@
 <?php
 
-namespace Dawn;
+namespace Dawn\Session;
 
-use \Firebase\JWT\JWT;
 use Dawn\Routing\Response;
 
 class Session
