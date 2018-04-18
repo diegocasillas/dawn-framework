@@ -1,17 +1,19 @@
 <?php
 
-namespace Dawn\Auth;
+namespace App\Controllers\Auth;
 
-use Dawn\Routing\Controller;
+use App\Controllers\Controller;
 
 abstract class AuthController extends Controller
 {
+    protected $auth;
     protected $session;
 
     public function init()
     {
         parent::init();
 
+        $this->auth = $this->app->get('auth');
         $this->session = $this->app->get('session');
     }
 

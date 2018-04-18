@@ -17,7 +17,7 @@ class RegisterController extends AuthController
         $username = $_REQUEST['username'];
         $password = $_REQUEST['password'];
 
-        auth()->register($username, $password);
+        $this->auth->register($username, $password);
 
         if (auth()->authenticated() && $this->session->getConfig()['mode'] === 'local storage') {
             return $this->tokenResponse()->send();
