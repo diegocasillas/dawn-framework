@@ -1,3 +1,3 @@
 <?php
 
-$router->adminGet('miniframework/admin/panel', 'AdminController', 'showAdminPanel');
+$this->adminGet('miniframework/admin/panel', 'AdminController', 'showAdminPanel');

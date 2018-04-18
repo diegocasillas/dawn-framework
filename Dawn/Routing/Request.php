@@ -7,6 +7,7 @@ class Request
     protected $uri;
     protected $method;
     protected $endpoint;
+    protected $requestedRoute;
 
     public static function get()
     {
@@ -39,5 +40,15 @@ class Request
     public function getEndpoint()
     {
         return $this->endpoint;
+    }
+
+    public function getRequestedRoute()
+    {
+        return $this->requestedRoute;
+    }
+
+    public function setRequestedRoute($requestedRoute)
+    {
+        $this->requestedRoute = $requestedRoute;
     }
 }

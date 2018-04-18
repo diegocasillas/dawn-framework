@@ -8,6 +8,7 @@ class RoutingServiceProvider extends ServiceProvider
 {
     public function register()
     {
+        $this->registerControllerDispatcher();
         $this->registerRouter();
     }
 
@@ -16,9 +17,15 @@ class RoutingServiceProvider extends ServiceProvider
 
     }
 
+    private function registerControllerDispatcher()
+    {
+        $controllerDispatcher = new ControllerDispatcher($this->app);
+        $this->app->bind('controller dispatcher', $controllerDispatcher);
+    }
+
     private function registerRouter()
     {
-        $router = new Router($this->app);
+        $router = new Router($this->app, $this->app->get('controller dispatcher'));
         $this->app->bind('router', $router);
     }
 }

@@ -10,6 +10,7 @@ abstract class Controller
     protected $app;
     protected $model;
     protected $middleware;
+    protected $request;
     protected $response;
 
     public function __construct()
@@ -51,6 +52,16 @@ abstract class Controller
     public function setApp($app)
     {
         $this->app = $app;
+    }
+
+    public function getRequest()
+    {
+        $this->request;
+    }
+
+    public function setRequest($request)
+    {
+        $this->request = $request;
     }
 
     public function getResponse()

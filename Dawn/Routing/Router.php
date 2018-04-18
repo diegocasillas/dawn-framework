@@ -5,6 +5,7 @@ namespace Dawn\Routing;
 class Router
 {
     private $app;
+    private $controllerDispatcher;
     private $routesFiles = [];
     private $routes = [
         'WEB' => [
@@ -25,10 +26,12 @@ class Router
     ];
     private $request;
     private $requestedRoute;
+    private $response;
 
-    public function __construct($app = null)
+    public function __construct($app = null, $controllerDispatcher)
     {
         $this->app = $app;
+        $this->controllerDispatcher = $controllerDispatcher;
         $this->routesFiles = $app->getConfig()['routes'];
     }
 
@@ -64,8 +67,6 @@ class Router
 
     public function load()
     {
-        $router = $this;
-
         foreach ($this->routesFiles as $routesFile) {
             require $routesFile;
         }
@@ -101,6 +102,7 @@ class Router
 
                 $route->setParameters($parameters);
                 $this->requestedRoute = $route;
+                $this->request->setRequestedRoute($route);
             }
         }
 
@@ -113,7 +115,7 @@ class Router
 
     private function direct()
     {
-        return ControllerDispatcher::dispatch($this->app, $this->requestedRoute);
+        return $this->controllerDispatcher->prepare($this->request)->dispatch();
     }
 
     public function requestedRoute()
