@@ -11,6 +11,7 @@ class App
     protected $serviceProviders = [];
     protected $services = [];
     protected $controller;
+    protected $tokenResponse;
 
     public function __construct(array $config)
     {
@@ -101,6 +102,15 @@ class App
 
         if (array_key_exists($key, $_SESSION)) {
             return $_SESSION[$key];
+        }
+
+        return null;
+    }
+
+    public function bearer()
+    {
+        if (array_key_exists('Authorization', getallheaders())) {
+            return substr(getallheaders()['Authorization'], strlen('Bearer '));
         }
 
         return null;

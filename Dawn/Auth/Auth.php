@@ -64,10 +64,12 @@ class Auth
         return $this->id === $element->userId();
     }
 
-    protected function authenticate($id, $expires)
+    protected function authenticate($token, $expires = 0)
     {
+        $this->app->get('session')->setToken($token);
         $this->app->get('session')->setExpires($expires);
-        $this->app->get('session')->setUser($id);
+
+        return $this->app->get('session')->remember();
     }
 
     protected function generateToken(array $tokenData = [])
@@ -107,14 +109,17 @@ class Auth
                     'id' => $id
                 ];
 
-                $this->authenticate(
+                return $this->authenticate(
                     $this->generateToken($tokenData),
-                    time() + app()->get('session')->getConfig()['expires']
+                    $tokenData['exp']
                 );
             }
         }
 
-        return redirect();
+        $this->user = null;
+
+        // return redirect();
+        return false;
     }
 
     public function register($username, $password)
@@ -126,13 +131,24 @@ class Auth
 
         // check if user already exists
         if (!$this->user->getBy('username', $this->user->username())) {
-            $this->user->create();
-            $this->authenticate($this->user->id());
-        } else {
-            die("user exists");
+            if ($this->user->create()) {
+                $tokenData = [
+                    'iss' => $_SERVER['SERVER_NAME'],
+                    'iat' => time(),
+                    'exp' => time() + app()->get('session')->getConfig()['expires'],
+                    'id' => $this->user->getId()
+                ];
+
+                return $this->authenticate(
+                    $this->generateToken($tokenData),
+                    $tokenData['exp']
+                );
+            }
         }
 
-        return redirect();
+        $this->user = null;
+
+        return false;
     }
 
     public function findUser()

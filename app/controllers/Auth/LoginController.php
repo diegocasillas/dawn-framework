@@ -2,10 +2,10 @@
 
 namespace App\Controllers\Auth;
 
-use App\Controllers\Controller;
 use Dawn\Auth\Auth;
+use Dawn\Auth\AuthController;
 
-class LoginController extends Controller
+class LoginController extends AuthController
 {
     public function showLoginForm()
     {
@@ -18,6 +18,10 @@ class LoginController extends Controller
         $password = $_POST['password'];
 
         auth()->login($username, $password);
+
+        if (auth()->authenticated() && $this->session->getConfig()['mode'] === 'local storage') {
+            return $this->tokenResponse()->send();
+        }
 
         redirect();
     }

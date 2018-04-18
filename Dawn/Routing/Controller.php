@@ -17,6 +17,11 @@ abstract class Controller
         $this->model = str_replace('Controller', '', (new ReflectionClass(get_class($this)))->getShortName());
     }
 
+    public function init()
+    {
+        $this->response = new Response();
+    }
+
     // Sends the requested action through a middleware
     public function callAction($action, $parameters = [], $options = null)
     {

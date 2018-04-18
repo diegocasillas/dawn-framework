@@ -12,6 +12,7 @@ class Session
     private $token;
     private $expires;
     private $tokenKey = 'access_token';
+    private $tokenResponse;
 
     public function __construct($app, $config)
     {
@@ -31,20 +32,36 @@ class Session
         $this->app->deleteSession($this->tokenKey);
     }
 
-    public function setUser($userId)
+    public function remember()
     {
+        $success = false;
+
         switch ($this->config['mode']) {
             case 'cookie':
-                header("Set-Cookie: $this->tokenKey=$userId; HttpOnly");
+                setcookie($this->tokenKey, $this->token, $this->expires, "", "", false, true);
+                $success = true;
                 break;
             case 'session':
-                $_SESSION[$this->tokenKey] = $userId;
+                $_SESSION[$this->tokenKey] = $this->token;
+                $success = true;
                 break;
             case 'local storage':
-                (new Response([$this->tokenKey => $userId, 'expires' => $this->getExpires()]))->json()->send();
-                die();
+                $this->setTokenResponse((new Response([$this->tokenKey => $this->token, 'expires' => $this->getExpires()]))->json());
+                $success = true;
                 break;
         }
+
+        return $success;
+    }
+
+    public function setTokenResponse($response)
+    {
+        $this->tokenResponse = $response;
+    }
+
+    public function getTokenResponse()
+    {
+        return $this->tokenResponse;
     }
 
     public function getExpires()
@@ -62,6 +79,11 @@ class Session
         return $this->tokenKey;
     }
 
+    public function setToken($token)
+    {
+        $this->token = $token;
+    }
+
     public function loadToken()
     {
         switch ($this->config['mode']) {
@@ -72,12 +94,11 @@ class Session
                 $this->token = $this->app->session($this->tokenKey);
                 break;
             case 'local storage':
-                if (array_key_exists('Authorization', getallheaders())) {
-                    $this->token = substr(getallheaders()['Authorization'], strlen('Bearer '));
-                }
+                $this->token = $this->app->bearer();
                 break;
         }
     }
+
     public function getConfig()
     {
         return $this->config;

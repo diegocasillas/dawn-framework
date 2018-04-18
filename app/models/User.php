@@ -27,10 +27,16 @@ class User extends Model
 
     public function create()
     {
-        $sql = "INSERT INTO {$this->table}(username, password) VALUES('{$this->username}', '{$this->password}')";
-        $this->db->exec($sql);
+        $data = [
+            'username' => $this->username,
+            'password' => $this->password
+        ];
 
-        $this->id = $this->db->lastInsertId();
+        $this->queryBuilder->insert($this->table, $data)->exec();
+
+        $this->id = $this->queryBuilder->lastInsertId();
+
+        return true;
     }
 
     public function writePost()

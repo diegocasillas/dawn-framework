@@ -2,22 +2,26 @@
 
 namespace App\Controllers\Auth;
 
-use App\Controllers\Controller;
 use Dawn\Auth\Auth;
+use Dawn\Auth\AuthController;
 
-class RegisterController extends Controller
+class RegisterController extends AuthController
 {
-    public static function showRegistrationForm()
+    public function showRegistrationForm()
     {
         return view('auth/register');
     }
 
-    public static function register()
+    public function register()
     {
         $username = $_REQUEST['username'];
         $password = $_REQUEST['password'];
 
         auth()->register($username, $password);
+
+        if (auth()->authenticated() && $this->session->getConfig()['mode'] === 'local storage') {
+            return $this->tokenResponse()->send();
+        }
 
         redirect();
     }
