@@ -28,8 +28,8 @@ class Session
     public function destroy()
     {
         $this->token = null;
-        $this->app->deleteCookie($this->tokenKey);
-        $this->app->deleteSession($this->tokenKey);
+        $this->deleteCookie($this->tokenKey);
+        $this->deleteSession($this->tokenKey);
     }
 
     public function remember()
@@ -88,15 +88,56 @@ class Session
     {
         switch ($this->config['mode']) {
             case 'cookie':
-                $this->token = $this->app->cookie($this->tokenKey);
+                $this->token = $this->cookie($this->tokenKey);
                 break;
             case 'session':
-                $this->token = $this->app->session($this->tokenKey);
+                session_start();
+                $this->token = $this->session($this->tokenKey);
                 break;
             case 'local storage':
-                $this->token = $this->app->bearer();
+                $this->token = $this->bearer();
                 break;
         }
+    }
+
+    public function cookie()
+    {
+        if (array_key_exists($this->tokenKey, $_COOKIE)) {
+            return $_COOKIE[$this->tokenKey];
+        }
+
+        return null;
+    }
+
+    public function deleteCookie()
+    {
+        if (array_key_exists($this->tokenKey, $_COOKIE)) {
+            setcookie($this->tokenKey, "");
+            unset($_COOKIE[$this->tokenKey]);
+        }
+    }
+
+    public function session()
+    {
+        if (array_key_exists($this->tokenKey, $_SESSION)) {
+            return $_SESSION[$this->tokenKey];
+        }
+
+        return null;
+    }
+
+    public function deleteSession()
+    {
+        session_destroy();
+    }
+
+    public function bearer()
+    {
+        if (array_key_exists('Authorization', getallheaders())) {
+            return substr(getallheaders()['Authorization'], strlen('Bearer '));
+        }
+
+        return null;
     }
 
     public function getConfig()
