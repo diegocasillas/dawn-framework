@@ -43,7 +43,6 @@ class Middleware
     public function handle($action, $parameters)
     {
         if ($this->auth->check($this->options, ...$this->parameters)) {
-
             $this->controller->$action(...$parameters);
         } else {
             if (!$this->auth->authenticated()) {

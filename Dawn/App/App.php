@@ -53,7 +53,9 @@ class App
 
     public function run()
     {
-        $this->services['router']->start();
+        if (array_key_exists('router', $this->services)) {
+            $this->get('router')->start();
+        }
     }
 
     public function bind(string $serviceName, $service)
@@ -69,7 +71,9 @@ class App
 
     public function get(string $service)
     {
-        return $this->services[$service];
+        if (array_key_exists($service, $this->services)) {
+            return $this->services[$service];
+        }
     }
 
     public function connection()
