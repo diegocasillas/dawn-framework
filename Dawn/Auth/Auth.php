@@ -15,6 +15,7 @@ class Auth
     protected $token;
     protected $user;
     protected $id;
+    protected $request;
 
     public function __construct($app)
     {
@@ -106,7 +107,8 @@ class Auth
                     'iss' => $_SERVER['SERVER_NAME'],
                     'iat' => time(),
                     'exp' => time() + app()->get('session')->getConfig()['expires'],
-                    'id' => $id
+                    'id' => $id,
+                    'ip' => $this->request->ip()
                 ];
 
                 return $this->authenticate(
@@ -163,6 +165,11 @@ class Auth
                 $this->user = null;
             }
         }
+    }
+
+    public function setRequest($request)
+    {
+        $this->request = $request;
     }
 
     public function setToken($token)

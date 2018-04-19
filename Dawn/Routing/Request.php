@@ -8,6 +8,7 @@ class Request
     protected $method;
     protected $endpoint;
     protected $requestedRoute;
+    protected $input = [];
 
     public function get()
     {
@@ -21,6 +22,10 @@ class Request
         } else {
             $this->endpoint = 'WEB';
         }
+
+        $this->input = $_REQUEST;
+
+        $this->findIp();
 
         return $this;
     }
@@ -48,5 +53,56 @@ class Request
     public function setRequestedRoute($requestedRoute)
     {
         $this->requestedRoute = $requestedRoute;
+    }
+
+    public function input($key = null)
+    {
+        if ($key === null) {
+            return $this->input;
+        }
+
+        if (array_key_exists($key, $this->input)) {
+            return $this->input[$key];
+        }
+    }
+
+    public function empty($key)
+    {
+        if (array_key_exists($key, $this->input)) {
+            if ($this->input[$key] !== "" || $this->input[$key] !== null) {
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    public function findIp()
+    {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+
+        $this->ip = $ip;
+    }
+
+    public function ip()
+    {
+        return $this->ip;
+    }
+
+    public function getInput()
+    {
+        return $this->input;
+    }
+
+    public function setInput($input)
+    {
+        $this->input = $input;
     }
 }
