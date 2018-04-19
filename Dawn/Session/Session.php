@@ -143,6 +143,7 @@ class Session
     {
         return $this->config;
     }
+
     public function getToken()
     {
         return $this->token;

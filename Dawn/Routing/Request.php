@@ -9,6 +9,8 @@ class Request
     protected $endpoint;
     protected $requestedRoute;
     protected $input = [];
+    protected $ip;
+    protected $userAgent;
 
     public function get()
     {
@@ -26,6 +28,7 @@ class Request
         $this->input = $_REQUEST;
 
         $this->findIp();
+        $this->userAgent = $_SERVER['HTTP_USER_AGENT'];
 
         return $this;
     }
@@ -89,11 +92,28 @@ class Request
         }
 
         $this->ip = $ip;
+
+        return $this->ip;
+    }
+
+    public function findUserAgent()
+    {
+        return $_SERVER['HTTP_USER_AGENT'];
     }
 
     public function ip()
     {
         return $this->ip;
+    }
+
+    public function getUserAgent()
+    {
+        return $this->userAgent;
+    }
+
+    public function setUserAgent($userAgent)
+    {
+        $this->userAgent = $userAgent;
     }
 
     public function getInput()

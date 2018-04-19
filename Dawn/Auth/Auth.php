@@ -13,6 +13,7 @@ class Auth
 {
     protected $app;
     protected $token;
+    protected $decodedToken;
     protected $user;
     protected $id;
     protected $request;
@@ -78,10 +79,13 @@ class Auth
         return JWT::encode($tokenData, $this->app->getKey());
     }
 
-    protected function decodeToken(string $token)
+    public function decodeToken($token)
     {
+        $decodedToken = null;
         try {
-            $decodedToken = JWT::decode($token, app()->getKey(), array('HS256'));
+            if ($token !== null) {
+                $decodedToken = JWT::decode($token, app()->getKey(), array('HS256'));
+            }
         } catch (ExpiredException $e) {
             $decodedToken = null;
         }
@@ -108,7 +112,8 @@ class Auth
                     'iat' => time(),
                     'exp' => time() + app()->get('session')->getConfig()['expires'],
                     'id' => $id,
-                    'ip' => $this->request->ip()
+                    'ip' => $this->request->ip(),
+                    'useragent' => $this->request->getUserAgent()
                 ];
 
                 return $this->authenticate(
@@ -138,7 +143,9 @@ class Auth
                     'iss' => $_SERVER['SERVER_NAME'],
                     'iat' => time(),
                     'exp' => time() + app()->get('session')->getConfig()['expires'],
-                    'id' => $this->user->getId()
+                    'id' => $this->user->getId(),
+                    'ip' => $this->request->ip(),
+                    'useragent' => $this->request->getUserAgent()
                 ];
 
                 return $this->authenticate(
@@ -155,16 +162,29 @@ class Auth
 
     public function findUser()
     {
-        if ($this->token === null) {
-            $this->user = null;
-        } else {
-            if ($this->decodeToken($this->token) !== null) {
-                $this->user = (new User())->find($this->decodeToken($this->token)->id);
+        if ($this->token !== null) {
+            if ($this->verifyToken()) {
+                $this->user = (new User())->find($this->decodedToken->id);
                 $this->id = $this->user->id();
+
+                return true;
             } else {
                 $this->user = null;
             }
         }
+
+        return false;
+    }
+
+    public function verifyToken()
+    {
+        if ($this->decodedToken !== null) {
+            if ($this->decodedToken->ip === $this->request->findIp() && $this->decodedToken->useragent === $this->request->findUserAgent()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function setRequest($request)
@@ -172,9 +192,24 @@ class Auth
         $this->request = $request;
     }
 
+    public function getToken()
+    {
+        return $this->token;
+    }
+
     public function setToken($token)
     {
         $this->token = $token;
+    }
+
+    public function getDecodedToken()
+    {
+        return $this->decodedToken;
+    }
+
+    public function setDecodedToken($decodedToken)
+    {
+        $this->decodedToken = $decodedToken;
     }
 
     public function user()

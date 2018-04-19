@@ -24,7 +24,8 @@ class AuthServiceProvider extends ServiceProvider
         $request = $this->app->get('router')->getRequest();
         $auth = $this->app->get('auth');
         $auth->setToken($token);
-        $auth->findUser($token);
+        $auth->setDecodedToken($auth->decodeToken($token));
         $auth->setRequest($request);
+        $auth->findUser($token);
     }
 }
