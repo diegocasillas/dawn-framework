@@ -22,12 +22,11 @@ class ControllerDispatcher
     {
         $route = $request->getRequestedRoute();
 
-        $controller = $route->controller();
+        $this->dispatchedController = new $route->controller();
         $this->action = $route->action();
         $this->parameters = $route->parameters();
         $this->options = $route->options();
 
-        $this->dispatchedController = new $controller();
         $this->dispatchedController->setApp($this->app);
         $this->dispatchedController->setRequest($request);
         $this->dispatchedController->init();
@@ -39,6 +38,4 @@ class ControllerDispatcher
     {
         return $this->dispatchedController->callAction($this->action, $this->parameters, $this->options);
     }
-
-
 }

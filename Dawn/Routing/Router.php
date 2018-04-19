@@ -4,10 +4,10 @@ namespace Dawn\Routing;
 
 class Router
 {
-    private $app;
-    private $controllerDispatcher;
-    private $routesFiles = [];
-    private $routes = [
+    protected $app;
+    protected $controllerDispatcher;
+    protected $routesFiles = [];
+    protected $routes = [
         'WEB' => [
             'GET' => [],
             'POST' => []
@@ -24,48 +24,24 @@ class Router
             'POST' => []
         ]
     ];
-    private $request;
-    private $requestedRoute;
-    private $response;
+    protected $request;
+    protected $requestedRoute;
+    protected $response;
 
-    public function __construct($app = null, $controllerDispatcher)
+    public function __construct($app = null, $routesFiles = null)
     {
         $this->app = $app;
-        $this->controllerDispatcher = $controllerDispatcher;
-        $this->routesFiles = $app->getConfig()['routes'];
+        $this->routesFiles = $routesFiles;
     }
 
-    // private function api($uri, $controller,)
-    private function map($endpoint, $method, $route)
+    public function start()
     {
-        array_push($this->routes[$endpoint][$method], $route);
+        $this->loadRoutes()->loadRequest()->processRequest()->direct();
+
+        return $this;
     }
 
-    private function get($uri, $controller, $action, $parameters = [])
-    {
-        $route = new Route($uri, 'GET', "App\\Controllers\\{$controller}", $action, $parameters);
-        $this->map('WEB', 'GET', $route);
-
-        return $route;
-    }
-
-    private function post($uri, $controller, $action, $parameters = [])
-    {
-        $route = new Route($uri, 'POST', "App\\Controllers\\{$controller}", $action, $parameters);
-        $this->map('WEB', 'POST', $route);
-
-        return $route;
-    }
-
-    private function adminGet($uri, $controller, $action, $parameters = [])
-    {
-        $route = new Route($uri, 'GET', "Dawn\\Admin\\Controllers\\{$controller}", $action, $parameters);
-        $this->map('ADMIN', 'GET', $route);
-
-        return $route;
-    }
-
-    public function load()
+    protected function loadRoutes()
     {
         foreach ($this->routesFiles as $routesFile) {
             require $routesFile;
@@ -74,21 +50,14 @@ class Router
         return $this;
     }
 
-    public function start()
+    protected function loadRequest()
     {
-        $this->load()->getRequest()->processRequest()->direct();
+        $this->request->get();
 
         return $this;
     }
 
-    private function getRequest()
-    {
-        $this->request = Request::get();
-
-        return $this;
-    }
-
-    private function processRequest()
+    protected function processRequest()
     {
         $method = $this->request->getMethod();
         $uri = $this->request->getUri();
@@ -113,18 +82,73 @@ class Router
         return $this;
     }
 
-    private function direct()
+    protected function direct()
     {
         return $this->controllerDispatcher->prepare($this->request)->dispatch();
     }
 
-    public function requestedRoute()
+        // protected function api($uri, $controller,)
+    protected function addRoute($endpoint, $method, $route)
     {
-        return $this->requestedRoute;
+        array_push($this->routes[$endpoint][$method], $route);
+    }
+
+    protected function get($uri, $controller, $action, $parameters = [])
+    {
+        $route = new Route($uri, 'GET', "App\\Controllers\\{$controller}", $action, $parameters);
+        $this->addRoute('WEB', 'GET', $route);
+
+        return $route;
+    }
+
+    protected function post($uri, $controller, $action, $parameters = [])
+    {
+        $route = new Route($uri, 'POST', "App\\Controllers\\{$controller}", $action, $parameters);
+        $this->addRoute('WEB', 'POST', $route);
+
+        return $route;
+    }
+
+    protected function adminGet($uri, $controller, $action, $parameters = [])
+    {
+        $route = new Route($uri, 'GET', "Dawn\\Admin\\Controllers\\{$controller}", $action, $parameters);
+        $this->addRoute('ADMIN', 'GET', $route);
+
+        return $route;
+    }
+
+    public function setControllerDispatcher($controllerDispatcher)
+    {
+        $this->controllerDispatcher = $controllerDispatcher;
     }
 
     public function getRoutes()
     {
         return $this->routes;
+    }
+
+    public function setRoutes($routes)
+    {
+        $this->routes = $routes;
+    }
+
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    public function setRequest($request)
+    {
+        $this->request = $request;
+    }
+
+    public function getRequestedRoute()
+    {
+        return $this->requestedRoute;
+    }
+
+    public function setRequestedRoute($requestedRoute)
+    {
+        $this->requestedRoute = $requestedRoute;
     }
 }

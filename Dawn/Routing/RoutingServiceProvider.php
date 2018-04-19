@@ -25,7 +25,14 @@ class RoutingServiceProvider extends ServiceProvider
 
     private function registerRouter()
     {
-        $router = new Router($this->app, $this->app->get('controller dispatcher'));
+        $router = new Router($this->app, $this->app->getConfig()['routes']);
+
+        $request = new Request();
+        $router->setRequest($request);
+
+        $controllerDispatcher = $this->app->get('controller dispatcher');
+        $router->setControllerDispatcher($controllerDispatcher);
+
         $this->app->bind('router', $router);
     }
 }

@@ -9,22 +9,20 @@ class Request
     protected $endpoint;
     protected $requestedRoute;
 
-    public static function get()
+    public function get()
     {
-        $request = new static;
+        $this->uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+        $this->method = $_SERVER['REQUEST_METHOD'];
 
-        $request->uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-        $request->method = $_SERVER['REQUEST_METHOD'];
-
-        if (preg_match('#/api/#', $request->uri)) {
-            $request->endpoint = 'API';
-        } else if (preg_match('#/admin/#', $request->uri)) {
-            $request->endpoint = 'ADMIN';
+        if (preg_match('#/api/#', $this->uri)) {
+            $this->endpoint = 'API';
+        } else if (preg_match('#/admin/#', $this->uri)) {
+            $this->endpoint = 'ADMIN';
         } else {
-            $request->endpoint = 'WEB';
+            $this->endpoint = 'WEB';
         }
 
-        return $request;
+        return $this;
     }
 
     public function getUri()
