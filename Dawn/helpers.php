@@ -1,5 +1,18 @@
 <?php
 
+function dd($data, $pre = false)
+{
+    if ($pre) {
+        echo '<pre>';
+        var_dump($data);
+        echo '</pre>';
+    } else {
+        var_dump($data);
+    }
+
+    die();
+}
+
 function app()
 {
     global $app;
