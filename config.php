@@ -12,7 +12,7 @@ return [
      *      expires => time in seconds, example: 3600
      */
     'session' => [
-        'mode' => 'cookie',
+        'mode' => 'local storage',
         'expires' => 864000
     ],
 

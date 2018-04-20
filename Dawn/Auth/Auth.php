@@ -8,6 +8,8 @@ use Firebase\JWT\JWT;
 use phpDocumentor\Reflection\Types\Integer;
 use PHPUnit\Util\Json;
 use Firebase\JWT\ExpiredException;
+use Firebase\JWT\SignatureInvalidException;
+use TheSeer\Tokenizer\Exception;
 
 class Auth
 {
@@ -82,11 +84,12 @@ class Auth
     public function decodeToken($token)
     {
         $decodedToken = null;
+
         try {
             if ($token !== null) {
                 $decodedToken = JWT::decode($token, app()->getKey(), array('HS256'));
             }
-        } catch (ExpiredException $e) {
+        } catch (\Exception $e) {
             $decodedToken = null;
         }
 
@@ -162,15 +165,13 @@ class Auth
 
     public function findUser()
     {
-        if ($this->token !== null) {
-            if ($this->verifyToken()) {
-                $this->user = (new User())->find($this->decodedToken->id);
-                $this->id = $this->user->id();
+        if ($this->verifyToken()) {
+            $this->user = (new User())->find($this->decodedToken->id);
+            $this->id = $this->user->id();
 
-                return true;
-            } else {
-                $this->user = null;
-            }
+            return true;
+        } else {
+            $this->user = null;
         }
 
         return false;
@@ -178,13 +179,11 @@ class Auth
 
     public function verifyToken()
     {
-        if ($this->decodedToken !== null) {
-            if ($this->decodedToken->ip === $this->request->findIp() && $this->decodedToken->useragent === $this->request->findUserAgent()) {
-                return true;
-            }
+        if ($this->decodedToken === null) {
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     public function setRequest($request)
