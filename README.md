@@ -52,35 +52,70 @@ Yep, I can see them too. I'm slowly working on it, this will be a long-term proj
 
 <hr>
 
-# Get started
+# Installation
 
-### Database configuration
-- Configure your database settings in *global.php*:
-    
-```php
-define('DB_NAME', 'miniframework');
-define('DB_USER', 'root');
-define('DB_PASSWORD', '');
-define('DB_CONNECTION', 'mysql:host=127.0.0.1');
+## Requirements
 
-define('PUBLICFOLDER', '/miniframework/public');
+Dawn has the following requirements:
+
+* PHP 7.2.4 or newer
+** PDO Extension
+* MySQL
+* Apache 2.4
+
+Note that it might work under older versions, but it has not been tested.
+
+## Installing
+
+`git clone https://github.com/diegocasillasdev/dawn.git` in the desired folder.
+
+`cd dawn && cp example.env .env`
+
+Edit the _.env_ file with your settings:
+
+```ini
+APP_NAME="Dawn"
+KEY="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+DB_NAME="dawn"
+DB_USER="root"
+DB_PASSWORD=""
+DB_CONNECTION="localhost"
 ```
 
-- You will need to create the users table manually:
+The key is used to encrypt passwords and generate the session token. It should be a random 32 characters long string. This step is very important to keep data secure.
+
+Create a `users` table:
 
 ```sql
-CREATE TABLE `users` (
-    `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `username` VARCHAR(50) NOT NULL DEFAULT '0',
-    `password` VARCHAR(100) NOT NULL DEFAULT '0',
-    PRIMARY KEY (`id`),
-    UNIQUE INDEX `id` (`id`),
-    UNIQUE INDEX `username` (`username`)
-)
+CREATE TABLE `users` (`
+    ``id` INT(11) NOT NULL AUTO_INCREMENT,`
+    ``username` VARCHAR(50) NOT NULL DEFAULT '0',`
+    ``password` VARCHAR(100) NOT NULL DEFAULT '0',`
+    `PRIMARY KEY (`id`),`
+    `UNIQUE INDEX `id` (`id`),`
+    `UNIQUE INDEX `username` (`username`)`
+`)
 ```
 
+The code below is just an example. You can create the table as you wish. However, Dawn expects it to have those columns. If you want to modify them, you will need to edit the User and Auth classes.
+
+### Configure session
+
+Dawn offers 3 ways to handle sessions: cookie, php session and local storage.
+
+Edit _config.php_ with your desired settings:
+
+```php
+'session' => [
+    'mode' => 'cookie', // 'cookie', 'session' or 'local storage'
+    'expires' => 864000 // in seconds
+],
+```
+
+## Get started
+
 ### Routes configuration
-* Establish your routes in *core/routes.php*. Use ```Router::get()``` and ```Router::post()```.
+* Establish your routes in *app/routes/web.php* or *app/routes/api.php*. Use ```$this::get()``` and ```$this::post()```.
 
   * Arguments:
     * Route string (from index)
@@ -90,7 +125,7 @@ CREATE TABLE `users` (
 You can call the method ```auth()``` to authorize different users. Arguments can be: ```'guest'```, ```'authenticated'``` or ```'owner'```.
 
 ```php
-Router::get('miniframework/login', 'LoginController', 'showLoginForm')->auth('guest');
+$this::get('miniframework/login', 'LoginController', 'showLoginForm')->auth('guest');
 ```
 
 ### Write your app!
