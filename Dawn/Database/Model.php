@@ -81,7 +81,7 @@ abstract class Model implements \JsonSerializable
      */
     public function all()
     {
-        return $this->queryBuilder->select()->from($this->table)->get();
+        return $this->queryBuilder->select()->from([$this->table])->get();
     }
 
     /**
@@ -92,7 +92,7 @@ abstract class Model implements \JsonSerializable
      */
     public function find($primaryKey)
     {
-        return $this->queryBuilder->select()->from($this->table)->where($this->primaryKey, '=', $primaryKey)->get();
+        return $this->queryBuilder->select()->from([$this->table])->where($this->primaryKey, '=', $primaryKey)->get();
     }
 
     /**
@@ -104,7 +104,7 @@ abstract class Model implements \JsonSerializable
      */
     public function getBy(string $key, $value)
     {
-        return $this->queryBuilder->select()->from($this->table)->where($key, '=', $value)->get();
+        return $this->queryBuilder->select()->from([$this->table])->where($key, '=', $value)->get();
     }
 
     /**
@@ -117,7 +117,7 @@ abstract class Model implements \JsonSerializable
      */
     public function getColumnBy($column, $key, $value)
     {
-        return $this->queryBuilder->select($column)->from($this->table)->where($key, '=', $value)->get('column');
+        return $this->queryBuilder->select([$column])->from([$this->table])->where($key, '=', $value)->get('column');
     }
 
     /**
