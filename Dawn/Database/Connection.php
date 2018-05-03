@@ -3,13 +3,34 @@
 namespace Dawn\Database;
 
 use PDO;
+use Dawn\App\App;
 
+/**
+ * Creates a PDO connection to the database.
+ */
 class Connection extends PDO
 {
+    /**
+     * The application container instance.
+     *
+     * @var Dawn\App\App
+     */
     private $app;
-    private $config;
 
-    public function __construct($app, $config)
+    /**
+     * Configuration array.
+     *
+     * @var array
+     */
+    private $config = [];
+
+    /**
+     * Create a new Connection instance.
+     *
+     * @param [type] $app
+     * @param [type] $config
+     */
+    public function __construct(App $app, array $config)
     {
         try {
             parent::__construct(
