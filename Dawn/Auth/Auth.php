@@ -2,6 +2,8 @@
 
 namespace Dawn\Auth;
 
+use Dawn\App\App;
+use Dawn\Routing\Request;
 use Dawn\Session;
 use App\Models\User;
 use Firebase\JWT\JWT;
@@ -11,21 +13,71 @@ use Firebase\JWT\ExpiredException;
 use Firebase\JWT\SignatureInvalidException;
 use TheSeer\Tokenizer\Exception;
 
+/**
+ * Handles authentication and authorization.
+ */
 class Auth
 {
+    /**
+     * The application container instance.
+     *
+     * @var Dawn\App\App
+     */
     protected $app;
+
+    /**
+     * String with the JWT token.
+     *
+     * @var string
+     */
     protected $token;
+
+    /**
+     * Object that contains the payload of the JWT token.
+     *
+     * @var object
+     */
     protected $decodedToken;
+
+    /**
+     * User instance of the request.
+     *
+     * @var Dawn\Database\Model
+     */
     protected $user;
+
+    /**
+     * ID of the user.
+     *
+     * @var mixed
+     */
     protected $id;
+
+    /**
+     * Instance of the request.
+     *
+     * @var Dawn\Routing\Request
+     */
     protected $request;
 
-    public function __construct($app)
+    /**
+     * Create new Auth instance.
+     *
+     * @param Dawn\App\App $app
+     */
+    public function __construct(App $app)
     {
         $this->app = $app;
     }
 
-    public function check($options, ...$parameters)
+    /**
+     * Verify that the user is authorized.
+     *
+     * @param array $options
+     * @param mixed ...$parameters
+     * @return bool
+     */
+    public function check(array $options, ...$parameters)
     {
         foreach ($options as $option) {
             if (!$this->$option(...$parameters)) {
@@ -36,6 +88,11 @@ class Auth
         return true;
     }
 
+    /**
+     * Check if the user is authenticated.
+     *
+     * @return bool
+     */
     public function authenticated()
     {
         if ($this->user === null) {
@@ -45,6 +102,11 @@ class Auth
         return true;
     }
 
+    /**
+     * Check if the user is a guest.
+     *
+     * @return bool
+     */
     public function guest()
     {
         if ($this->user !== null) {
@@ -54,6 +116,12 @@ class Auth
         return true;
     }
 
+    /**
+     * Check if the user is owner of the resource.
+     *
+     * @param mixed $ownerId
+     * @return bool
+     */
     public function owner($ownerId)
     {
         if ($this->id !== $ownerId) {
@@ -63,12 +131,25 @@ class Auth
         return true;
     }
 
+    /**
+     * Check if the user is owner of the resource.
+     *
+     * @param object $element
+     * @return bool
+     */
     public function isOwner($element)
     {
         return $this->id === $element->userId();
     }
 
-    protected function authenticate($token, $expires = 0)
+    /**
+     * Authenticate the user saving the token in the session.
+     *
+     * @param string $token
+     * @param integer $expires
+     * @return bool
+     */
+    protected function authenticate(string $token, int $expires = 0)
     {
         $this->app->get('session')->setToken($token);
         $this->app->get('session')->setExpires($expires);
@@ -76,11 +157,23 @@ class Auth
         return $this->app->get('session')->remember();
     }
 
+    /**
+     * Return a JWT token with the given data.
+     *
+     * @param array $tokenData
+     * @return string
+     */
     protected function generateToken(array $tokenData = [])
     {
         return JWT::encode($tokenData, $this->app->getKey());
     }
 
+    /**
+     * Return the payload of a given token.
+     *
+     * @param string $token
+     * @return object
+     */
     public function decodeToken($token)
     {
         $decodedToken = null;
@@ -96,12 +189,24 @@ class Auth
         return $decodedToken;
     }
 
+    /**
+     * Destroy the current session.
+     *
+     * @return void
+     */
     public function logout()
     {
         $this->app->get('session')->destroy();
     }
 
-    public function login($username, $password)
+    /**
+     * Authenticate the user if the credentials are valid.
+     *
+     * @param string $username
+     * @param string $password
+     * @return mixed
+     */
+    public function login(string $username, string $password)
     {
         $this->user = new User();
 
@@ -128,11 +233,17 @@ class Auth
 
         $this->user = null;
 
-        // return redirect();
         return false;
     }
 
-    public function register($username, $password)
+    /**
+     * Register a new user if the credentials are valid.
+     *
+     * @param string $username
+     * @param string $password
+     * @return mixed
+     */
+    public function register(string $username, string $password)
     {
         $this->user = new User();
 
@@ -163,6 +274,11 @@ class Auth
         return false;
     }
 
+    /**
+     * Find and set the user if the token is valid.
+     *
+     * @return bool
+     */
     public function findUser()
     {
         if ($this->verifyToken()) {
@@ -177,6 +293,11 @@ class Auth
         return false;
     }
 
+    /**
+     * Check if the token is valid.
+     *
+     * @return bool
+     */
     public function verifyToken()
     {
         if ($this->decodedToken === null) {
@@ -186,38 +307,129 @@ class Auth
         return true;
     }
 
-    public function setRequest($request)
+    /**
+     * Get the app container instance.
+     *
+     * @return Dawn\App\App
+     */
+    public function getApp()
     {
-        $this->request = $request;
+        return $this->app;
     }
 
+    /**
+     * Set the app container instance.
+     *
+     * @param Dawn\App\App $app
+     * @return void
+     */
+    public function setApp(App $app)
+    {
+        $this->app = $app;
+    }
+
+    /**
+     * Get the JWT token.
+     *
+     * @return void
+     */
     public function getToken()
     {
         return $this->token;
     }
 
+    /**
+     * Set a JWT token.
+     *
+     * @param mixed $token
+     * @return void
+     */
     public function setToken($token)
     {
         $this->token = $token;
     }
 
+    /**
+     * Get the decoded token object.
+     *
+     * @return object
+     */
     public function getDecodedToken()
     {
         return $this->decodedToken;
     }
 
-    public function setDecodedToken($decodedToken)
+    /**
+     * Set the decoded token object.
+     *
+     * @param object $decodedToken
+     * @return void
+     */
+    public function setDecodedToken(object $decodedToken)
     {
         $this->decodedToken = $decodedToken;
     }
 
-    public function user()
+    /**
+     * Get the current user instance.
+     *
+     * @return Dawn\App\Models\User
+     */
+    public function getUser()
     {
         return $this->user;
     }
 
-    public function id()
+    /**
+     * Set the current user instance.
+     *
+     * @param User $user
+     * @return void
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * Get the current user ID.
+     *
+     * @return mixed
+     */
+    public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set the current user ID.
+     *
+     * @param mixed $id
+     * @return void
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * Get the current request.
+     *
+     * @return Dawn\Routing\Request
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * Set the current request.
+     *
+     * @param Dawn\Routing\Request $request
+     * @return void
+     */
+    public function setRequest(Request $request)
+    {
+        $this->request = $request;
     }
 }
