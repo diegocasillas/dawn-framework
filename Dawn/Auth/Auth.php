@@ -362,10 +362,10 @@ class Auth
     /**
      * Set the decoded token object.
      *
-     * @param object $decodedToken
+     * @param mixed $decodedToken
      * @return void
      */
-    public function setDecodedToken(object $decodedToken)
+    public function setDecodedToken($decodedToken)
     {
         $this->decodedToken = $decodedToken;
     }
