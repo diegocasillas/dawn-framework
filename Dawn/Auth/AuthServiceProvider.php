@@ -63,6 +63,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     private function prepareRequest()
     {
+        $auth = $this->app->get('auth');
         $request = $this->app->get('router')->getRequest();
         $auth->setRequest($request);
     }
