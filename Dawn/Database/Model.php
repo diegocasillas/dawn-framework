@@ -190,6 +190,6 @@ abstract class Model implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return $this->visible;
+        return $this->visible();
     }
 }
