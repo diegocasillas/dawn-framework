@@ -42,6 +42,7 @@
 
       <div class="container">
         <div class="row">
+
         <?php foreach ($posts as $post) : ?>
           <div class="col-md-4">
             <h2><?php echo $post->title() ?> - <small class="text-muted"><?php echo $post->user()->username() ?></small></h2>
