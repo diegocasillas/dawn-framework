@@ -3,7 +3,6 @@
 namespace App\Controllers\Auth;
 
 use Dawn\Auth\Auth;
-use Dawn\Auth\AuthController;
 
 class RegisterController extends AuthController
 {
