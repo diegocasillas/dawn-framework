@@ -5,7 +5,7 @@ namespace Dawn\Routing;
 /**
  * Holds the response information.
  */
-class Response
+class Response implements \JsonSerializable
 {
     /**
      * The status code number.
@@ -26,7 +26,7 @@ class Response
      *
      * @var array
      */
-    protected $data;
+    public $data;
 
     /**
      * Indicate if the response is in JSON format.
@@ -301,5 +301,15 @@ class Response
     public function setJson($json)
     {
         $this->json = $json;
+    }
+
+    /**
+     * Implementation of the JsonSerialize interface.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return ['status_code' => $this->statusCode, 'status_message' => $this->statusMessage, 'data' => $this->data];
     }
 }
