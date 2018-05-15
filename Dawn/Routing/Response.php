@@ -2,19 +2,58 @@
 
 namespace Dawn\Routing;
 
+/**
+ * Holds the response information.
+ */
 class Response
 {
-    public $statusCode;
-    public $statusMessage;
-    public $data;
+    /**
+     * The status code number.
+     *
+     * @var integer
+     */
+    protected $statusCode;
+
+    /**
+     * The status message.
+     *
+     * @var string
+     */
+    protected $statusMessage;
+
+    /**
+     * Array that contains the response data.
+     *
+     * @var array
+     */
+    protected $data;
+
+    /**
+     * Indicate if the response is in JSON format.
+     *
+     * @var boolean
+     */
     protected $json = false;
 
+    /**
+     * Create a new Response instance.
+     *
+     * @param array $data
+     * @param integer $statusCode
+     */
     public function __construct($data = null, $statusCode = 200)
     {
         $this->data = $data;
         $this->statusCode = $statusCode;
     }
 
+    /**
+     * Set the status code and message.
+     *
+     * @param integer $code
+     * @param string $message
+     * @return $this
+     */
     public function status($code, $message = null)
     {
         $this->statusCode = $code;
@@ -28,6 +67,12 @@ class Response
         return $this;
     }
 
+    /**
+     * Set the response data.
+     *
+     * @param array $data
+     * @return $this
+     */
     public function data($data)
     {
         $this->data = $data;
@@ -35,6 +80,11 @@ class Response
         return $this;
     }
 
+    /**
+     * Add JSON header.
+     *
+     * @return $this
+     */
     public function json()
     {
         $this->header('Content-Type', 'application/json');
@@ -44,6 +94,13 @@ class Response
         return $this;
     }
 
+    /**
+     * Add a header by name and value.
+     *
+     * @param string $name
+     * @param string $value
+     * @return $this
+     */
     public function header($name, $value)
     {
         header($name . ": " . $value);
@@ -51,6 +108,12 @@ class Response
         return $this;
     }
 
+    /**
+     * Add a Authentication: Bearer header with the specified token.
+     *
+     * @param string $token
+     * @return $this
+     */
     public function token($token)
     {
         $this->header('Authentication', 'Bearer ' . $token);
@@ -58,6 +121,12 @@ class Response
         return $this;
     }
 
+    /**
+     * Set an automatic status message by a status code.
+     *
+     * @param integer $code
+     * @return string
+     */
     public function autoMessage($code)
     {
         $statuses = [
@@ -132,6 +201,11 @@ class Response
         return $this->statusMessage;
     }
 
+    /**
+     * Send the response.
+     *
+     * @return $this
+     */
     public function send()
     {
         http_response_code($this->statusCode);
@@ -145,23 +219,87 @@ class Response
         return $this;
     }
 
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    public function setData($data)
-    {
-        $this->data = $data;
-    }
-
+    /**
+     * Get the status code.
+     *
+     * @return integer
+     */
     public function getStatusCode()
     {
         return $this->statusCode;
     }
 
+    /**
+     * Set the status code.
+     *
+     * @param integer $statusCode
+     * @return void
+     */
     public function setStatusCode($statusCode)
     {
         $this->statusCode = $statusCode;
+    }
+
+    /**
+     * Get the status message.
+     *
+     * @return string
+     */
+    public function getStatusMessage()
+    {
+        return $this->statusMessage;
+    }
+
+    /**
+     * Set the status message.
+     *
+     * @param string $statusMessage
+     * @return void
+     */
+    public function setStatusMessage($statusMessage)
+    {
+        $this->statusMessage = $statusMessage;
+    }
+
+    /**
+     * Get the response data array.
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * Set the response data array.
+     *
+     * @param array $data
+     * @return void
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * Get JSON boolean value.
+     *
+     * @return boolean
+     */
+    public function getJson()
+    {
+        return $this->json;
+    }
+
+    /**
+     * Set JSON boolean value.
+     *
+     * @param boolean $json
+     * @return void
+     */
+    public function setJson($json)
+    {
+        $this->json = $json;
     }
 }
