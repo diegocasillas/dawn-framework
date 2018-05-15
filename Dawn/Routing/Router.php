@@ -134,7 +134,7 @@ class Router
         $endpoint = $this->request->getEndpoint();
 
         foreach ($this->routes[$endpoint][$method] as $route) {
-            if (preg_match('#^' . $route->uri . '$#', $uri, $parameters)) {
+            if (preg_match('#^' . $route->getUri() . '$#', $uri, $parameters)) {
                 if (isset($parameters[0])) {
                     unset($parameters[0]);
                 }

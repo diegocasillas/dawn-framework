@@ -41,7 +41,7 @@ class PostController extends Controller
 
         $post->setTitle($_REQUEST['title']);
         $post->setBody($_REQUEST['body']);
-        $post->setUserId(auth()->id());
+        $post->setUserId(auth()->getId());
 
         $post->save();
 

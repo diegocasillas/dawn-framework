@@ -64,11 +64,12 @@ class ControllerDispatcher
     public function prepare($request)
     {
         $route = $request->getRequestedRoute();
+        $controller = $route->getController();
 
-        $this->dispatchedController = new $route->controller();
-        $this->action = $route->action();
-        $this->parameters = $route->parameters();
-        $this->options = $route->options();
+        $this->dispatchedController = new $controller;
+        $this->action = $route->getAction();
+        $this->parameters = $route->getParameters();
+        $this->options = $route->getOptions();
 
         $this->dispatchedController->setApp($this->app);
         $this->dispatchedController->setRequest($request);

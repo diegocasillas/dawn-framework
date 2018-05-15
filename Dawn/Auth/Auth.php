@@ -220,7 +220,7 @@ class Auth
                     'iat' => time(),
                     'exp' => time() + app()->get('session')->getConfig()['expires'],
                     'id' => $id,
-                    'ip' => $this->request->ip(),
+                    'ip' => $this->request->GetIp(),
                     'useragent' => $this->request->getUserAgent()
                 ];
 
@@ -258,7 +258,7 @@ class Auth
                     'iat' => time(),
                     'exp' => time() + app()->get('session')->getConfig()['expires'],
                     'id' => $this->user->getId(),
-                    'ip' => $this->request->ip(),
+                    'ip' => $this->request->getIp(),
                     'useragent' => $this->request->getUserAgent()
                 ];
 
