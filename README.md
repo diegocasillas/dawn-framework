@@ -7,6 +7,7 @@
 * [Upcoming features](#upcoming-features)
 * [Get started](#get-started)
 * [Directory structure](#directory-structure)
+* [Architecture](#architecture)
 * [License](#license)
 
 <hr>
@@ -227,6 +228,21 @@ Example for `.env` file.
 ### `index.php`
 
 Entry point for the application. You won't need to worry about this file either.
+
+
+## Architecture
+
+### Request lifecycle
+
+The entry point for all request is `index.php`. All request are directed to this file by Apache.
+
+In `index.php`, Dawn is bootstrapped. This means that the application is loaded with the configuration and service providers. When it is ready, the application is run.
+
+Next, the *Router* service handles the request, processing it, finding what route was requested by the user and directing it to the *Controller Dispatcher* service.
+
+The *Controller Dispatcher* is in charge of creating a new instance of the *Controller* that needs to handle the request, and preparing it to call the requested action.
+
+Finally, the *Controller* delegates momentarily the request to the *Middleware*, which will verify that everything is in order (authentication, authorization...). After it, the *Controller* does its job and sends a response back. 
 
 # License
 Dawn is under [MIT License](https://github.com/diegocasillasdev/dawn/blob/master/LICENSE).
