@@ -119,9 +119,9 @@ Edit _config.php_ with your desired settings:
 ],
 ```
 
-## Get started
+# Get started
 
-### Routes configuration
+## Routes configuration
 * Establish your routes in *app/routes/web.php* or *app/routes/api.php*. Use ```$this::get()``` and ```$this::post()```.
   * Arguments:
     * URI
@@ -134,10 +134,10 @@ You can call the method ```auth()``` to authorize different users. Arguments can
 $this::get('miniframework/login', 'LoginController', 'showLoginForm')->auth('guest');
 ```
 
-### Write your app!
+## Write your app!
 * Now you can write your own models, views and controllers and make your own app!
 
-## Directory structure
+# Directory structure
 
 * [`[app]`](#app)
   * [`[controllers]`](#appcontrollers)
@@ -159,82 +159,82 @@ $this::get('miniframework/login', 'LoginController', 'showLoginForm')->auth('gue
 * [`example.env`](#exampleenv)
 * [`index.php`](indexphp)
 
-### `app`
+## `app`
 
 Contains your application. This folder is pretty much the only thing you need to care about.
 
-#### `app/controllers`
+### `app/controllers`
 
 Contains your own application controllers. They should belong to the `App\Controllers` namespace and extend from `App\Controllers\Controller`.
 
-#### `app/models`
+### `app/models`
 
 Contains your own data access models. They should belong to the `App\Models` namespace and extend from `App\Models\Model`.
 
-#### `app/routes`
+### `app/routes`
 
 Contains your defined application routes.
 
-##### `app/routes/web.php`
+#### `app/routes/web.php`
 
 Contains your web endpoint routes.
 
-##### `app/routes/api.php`
+#### `app/routes/api.php`
 
 Contains your API endpoint routes.
 
-#### `app/views`
+### `app/views`
 
 Contains your application view files.
 
-### `Dawn`
+## `Dawn`
 
 Dawn Framework folder. Contains all the necessary classes, services and tools for the framework to work. You won't need to worry about this folder.
 
-### `docs`
+## `docs`
 
 Contains the documentation website files.
 
-### `tests`
+## `tests`
 
 You should write your tests here.
 
-### `vendor`
+## `vendor`
 
 Composer dependencies folder.
 
-### `.env`
+## `.env`
 
 Environmental file for sensitive data. It doesn't exist by default, you need to copy it from `example.env`. **DON'T COMMIT THIS FILE.**
 
-### `.gitignore`
+## `.gitignore`
 
 You can write here the path to the files that you don't wanna include in your repository.
 
-### `.htaccess`
+## `.htaccess`
 
 Apache configuration file.
 
-### `composer.json` and `composer.lock`
+## `composer.json` and `composer.lock`
 
 Composer package manager files.
 
-### `config.php`
+## `config.php`
 
 Contains your application settings, such as session, database or service providers.
 
-### `example.env`
+## `example.env`
 
 Example for `.env` file.
 
-### `index.php`
+## `index.php`
 
 Entry point for the application. You won't need to worry about this file either.
 
 
-## Architecture
+# Architecture
 
-### Request lifecycle
+## Request lifecycle
 
 The entry point for all request is `index.php`. All request are directed to this file by Apache.
 
@@ -246,7 +246,7 @@ The *Controller Dispatcher* is in charge of creating a new instance of the *Cont
 
 Finally, the *Controller* delegates momentarily the request to the *Middleware*, which will verify that everything is in order (authentication, authorization...). After it, the *Controller* does its job and sends a response back. 
 
-### Application container
+## Application container
 
 Dawn's application container contains everything necessary for the application to work. It is implemented in `Dawn/App/App.php`.
 
@@ -254,7 +254,7 @@ The services are bound to it thanks to the *service providers*.
 
 It's in charge of getting the application ready, running it and provide its bound services.
 
-### Service providers
+## Service providers
 
 Service providers form the backbone of the framework. Dawn includes several service providers (routing, database, session...), but you can also write your own and easily integrate them in Dawn.
 
@@ -265,6 +265,8 @@ Service providers require a `register` and `boot` method.
 In the `register` method, the services are bound to the application container. It's called once for each service provider.
 
 The `boot` method is called after every service has been registered. Here, each service provider does the necessary tasks to get its services ready.
+
+# Working with Dawn
 
 # License
 Dawn is under [MIT License](https://github.com/diegocasillasdev/dawn/blob/master/LICENSE).
