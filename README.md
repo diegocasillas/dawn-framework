@@ -6,6 +6,7 @@
 * [Feature list](#feature-list)
 * [Upcoming features](#upcoming-features)
 * [Get started](#get-started)
+* [Directory structure](#directory-structure)
 * [License](#license)
 
 <hr>
@@ -59,8 +60,9 @@ Yep, I can see them too. I'm slowly working on it, this will be a long-term proj
 Dawn has the following requirements:
 
 * PHP 7.2.4 or newer
-** PDO Extension
+  * PDO Extension
 * MySQL
+* Composer
 * Apache 2.4
 
 Note that it might work under older versions, but it has not been tested.
@@ -69,7 +71,9 @@ Note that it might work under older versions, but it has not been tested.
 
 `git clone https://github.com/diegocasillasdev/dawn.git` in the desired folder.
 
-`cd dawn && cp example.env .env`
+`cd dawn && composer install`
+
+`cp example.env .env`
 
 Edit the _.env_ file with your settings:
 
@@ -89,15 +93,15 @@ Create a `users` table:
 ```sql
 CREATE TABLE `users` (`
     ``id` INT(11) NOT NULL AUTO_INCREMENT,`
-    ``username` VARCHAR(50) NOT NULL DEFAULT '0',`
+    ``email` VARCHAR(50) NOT NULL DEFAULT '0',`
     ``password` VARCHAR(100) NOT NULL DEFAULT '0',`
     `PRIMARY KEY (`id`),`
     `UNIQUE INDEX `id` (`id`),`
-    `UNIQUE INDEX `username` (`username`)`
+    `UNIQUE INDEX `email` (`email`)`
 `)
 ```
 
-The code below is just an example. You can create the table as you wish. However, Dawn expects it to have those columns. If you want to modify them, you will need to edit the User and Auth classes.
+The code above is just an example. You can create the table as you wish. However, Dawn expects it to have those columns (`id`, `email` and `password`). If you want to modify them, you will need to edit the User and Auth classes.
 
 ### Configure session
 
@@ -108,7 +112,7 @@ Edit _config.php_ with your desired settings:
 ```php
 'session' => [
     'mode' => 'cookie', // 'cookie', 'session' or 'local storage'
-    'expires' => 864000 // in seconds
+    'expires' => 864000 // expiry time in seconds
 ],
 ```
 
@@ -116,9 +120,8 @@ Edit _config.php_ with your desired settings:
 
 ### Routes configuration
 * Establish your routes in *app/routes/web.php* or *app/routes/api.php*. Use ```$this::get()``` and ```$this::post()```.
-
   * Arguments:
-    * Route string (from index)
+    * URI
     * Controller name
     * Action name
   
@@ -131,5 +134,99 @@ $this::get('miniframework/login', 'LoginController', 'showLoginForm')->auth('gue
 ### Write your app!
 * Now you can write your own models, views and controllers and make your own app!
 
+## Directory structure
+
+* `[app]`
+  * `[controllers]`
+  * `[models]`
+  * `[routes]`
+    * `web.php`
+    * `api.php`
+  * `[views]`
+* `[Dawn]`
+* `[docs]`
+* `[tests]`
+* `[vendor]`
+* `.env`
+* `.gitignore`
+* `.htaccess`
+* `composer.json`
+* `composer.lock`
+* `config.php`
+* `example.env`
+* `index.php`
+
+### `app`
+
+Contains your application. This folder is pretty much the only thing you need to care about.
+
+#### `app/controllers`
+
+Contains your own application controllers. They should belong to the `App\Controllers` namespace and extend from `App\Controllers\Controller`.
+
+#### `app/models`
+
+Contains your own data access models. They should belong to the `App\Models` namespace and extend from `App\Models\Model`.
+
+#### `app/routes`
+
+Contains your defined application routes.
+
+##### `app/routes/web.php`
+
+Contains your web endpoint routes.
+
+##### `app/routes/api.php`
+
+Contains your API endpoint routes.
+
+#### `app/views`
+
+Contains your application view files.
+
+### `Dawn`
+
+Dawn Framework folder. Contains all the necessary classes, services and tools for the framework to work. You won't need to worry about this folder.
+
+### `docs`
+
+Contains the documentation website files.
+
+### `tests`
+
+You should write your tests here.
+
+### `vendor`
+
+Composer dependencies folder.
+
+### `.env`
+
+Environmental file for sensitive data. It doesn't exist by default, you need to copy it from `example.env`. **DON'T COMMIT THIS FILE.**
+
+### `.gitignore`
+
+You can write here the path to the files that you don't wanna include in your repository.
+
+### `.htaccess`
+
+Apache configuration file.
+
+### `composer.json` and `composer.lock`
+
+Composer package manager files.
+
+### `config.php`
+
+Contains your application settings, such as session, database or service providers.
+
+### `example.env`
+
+Example for `.env` file.
+
+### `index.php`
+
+Entry point for the application. You won't need to worry about this file either.
+
 # License
-Dawn is under [MIT License](https://github.com/diegocasillasdev/dawn/blob/master/LICENSE)
+Dawn is under [MIT License](https://github.com/diegocasillasdev/dawn/blob/master/LICENSE).
