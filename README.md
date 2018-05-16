@@ -8,6 +8,8 @@
 * [Get started](#get-started)
 * [Directory structure](#directory-structure)
 * [Architecture](#architecture)
+  * [Request lifecycle](#request-lifecycle)
+  * [Service providers](#service-providers)
 * [License](#license)
 
 <hr>
@@ -243,6 +245,26 @@ Next, the *Router* service handles the request, processing it, finding what rout
 The *Controller Dispatcher* is in charge of creating a new instance of the *Controller* that needs to handle the request, and preparing it to call the requested action.
 
 Finally, the *Controller* delegates momentarily the request to the *Middleware*, which will verify that everything is in order (authentication, authorization...). After it, the *Controller* does its job and sends a response back. 
+
+### Application container
+
+Dawn's application container contains everything necessary for the application to work. It is implemented in `Dawn/App/App.php`.
+
+The services are bound to it thanks to the *service providers*.
+
+It's in charge of getting the application ready, running it and provide its bound services.
+
+### Service providers
+
+Service providers form the backbone of the framework. Dawn includes several service providers (routing, database, session...), but you can also write your own and easily integrate them in Dawn.
+
+When the application is being bootstrapped, it means that it is registering and booting the service providers included in `config.php`.
+
+Service providers require a `register` and `boot` method.
+
+In the `register` method, the services are bound to the application container. It's called once for each service provider.
+
+The `boot` method is called after every service has been registered. Here, each service provider does the necessary tasks to get its services ready.
 
 # License
 Dawn is under [MIT License](https://github.com/diegocasillasdev/dawn/blob/master/LICENSE).
