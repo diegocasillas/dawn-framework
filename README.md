@@ -266,7 +266,49 @@ In the `register` method, the services are bound to the application container. I
 
 The `boot` method is called after every service has been registered. Here, each service provider does the necessary tasks to get its services ready.
 
+
 # Working with Dawn
+
+## Routing
+
+Routing is handled by Dawn's routing service. It includes a router to handle the request and response, custom routes and a base controller.
+
+### Adding routes
+
+Routes are set in `app/routes/web.php` and `app/routes/api.php`.
+
+To add a route, simply call the `get`, `post`, `patch`, `put` or `delete` method of the `Dawn\Routing\Router` class.
+
+These methods expect the following parameters:
+
+`uri` - URI requested by the user.
+
+*Example: The login route is `www.example.com/login`. Therefore, the URI is `login`.*
+
+`controller` - The controller's name that will handle the request. A valid Dawn controller belongs to the `App\Controller` namespace. The controller name must be the rest of the namespace.
+
+*Example: `LoginController`'s full name is `App\Controllers\Auth\LoginController`. Therefore, the controller name must be `Auth\LoginController`.* 
+
+`action` - The controller's method name that will handle the request.
+
+*Example: The method `LoginController->showLoginForm()` is in charge of showing a login form view. Therefore, the action is `showLoginForm`.*
+
+```php
+$this->get('login', 'Auth\LoginController', 'showLoginForm');
+```
+
+### Protecting Routes
+
+Routes can be protected thanks to Dawn's auth service. This will restrict access to users that don't have the required permissions.
+
+By default, routes are available for all users. Dawn offers the possibility to restrict access to only guests (`guest`), only authenticated users (`auth`) and only owners of the resource (`owner`).
+
+To protect a specific route, simply call the `auth` method on it with the restriction parameter.
+
+```php
+$this->get('login', 'Auth\LoginController', 'showLoginForm')->('guest');
+```
+
 
 # License
 Dawn is under [MIT License](https://github.com/diegocasillasdev/dawn/blob/master/LICENSE).
