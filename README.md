@@ -9,6 +9,7 @@
 * [Directory structure](#directory-structure)
 * [Architecture](#architecture)
   * [Request lifecycle](#request-lifecycle)
+  * [Application container](#application-container)
   * [Service providers](#service-providers)
 * [Working with Dawn](#working-with-dawn)
   * [Routing](#routing)
@@ -235,6 +236,10 @@ Entry point for the application. You won't need to worry about this file either.
 
 
 # Architecture
+
+* [Request lifecycle](#request-lifecycle)
+* [Application container](#application-container)
+* [Service providers](#service-providers)
 
 ## Request lifecycle
 
