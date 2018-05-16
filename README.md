@@ -136,25 +136,25 @@ $this::get('miniframework/login', 'LoginController', 'showLoginForm')->auth('gue
 
 ## Directory structure
 
-* `[app]`
-  * `[controllers]`
-  * `[models]`
-  * `[routes]`
-    * `web.php`
-    * `api.php`
-  * `[views]`
-* `[Dawn]`
-* `[docs]`
-* `[tests]`
-* `[vendor]`
-* `.env`
-* `.gitignore`
-* `.htaccess`
-* `composer.json`
-* `composer.lock`
-* `config.php`
-* `example.env`
-* `index.php`
+* [`[app]`](#app)
+  * [`[controllers]`](#appcontrollers)
+  * [`[models]`](#appmodels)
+  * [`[routes]`](#approutes)
+    * [`web.php`](#approuteswebphp)
+    * [`api.php`](#approutesapiphp)
+  * [`[views]`](#appviews)
+* [`[Dawn]`](#dawn-1)
+* [`[docs]`](#docs)
+* [`[tests]`](#tests)
+* [`[vendor]`](#vendor)
+* [`.env`](#env)
+* [`.gitignore`](#gitignore)
+* [`.htaccess`](#htaccess)
+* [`composer.json`](#composerjson-and-composerlock)
+* [`composer.lock`](#composerjson-and-composerlock)
+* [`config.php`](#configphp)
+* [`example.env`](#exampleenv)
+* [`index.php`](indexphp)
 
 ### `app`
 
