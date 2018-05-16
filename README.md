@@ -10,6 +10,8 @@
 * [Architecture](#architecture)
   * [Request lifecycle](#request-lifecycle)
   * [Service providers](#service-providers)
+* [Working with Dawn](#working-with-dawn)
+  * [Routing](#routing)
 * [License](#license)
 
 <hr>
@@ -270,6 +272,10 @@ The `boot` method is called after every service has been registered. Here, each 
 # Working with Dawn
 
 ## Routing
+
+* [Adding routes](#adding-routes)
+* [Protecting routes](#protecting-routes)
+
 
 Routing is handled by Dawn's routing service. It includes a router to handle the request and response, custom routes and a base controller.
 
