@@ -93,22 +93,22 @@ class QueryBuilder
     }
 
     /**
-     * Add a from string with the specified columns to the query.
+     * Add a from string with the specified tables to the query.
      *
-     * @param array $columns
+     * @param array $tables
      * @return $this
      */
-    public function from($columns = [])
+    public function from($tables = [])
     {
         $this->query .= " FROM ";
 
-        if (!empty($columns)) {
-            $this->query .= implode(', ', $columns);
+        if (!empty($tables)) {
+            $this->query .= implode(', ', $tables);
         } else {
             $this->query .= '*';
         }
 
-        $this->queryData['FROM'] = $columns;
+        $this->queryData['FROM'] = $tables;
 
         return $this;
     }

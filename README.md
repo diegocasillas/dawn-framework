@@ -15,6 +15,7 @@
   * [Routing](#routing)
   * [Request](#request)
   * [Response](#response)
+  * [Database](#database)
 * [License](#license)
 
 <hr>
@@ -278,6 +279,11 @@ The `boot` method is called after every service has been registered. Here, each 
 
 # Working with Dawn
 
+* [Routing](#routing)
+* [Request](#request)
+* [Response](#response)
+* [Database](#database)
+
 ## Routing
 
 * [Adding routes](#adding-routes)
@@ -423,7 +429,7 @@ class LoginController extends AuthController
 * [JSON response](#json-response)
 * [Using the controller's response method](#using-the-controllers-response-method)
 
-Dawn includes a Response class (`Dawn\Routing\Response`) that allows to send responses headers, cookies and other data attached.
+Dawn includes a Response class (`Dawn\Routing\Response`) that allows to send responses with headers, cookies and other data attached.
 
 This can be done with the controller's `response` property and `response` method. Different methods can be chained and once the response is ready it can be sent with its `send` method.
 
@@ -550,6 +556,89 @@ class LoginController extends AuthController
   }
 }
 ```
+
+
+## Database
+
+* [Configuration](#configuration)
+* [Query builder](#query-builder)
+
+Dawn's database service works with MySQL and PDO. It offers a query builder (`Dawn\Database\QueryBuilder`) and a base model class (`Dawn\Database\Model`) to make querying the database and fetching results easier.
+
+### Configuration
+
+Database credentials should be kept private and safe, therefore they are set in the `.env` file. Remember to not commit this file!
+
+```ini
+DB_NAME="dawn"
+DB_USER="root"
+DB_PASSWORD=""
+DB_CONNECTION="localhost"
+```
+
+### QueryBuilder
+
+* [Executing raw queries](#executing-raw-queries)
+* [Fetching results](#fetching-results)
+* [Building queries](#building-queries)
+
+Dawn's query builder is included in Dawn's model, but it also works as a service, so it's accessible from the application container with its `get` method.
+
+```php
+$queryBuilder = app()->get('query builder');
+```
+
+#### Executing raw queries
+
+Executing raw queries is possible thanks to the `exec` method. It returns the instance of the query builder, so it is possible to chain the `fetch` method to fetch the results.
+
+```php
+$users = $queryBuilder->exec('SELECT * FROM users')->fetch('array');
+```
+
+#### Fetching results
+
+The query builder's `fetch` method returns the results as objects of a class (`class`) (specified with the `setModel` method), as an array (`array`) or only a column (`column`) (if querying only a column of the table).
+
+```php
+// Fetching users as objects of the user model
+
+$queryBuilder->setModel('App\Models\User');
+
+$users = $queryBuilder->exec('SELECT * FROM users')->fetch(); // or fetch('class');
+```
+
+```php
+// Fetching users as an array
+
+$users = $queryBuilder->exec('SELECT * FROM users')->fetch('array');
+```
+
+```php
+// Fetching emails only
+
+$emails = $queryBuilder->exec('SELECT email FROM users')->fetch('column');
+```
+
+#### Building queries
+
+Queries can be built using methods instead of raw SQL.
+
+The following methods can be used:
+
+**`select`**
+
+Parameter                  |                               | Example
+-------------------------- | ----------------------------- | ------------
+**`columns`**              | Array of columns to select. If it is left empty, it selects all the columns. | *To select the `email` and `password` columns the parameter value is `['email', 'password']`.*
+
+**`from`**
+
+Parameter                  |                               | Example
+-------------------------- | ----------------------------- | ------------
+**`tables`**              | Array of tables to select from. If it is left empty, it selects all the tables. | *To select from the `users` table the parameter value is `['users']`.*
+
+**`where`**
 
 # License
 Dawn is under [MIT License](https://github.com/diegocasillasdev/dawn/blob/master/LICENSE).
