@@ -13,6 +13,8 @@
   * [Service providers](#service-providers)
 * [Working with Dawn](#working-with-dawn)
   * [Routing](#routing)
+  * [Request](#request)
+  * [Response](#response)
 * [License](#license)
 
 <hr>
@@ -326,14 +328,14 @@ The current request is accessible from the router and the controller handling it
 
 ### Accessing request's input
 
-The request's input can be accessed with its `input` method:
+The request's input can be accessed with the controller's `input` method:
 
 ```php
 class LoginController extends AuthController
 {
   public function credentials()
   {
-    $credentials = $this->request->input();
+    $credentials = $this->input();
 
     return $credentials;
   }
@@ -347,20 +349,6 @@ class LoginController extends AuthController
 {
   public function email()
   {
-    $email = $this->request->input('email');
-
-    return $email;
-  }
-}
-```
-
-Request's input can also be accessed through the controller's `input` wrapper method.
-
-```php
-class LoginController extends AuthController
-{
-  public function email()
-  {
     $email = $this->input('email');
 
     return $email;
@@ -368,27 +356,10 @@ class LoginController extends AuthController
 }
 ```
 
+
 ### Checking if a input value is empty
 
 Checking if a input value is empty can be done with the `empty` method:
-
-```php
-class LoginController extends AuthController
-{
-  public function email()
-  {
-    if ($this->request->empty('remember')) {
-      return "The email can't be empty.";
-    }
-    
-    $email = $this->request->input('email');
-    
-    return $email;
-  }
-}
-```
-
-It can also be checked through the controller's `empty` wrapper method.
 
 ```php
 class LoginController extends AuthController
@@ -406,22 +377,26 @@ class LoginController extends AuthController
 }
 ```
 
+
 ### Obtaining the IP address and User Agent that made the request
 
-The IP address and User Agent can be accessed from the request's or controller's `ip` and `userAgent` methods.
+The IP address and User Agent can be accessed from the controller's `ip` and `userAgent` methods.
 
 ```php
 class LoginController extends AuthController
 {
   public function requestInfo()
   {
-    $ip = $this->request->ip(); // or $this->ip();
-    $userAgent = $this->request->userAgent(); // or $this->userAgent();
+    $ip = $this->ip(); // or $this->ip();
+    $userAgent = $this->userAgent(); // or $this->userAgent();
 
     return "IP Address: {$ip] - User Agent: {$userAgent}";
   }
 }
 ```
+
+## Response
+
 
 # License
 Dawn is under [MIT License](https://github.com/diegocasillasdev/dawn/blob/master/LICENSE).
