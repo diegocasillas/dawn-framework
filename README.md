@@ -397,6 +397,159 @@ class LoginController extends AuthController
 
 ## Response
 
+* [Sending a simple response](#sending-a-simple-response)
+* [Sending a full response](#sending-a-full-response)
+
+### Sending a simple response
+
+To send a simple response, simply return a value or a view.
+
+```php
+class LoginController extends AuthController
+{
+  public function showLoginForm()
+  {
+    return view('auth/login');
+  }
+}
+```
+
+### Sending a full response
+
+* [Setting a status code](#setting-a-status-code)
+* [Adding headers](#adding-headers)
+* [Adding a authentication token header](#adding-a-authentication-token-header)
+* [Adding data](#adding-data)
+* [JSON response](#json-response)
+* [Using the controller's response method](#using-the-controllers-response-method)
+
+Dawn includes a Response class (`Dawn\Routing\Response`) that allows to send responses headers, cookies and other data attached.
+
+This can be done with the controller's `response` property and `response` method. Different methods can be chained and once the response is ready it can be sent with its `send` method.
+
+#### Setting a status code
+
+Setting a status code can be easily done with the response's `status` method.
+
+This method expects the following parameters:
+
+Parameter                  |                               | Example
+-------------------------- | ----------------------------- | ------------
+**`code`**                 | Status code (integer number). | *The resource was not found, therefore the most suitable status code is `404`.*
+**`message`** *[optional]* | Custom status message. If a status message is not passed to the method, Dawn will try to find the message corresponding to the status code.                                                               | *The status code is `404`, so the status message will be `Not Found` unless it is overriden.*
+
+
+```php
+class LoginController extends AuthController
+{
+  public function notFound()
+  {
+    return $this->response->status('404')->send();
+  }
+}
+```
+
+
+#### Adding headers
+
+Headers can be added with the response's `header method`.
+
+It expects the following parameters: 
+
+Parameter                  |                               | Example
+-------------------------- | ----------------------------- | ------------
+**`name`**                 | The name of the header. | *To send a cookie with the response, the `Set-Cookie` header is needed. Therefore, the header name is `Set-Cookie`.*
+**`value`** | The value of the header.                                                               | *Cookie's name is `color` and its value is `red`. Therefore, the header value is `color=red`.*
+
+```php
+class LoginController extends AuthController
+{
+  public function addColor()
+  {
+    return $this->response->header('Set-Cookie', 'color=red')->send();
+  }
+}
+```
+
+
+#### Adding a authentication token header
+
+Token headers can be added with the response's method `token`.
+
+```php
+class LoginController extends AuthController
+{
+  public function addToken()
+  {
+    return $this->response->token('xxxxxxxxxxxxxxxxxx')->send();
+  }
+}
+```
+
+#### Adding data
+
+Data can be added to the response with its `data` method.
+
+```php
+class LoginController extends AuthController
+{
+  public function addData()
+  {
+    $data = [
+      'current_users': 2000,
+      'max_users': 2500
+    ];
+
+    return $this->response->data($data)->send();
+  }
+}
+```
+
+#### JSON response
+
+JSON responses can be send with the response's `json` method.
+
+```php
+class LoginController extends AuthController
+{
+  public function sendJson()
+  {
+    $data = [
+      'current_users': 2000,
+      'max_users': 2500
+    ];
+
+    return $this->response->data($data)->json()->send();
+  }
+}
+```
+
+#### Using the controller's response method
+
+Responses can also be sent using the controller's `response` method.
+
+It expects the following parameters: 
+
+Parameter                  |                               | Example
+-------------------------- | ----------------------------- | ------------
+**`data`**                 | The data to be sent with the response. | *The data contained in the `$data` array. Therefore, `data` parameter is `$data`.*
+**`statusCode`** *[optional]* | The status code of the response. If it is not passed to the method, it will be `200`.                                                               | *The status code is `200`. Therefore, it is not needed to pass it to the method.*
+
+
+```php
+class LoginController extends AuthController
+{
+  public function sendJson()
+  {
+    $data = [
+      'current_users': 2000,
+      'max_users': 2500
+    ];
+
+    return $this->response($data)->json()->send();
+  }
+}
+```
 
 # License
 Dawn is under [MIT License](https://github.com/diegocasillasdev/dawn/blob/master/LICENSE).
