@@ -316,5 +316,112 @@ $this->get('login', 'Auth\LoginController', 'showLoginForm')->auth('guest');
 ```
 
 
+## Request
+
+* [Accessing request's input](#accessing-requests-input)
+* [Checking if a input value is empty](#checking-if-a-input-value-is-empty)
+* [Obtaining the IP address and User Agent that made the request](#obtaining-the-ip-address-and-user-agent-that-made-the-request)
+
+The current request is accessible from the router and the controller handling it.
+
+### Accessing request's input
+
+The request's input can be accessed with its `input` method:
+
+```php
+class LoginController extends AuthController
+{
+  public function credentials()
+  {
+    $credentials = $this->request->input();
+
+    return $credentials;
+  }
+}
+```
+
+A single input value can also be accessed passing its key as parameter to the `input` method:
+
+```php
+class LoginController extends AuthController
+{
+  public function email()
+  {
+    $email = $this->request->input('email');
+
+    return $email;
+  }
+}
+```
+
+Request's input can also be accessed through the controller's `input` wrapper method.
+
+```php
+class LoginController extends AuthController
+{
+  public function email()
+  {
+    $email = $this->input('email');
+
+    return $email;
+  }
+}
+```
+
+### Checking if a input value is empty
+
+Checking if a input value is empty can be done with the `empty` method:
+
+```php
+class LoginController extends AuthController
+{
+  public function email()
+  {
+    if ($this->request->empty('remember')) {
+      return "The email can't be empty.";
+    }
+    
+    $email = $this->request->input('email');
+    
+    return $email;
+  }
+}
+```
+
+It can also be checked through the controller's `empty` wrapper method.
+
+```php
+class LoginController extends AuthController
+{
+  public function email()
+  {
+    if ($this->empty('remember')) {
+      return "The email can't be empty.";
+    }
+    
+    $email = $this->input('email');
+    
+    return $email;
+  }
+}
+```
+
+### Obtaining the IP address and User Agent that made the request
+
+The IP address and User Agent can be accessed from the request's or controller's `ip` and `userAgent` methods.
+
+```php
+class LoginController extends AuthController
+{
+  public function requestInfo()
+  {
+    $ip = $this->request->ip(); // or $this->ip();
+    $userAgent = $this->request->userAgent(); // or $this->userAgent();
+
+    return "IP Address: {$ip] - User Agent: {$userAgent}";
+  }
+}
+```
+
 # License
 Dawn is under [MIT License](https://github.com/diegocasillasdev/dawn/blob/master/LICENSE).
