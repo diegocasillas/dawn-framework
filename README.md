@@ -576,7 +576,7 @@ DB_PASSWORD=""
 DB_CONNECTION="localhost"
 ```
 
-### QueryBuilder
+### Query builder
 
 * [Executing raw queries](#executing-raw-queries)
 * [Fetching results](#fetching-results)
