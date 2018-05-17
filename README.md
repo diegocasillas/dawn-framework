@@ -322,7 +322,7 @@ $this->get('login', 'Auth\LoginController', 'showLoginForm')->auth('guest');
 
 * [Accessing request's input](#accessing-requests-input)
 * [Checking if a input value is empty](#checking-if-a-input-value-is-empty)
-* [Obtaining the IP address and User Agent that made the request](#obtaining-the-ip-address-and-user-agent-that-made-the-request)
+* [Obtaining request's IP address and User Agent](#obtaining-requests-ip-address-and-user-agent)
 
 The current request is accessible from the router and the controller handling it.
 
@@ -378,7 +378,7 @@ class LoginController extends AuthController
 ```
 
 
-### Obtaining the IP address and User Agent that made the request
+### Obtaining request's IP address and User Agent
 
 The IP address and User Agent can be accessed from the controller's `ip` and `userAgent` methods.
 
