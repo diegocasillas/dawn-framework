@@ -294,9 +294,9 @@ These methods expect the following parameters:
 
 Parameter        |                            | Example
 ---------------- | -------------------------- | ------------
-**`uri`**        | URI requested by the user. | *The login route is `www.example.com/login`. Therefore, the URI is `login`.*
-**`controller`** | The controller's name that will handle the request. A valid Dawn controller belongs to the `App\Controller` namespace. The controller name must be the rest of the namespace.                        | *`LoginController`'s full name is `App\Controllers\Auth\LoginController`. Therefore, the controller name must be `Auth\LoginController`.*
-**`action`**     | The controller's method name that will handle the request.                           | *The method `LoginController->showLoginForm()` is in charge of showing a login form view. Therefore, the action is `showLoginForm`.*
+*`uri`*        | URI requested by the user. | *The login route is `www.example.com/login`. Therefore, the URI is `login`.*
+*`controller`* | The controller's name that will handle the request. A valid Dawn controller belongs to the `App\Controller` namespace. The controller name must be the rest of the namespace.                        | *`LoginController`'s full name is `App\Controllers\Auth\LoginController`. Therefore, the controller name must be `Auth\LoginController`.*
+*`action`*     | The controller's method name that will handle the request.                           | *The method `LoginController->showLoginForm()` is in charge of showing a login form view. Therefore, the action is `showLoginForm`.*
 
 
 ```php
