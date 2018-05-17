@@ -387,8 +387,8 @@ class LoginController extends AuthController
 {
   public function requestInfo()
   {
-    $ip = $this->ip(); // or $this->ip();
-    $userAgent = $this->userAgent(); // or $this->userAgent();
+    $ip = $this->ip();
+    $userAgent = $this->userAgent();
 
     return "IP Address: {$ip] - User Agent: {$userAgent}";
   }
