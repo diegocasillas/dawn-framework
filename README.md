@@ -581,8 +581,8 @@ DB_CONNECTION="localhost"
 * [Executing raw queries](#executing-raw-queries)
 * [Fetching results](#fetching-results)
 * [Building queries](#building-queries)
-  * [Executing built queries](#executing-built-queries)
-  * [Clearing the query](#clearing-the-query)
+* [Executing built queries](#executing-built-queries)
+* [Clearing the query](#clearing-the-query)
 * [Getting the last inserted ID](#getting-the-last-inserted-id)
 
 Dawn's query builder is included in Dawn's model, but it also works as a service, so it's accessible from the application container with its `get` method.
@@ -682,7 +682,7 @@ Parameter                  |                               | Example
 **`columns`**              | Array of columns to order by. | *To group by `status`, the parameter is `['status']`.*
 
 
-##### Executing built queries
+#### Executing built queries
 
 Queries are stored in the query builder instance. To check it, the `getQuery` method can be called.
 
@@ -703,7 +703,7 @@ $users = $queryBuilder->get('array');
 ```
 
 
-##### Clearing the query
+#### Clearing the query
 
 The `clear` method allows to clear the query and the prepared statement in case it is needed.
 
