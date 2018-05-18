@@ -581,6 +581,9 @@ DB_CONNECTION="localhost"
 * [Executing raw queries](#executing-raw-queries)
 * [Fetching results](#fetching-results)
 * [Building queries](#building-queries)
+  * [Executing built queries](#executing-built-queries)
+  * [Clearing the query](#clearing-the-query)
+* [Getting the last inserted ID](#getting-the-last-inserted-id)
 
 Dawn's query builder is included in Dawn's model, but it also works as a service, so it's accessible from the application container with its `get` method.
 
@@ -638,7 +641,94 @@ Parameter                  |                               | Example
 -------------------------- | ----------------------------- | ------------
 **`tables`**              | Array of tables to select from. If it is left empty, it selects all the tables. | *To select from the `users` table the parameter value is `['users']`.*
 
-**`where`**
+**`where`, `and` and `or`**
+
+Parameter                  |                               | Example
+-------------------------- | ----------------------------- | ------------
+**`column`**              | The column to filter. | *Filter `email` column.*
+**`operator`**              | Comparison operator. (=, !=, <, <=, >, >=, between, not between, in, not in, is, like, not like). | *To filter where the value is equal to something, the parameters value is `=`.*
+**`value`**              | The value to filter. | *Filter `example@email.com`.*
+
+**`insert`**
+
+Parameter                  |                               | Example
+-------------------------- | ----------------------------- | ------------
+**`table`**              | The table to insert values in. | *Insert in `users` table.*
+**`data`**              | Array of data to insert, where the key is the column and the value is the value to insert. | *To insert the user `example`, with email `example@email.com` and password `123456`, the `data` parameter is `['username' => 'example', 'email' => 'example@email.com', 'password' => '123456']`.*
+
+**`update`**
+
+Parameter                  |                               | Example
+-------------------------- | ----------------------------- | ------------
+**`table`**              | The table to update values on. | *Update the `users` table.*
+**`data`**              | Array of data to update, where the key is the column and the value is the value to update. | *To update the email to `updated@email.com` and password to `654321`, the `data` parameter is `['email' => 'update@email.com', 'password' => '654321']`.*
+
+**`delete`**
+
+Parameter                  |                               | Example
+-------------------------- | ----------------------------- | ------------
+**`table`**              | The table to delete rows from. | *Delete rows from the `users` table.*
+
+**`orderBy`**
+
+Parameter                  |                               | Example
+-------------------------- | ----------------------------- | ------------
+**`data`**              | Array of data to order by, where the key is the column and the value is the order (`asc` or `desc`). | *To order by `username` and `email` `desc`, the `data` parameter is `['username' => 'desc', 'email' => 'desc']`.*
+
+**`groupBy`**
+
+Parameter                  |                               | Example
+-------------------------- | ----------------------------- | ------------
+**`columns`**              | Array of columns to order by. | *To group by `status`, the parameter is `['status']`.*
+
+
+##### Executing built queries
+
+Queries are stored in the query builder instance. To check it, the `getQuery` method can be called.
+
+The `exec` method is used without parameters to execute the current query. To fetch the results the `fetch` method can be chained to it.
+
+```php
+$queryBuilder->select(['username', 'email'])
+  ->from(['users'])
+  ->where('status', '=', 'online');
+
+$users = $queryBuilder->exec()->fetch('array');
+```
+
+There is also the `get` shortcut method, which executes the query and fetches the result. It expects the same paremeters as the `fetch` method (`class` by default).
+
+```php
+$users = $queryBuilder->get('array');
+```
+
+
+##### Clearing the query
+
+The `clear` method allows to clear the query and the prepared statement in case it is needed.
+
+There are also a `clearQuery` and `clearPreparedStatement` methods to clear them separately.
+
+```php
+$queryBuilder->clear();
+```
+
+
+#### Getting the last inserted ID
+
+The last inserted ID can be obtained with the `getLastInsertId` method.
+
+```php
+$data = [
+  'username' => 'example',
+  'email' => 'example@email.com',
+  'password' => '123456'
+];
+
+$queryBuilder->insert('users', $data)->exec();
+
+$lastId = $queryBuilder->getLastInsertId();
+```
 
 # License
 Dawn is under [MIT License](https://github.com/diegocasillasdev/dawn/blob/master/LICENSE).

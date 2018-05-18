@@ -177,7 +177,7 @@ class QueryBuilder
     {
         $operator = strtolower($operator);
 
-        if ($operator === 'is' || $operator === "like" || $operator === "in" || $operator === "between") {
+        if ($operator === 'is' || $operator === "like" || $operator === "not like" || $operator === "in" || $operator === "not in" || $operator === "between" || $operator === "not between") {
             $operator = " " . strtoupper($operator) . " ";
         }
 
@@ -258,7 +258,7 @@ class QueryBuilder
     }
 
     /**
-     * Add a order by string to the query.
+     * Add a group by string to the query.
      *
      * @param array $columns
      * @return void
@@ -368,6 +368,17 @@ class QueryBuilder
     public function lastInsertId()
     {
         return $this->connection->lastInsertId();
+    }
+
+    /**
+     * Clear the current query and prepared statement.
+     *
+     * @return void
+     */
+    public function clear()
+    {
+        $this->clearQuery();
+        $this->clearPreparedStatement();
     }
 
     /**
