@@ -5,18 +5,20 @@
 
 * [Feature list](#feature-list)
 * [Upcoming features](#upcoming-features)
-* [Get started](#get-started)
-* [Directory structure](#directory-structure)
-* [Architecture](#architecture)
-  * [Request lifecycle](#request-lifecycle)
-  * [Application container](#application-container)
-  * [Service providers](#service-providers)
-* [Working with Dawn](#working-with-dawn)
-  * [Routing](#routing)
-  * [Request](#request)
-  * [Response](#response)
-  * [Database](#database)
-* [License](#license)
+* [Guía rápida](#guia-rapida)
+* [Estructura de directorios](#estructura-de-directorios)
+* [Arquitectura](#arquitectura)
+  * [Ciclo de vida de la petición](#ciclo-de-vida-de-la-peticion)
+  * [Contenedor de la aplicación](#contenedor-de-la-aplicacion)
+  * [Proveedores de servicios](#proveedores-de-servicios)
+* [Trabajando con Dawn](#trabajando-con-Dawn)
+  * [Enrutamiento](#enrutamiento)
+  * [Petición](#peticion)
+  * [Respuesta](#respuesta)
+  * [Base de Datos](#base-de-Datos)
+  * [Autenticación](#autenticacion)
+  * [Sesión](#sesion)
+* [Licencia](#licencia)
 
 <hr>
 
@@ -62,29 +64,29 @@ Yep, I can see them too. I'm slowly working on it, this will be a long-term proj
 
 <hr>
 
-# Installation
+# Instalación
 
-## Requirements
+## Requisitos
 
-Dawn has the following requirements:
+Dawn tiene los siguientes requisitos:
 
-* PHP 7.2.4 or newer
-  * PDO Extension
+* PHP 7.2.4 o superior
+  * Extensión PDO
 * MySQL
 * Composer
 * Apache 2.4
 
-Note that it might work under older versions, but it has not been tested.
+Ten en cuenta que podría funcionar bajo versiones anteriores, pero no ha sido testeado.
 
-## Installing
+## Instalar
 
-`git clone https://github.com/diegocasillasdev/dawn.git` in the desired folder.
+`git clone https://github.com/diegocasillasdev/dawn.git` en el directorio deseado.
 
 `cd dawn && composer install`
 
 `cp example.env .env`
 
-Edit the _.env_ file with your settings:
+Edita el archivo `.env` con tus ajustes:
 
 ```ini
 APP_NAME="Dawn"
@@ -95,9 +97,9 @@ DB_PASSWORD=""
 DB_CONNECTION="localhost"
 ```
 
-The key is used to encrypt passwords and generate the session token. It should be a random 32 characters long string. This step is very important to keep data secure.
+La key es usada para encriptar contraseñas y generar el token de la sesión. Debería ser una cadena de 32 caracteres aleatorios. Este paso es muy importante para mantener los datos seguros.
 
-Create a `users` table:
+Crea una tabla `users`:
 
 ```sql
 CREATE TABLE `users` (`
@@ -110,40 +112,43 @@ CREATE TABLE `users` (`
 `)
 ```
 
-The code above is just an example. You can create the table as you wish. However, Dawn expects it to have those columns (`id`, `email` and `password`). If you want to modify them, you will need to edit the User and Auth classes.
+El código de arriba es solo un ejemplo. Puedes crear la tabla como desees. Sin embargo, Dawn espera que tenga esas columnas (`id`, `email` and `password`). Si quieres modificarlas, tendras que editar las clases `App\Model\User` y `Dawn\Auth\Auth`.
 
-### Configure session
 
-Dawn offers 3 ways to handle sessions: cookie, php session and local storage.
+### Configuración de la sesión
 
-Edit _config.php_ with your desired settings:
+Dawn ofrece 3 maneras de manejar sesiones: cookie, sessión de PHP y local storage.
+
+Edita `config.php` con tus ajustes deseados:
 
 ```php
 'session' => [
-    'mode' => 'cookie', // 'cookie', 'session' or 'local storage'
-    'expires' => 864000 // expiry time in seconds
+    'mode' => 'cookie', // 'cookie', 'session' o 'local storage'
+    'expires' => 864000 // tiempo de expiración en segundos
 ],
 ```
 
-# Get started
+# Guía rápida
 
-## Routes configuration
-* Establish your routes in *app/routes/web.php* or *app/routes/api.php*. Use ```$this::get()``` and ```$this::post()```.
-  * Arguments:
+## Configuración de las rutas
+* Establece tus rutas en *app/routes/web.php* o *app/routes/api.php*. Usa ```$this::get()``` y ```$this::post()```.
+  * Parámetros:
     * URI
-    * Controller name
-    * Action name
+    * Nombre del controlador
+    * Nombre de la acción
   
-You can call the method ```auth()``` to authorize different users. Arguments can be: ```'guest'```, ```'authenticated'``` or ```'owner'```.
+Puedes llamar el método ```auth()``` para autorizar diferentes usuarios. Los parámetros pueden ser: ```'guest'```, ```'authenticated'``` or ```'owner'```.
 
 ```php
 $this::get('miniframework/login', 'LoginController', 'showLoginForm')->auth('guest');
 ```
 
-## Write your app!
-* Now you can write your own models, views and controllers and make your own app!
+## ¡Escribe tu aplicación!
 
-# Directory structure
+* ¡Ahora puedes escribir tus propios controladores, modelos y vistas y hacer tu propia aplicación!
+
+
+# Estructura de directorios
 
 * [`[app]`](#app)
   * [`[controllers]`](#appcontrollers)
@@ -167,157 +172,160 @@ $this::get('miniframework/login', 'LoginController', 'showLoginForm')->auth('gue
 
 ## `app`
 
-Contains your application. This folder is pretty much the only thing you need to care about.
+Contiene tu aplicación. Esta carpeta es la única de la que tienes que preocuparte.
 
 ### `app/controllers`
 
-Contains your own application controllers. They should belong to the `App\Controllers` namespace and extend from `App\Controllers\Controller`.
+Contiene propios controladores de la aplicación. Deberían pertenecer al namespace `App\Controllers` y heredar de `App\Controllers\Controller`.
 
 ### `app/models`
 
-Contains your own data access models. They should belong to the `App\Models` namespace and extend from `App\Models\Model`.
+Contiene tu propios modelos de acceso de datos. Deberían pertenecer al namespace `App\Models` y heredar de `App\Models\Model`.
 
 ### `app/routes`
 
-Contains your defined application routes.
+Contiene tus rutas de la aplicación definidas.
 
 #### `app/routes/web.php`
 
-Contains your web endpoint routes.
+Contiene tus rutas para el punto de entrada web.
 
 #### `app/routes/api.php`
 
-Contains your API endpoint routes.
+Contiene tus rutas para el punto de entrada API.
 
 ### `app/views`
 
-Contains your application view files.
+Contiene los archivos de las vistas de tu aplicación.
 
 ## `Dawn`
 
-Dawn Framework folder. Contains all the necessary classes, services and tools for the framework to work. You won't need to worry about this folder.
+Carpeta de Dawn Framework. Contiene todas las clases, servicios y herramientas necesarias para que el framework funcione. No necesitas preocuparte por esta carpeta.
 
 ## `docs`
 
-Contains the documentation website files.
+Contiene los archivos del website de documentación.
 
 ## `tests`
 
-You should write your tests here.
+Deberías escribir tus tests aquí.
 
 ## `vendor`
 
-Composer dependencies folder.
+Carpeta de dependencias de Composer.
 
 ## `.env`
 
-Environmental file for sensitive data. It doesn't exist by default, you need to copy it from `example.env`. **DON'T COMMIT THIS FILE.**
+Archivo de entorno para datos sensibles. No existe por defecto, necesitas copiarlo de `example.env`. **NO HAGAS COMMIT DE ESTE ARCHIVO.**
 
 ## `.gitignore`
 
-You can write here the path to the files that you don't wanna include in your repository.
+Aquí puedes escribir la ruta de los archivos que no quieres incluir en tu repositorio.
 
 ## `.htaccess`
 
-Apache configuration file.
+Archivo de configuración de Apache.
 
 ## `composer.json` and `composer.lock`
 
-Composer package manager files.
+Archivos del administrador de paquetes Composer.
 
 ## `config.php`
 
-Contains your application settings, such as session, database or service providers.
+Contiene los ajustes de tu aplicacion, tales como la sesión, base de datos o proveedores de servicios.
 
 ## `example.env`
 
-Example for `.env` file.
+Ejemplo para el archivo `.env`.
 
 ## `index.php`
 
-Entry point for the application. You won't need to worry about this file either.
+Punto de entrada para la aplicación. Tampoco necesitas preocuparte por este archivo.
 
 
-# Architecture
+# Arquitectura
 
-* [Request lifecycle](#request-lifecycle)
-* [Application container](#application-container)
-* [Service providers](#service-providers)
+* [Ciclo de vida de la petición](#ciclo-de-vida-de-la-peticion)
+* [Contenedor de la aplicación](#contenedor-de-la-aplicacion)
+* [Proveedores de servicios](#proveedores-de-servicios)
 
-## Request lifecycle
+## Ciclo de vida de la petición
 
-The entry point for all request is `index.php`. All request are directed to this file by Apache.
+El punto de entrada para todas las peticiones es `index.php`. Todas las peticiones son dirigidas a este archivo por Apache.
 
-In `index.php`, Dawn is bootstrapped. This means that the application is loaded with the configuration and service providers. When it is ready, the application is run.
+En `index.php`, Dawn es preparado. Esto significa que la aplicación es cargada con la configuración y los proveedores de servicios. Cuando esta listo, la aplicación es ejecutada. 
 
-Next, the *Router* service handles the request, processing it, finding what route was requested by the user and directing it to the *Controller Dispatcher* service.
+Despues, el servicio *Router* se encarga de la petición, procesandola, encontrando que ruta ha sido requerida por el usuario y dirigiendola al servicio *Controller Dispatcher*.
 
-The *Controller Dispatcher* is in charge of creating a new instance of the *Controller* that needs to handle the request, and preparing it to call the requested action.
+El *Controller Dispatcher* se encarga de crear una nueva instancia del *Controller* que necesita manejar la petición, y prepararlo para llamar la acción requerida.
 
-Finally, the *Controller* delegates momentarily the request to the *Middleware*, which will verify that everything is in order (authentication, authorization...). After it, the *Controller* does its job and sends a response back. 
-
-## Application container
-
-Dawn's application container contains everything necessary for the application to work. It is implemented in `Dawn/App/App.php`.
-
-The services are bound to it thanks to the *service providers*.
-
-It's in charge of getting the application ready, running it and provide its bound services.
-
-## Service providers
-
-Service providers form the backbone of the framework. Dawn includes several service providers (routing, database, session...), but you can also write your own and easily integrate them in Dawn.
-
-When the application is being bootstrapped, it means that it is registering and booting the service providers included in `config.php`.
-
-Service providers require a `register` and `boot` method.
-
-In the `register` method, the services are bound to the application container. It's called once for each service provider.
-
-The `boot` method is called after every service has been registered. Here, each service provider does the necessary tasks to get its services ready.
+Finalmente, el *Controller* delega momentáneamente la petición al *Middleware*, que verificará que todo está en orden (autenticación, autorización...). Despues de ello, el *Controller* hace su trabajo y manda una respuesta de vuelta.
 
 
-# Working with Dawn
+## Contenedor de la aplicación
 
-* [Routing](#routing)
-* [Request](#request)
-* [Response](#response)
-* [Database](#database)
+El contenedor de la aplicación de Dawn contiene todo lo necesario para que la aplicación funcione. Está implementado en `Dawn/App/App.php`.
 
-## Routing
+Los servicios son enlazados a él gracias a los *proveedores de servicios*.
 
-* [Adding routes](#adding-routes)
-* [Protecting routes](#protecting-routes)
+Está en cargo de preparar la aplicación, ejecutarla y proveer sus servicios enlazados.
 
 
-Routing is handled by Dawn's routing service. It includes a router to handle the request and response, custom routes and a base controller.
+## Proveedores de servicios
 
-### Adding routes
+Los proveedores de servicios forman la columna vertebral del framework. Dawn incluye varios proveedores de servicios (enrutamiento, base de datos, sesión...), pero también puedes escribir tus propios e integrarlos fácilmente en Dawn.
 
-Routes are set in `app/routes/web.php` and `app/routes/api.php`.
+Cuando la aplicación está siendo preparada, significa que esta registrando y arrancando los proveedores de servicios incluidos en `config.php`.
 
-To add a route, simply call the `get`, `post`, `patch`, `put` or `delete` method of the `Dawn\Routing\Router` class.
+Los proveedores de servicios requieren un método `register` y un método `boot`.
 
-These methods expect the following parameters:
+En el método `register`, los servicios son enlazados al contenedor de la aplicación. Es llamado una vez por cada proveedor de servicios.
 
-Parameter        |                            | Example
+El método `boot` es llamado despues de que todos los servicios hayan sido registrados. Aquí, cada proveedor de serviciós hace las tareas necesarias para preparar los servicios.
+
+
+# Trabajando con Dawn
+
+* [Enrutamiento](#enrutamiento)
+* [Petición](#peticion)
+* [Respuesta](#respuesta)
+* [Base de datos](#base-de-datos)
+
+## Enrutamiento
+
+* [Añadiendo rutas](#añadiendo-rutas)
+* [Protegiendo rutas](#protegiendo-rutas)
+
+El enrutamiento es manejado por el servicio de enrutamiento de Dawn. Incluye un router para encargarse de la petición y la respuesta, rutas personalizadas y un controlador base. 
+
+
+### Añadiendo rutas
+
+Las rutas son establecidas en `app/routes/web.php` y `app/routes/api.php`.
+
+Para añadir una ruta, simplemente llama el método `get`, `post`, `patch`, `put` o `delete` de la clase `Dawn\Routing\Router`.
+
+Estos métodos esperan los siguientes parámetros:
+
+
+Parámetro        |                            | Ejemplo
 ---------------- | -------------------------- | ------------
-**`uri`**        | URI requested by the user. | *The login route is `www.example.com/login`. Therefore, the URI is `login`.*
-**`controller`** | The controller's name that will handle the request. A valid Dawn controller belongs to the `App\Controller` namespace. The controller name must be the rest of the namespace.                        | *`LoginController`'s full name is `App\Controllers\Auth\LoginController`. Therefore, the controller name must be `Auth\LoginController`.*
-**`action`**     | The controller's method name that will handle the request.                           | *The method `LoginController->showLoginForm()` is in charge of showing a login form view. Therefore, the action is `showLoginForm`.*
+**`uri`**        | La URI requerida por el usuario. | *La ruta de login es `www.example.com/login`. Por lo tanto, la URI es `login`.*
+**`controller`** | El nombre del controlador que se encargará de la petición. Un controlador de Dawn válido pertenece al namespace `App\Controller`. El nombre del controlador debe ser el resto del namespace.                        | *El nombre completo de `LoginController` es `App\Controllers\Auth\LoginController`. Por lo tanto, el nombre del controlador debe ser `Auth\LoginController`.*
+**`action`**     | El nombre del método del controlador que se encargará de la petición.                           | *El método `LoginController->showLoginForm()` es el encargado de mostrar una vista de formulario de login. Por lo tanto, la acción es `showLoginForm`.*
 
 
 ```php
 $this->get('login', 'Auth\LoginController', 'showLoginForm');
 ```
 
-### Protecting Routes
+### Protegiendo rutas
 
-Routes can be protected thanks to Dawn's auth service. This will restrict access to users that don't have the required permissions.
+Las rutas pueden ser protegidas gracias al servicio de autenticación de Dawn. Esto restringirá el acceso a usuarios que no tienen los permisos necesarios.
 
-By default, routes are available for all users. Dawn offers the possibility to restrict access to only guests (`guest`), only authenticated users (`auth`) and only owners of the resource (`owner`).
+Por defecto, las rutas están disponibles para todos los usuarios. Dawn ofrece la posibilidad de restringir el acceso a solo invitados (`guest`), solo usuarios autenticados (`auth`) y solo propietarios del recurso (`owner`).
 
-To protect a specific route, simply call the `auth` method on it with the restriction parameter.
+Para proteger una ruta determinada, simplemente llama al método `auth` sobre ella con el parámetro de restricción.
 
 ```php
 $this->get('login', 'Auth\LoginController', 'showLoginForm')->auth('guest');
@@ -729,6 +737,12 @@ $queryBuilder->insert('users', $data)->exec();
 
 $lastId = $queryBuilder->getLastInsertId();
 ```
+
+## Authentication
+
+
+## Session
+
 
 # License
 Dawn is under [MIT License](https://github.com/diegocasillasdev/dawn/blob/master/LICENSE).
