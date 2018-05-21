@@ -740,6 +740,175 @@ $lastId = $queryBuilder->getLastInsertId();
 
 ## Authentication
 
+* [Logging users in](#logging-users-in)
+* [Logging users out](#logging-users-out)
+* [Registering users](#registering-users)
+* [Checking authentication](#checking-authentication)
+
+Authentication is handled by Dawn's Auth service. It is in charge of login, registering users and verifying that the user has the required permissions. It interacts with the database and session services.
+
+This service is implemented in `Dawn\Auth\Auth`.
+
+### Logging users in
+
+The `login` method of the `Dawn\Auth\Auth` class logs users in. It verifies that the credentials are valid and authenticates the user, generating a JWT token and delivering it to the session service.
+
+It expects the following parameters:
+
+Parameter                  |                               | Example
+-------------------------- | ----------------------------- | ------------
+**`email`**              | The user's email. | *The user's email is `example@email.com`.*
+**`password`**              | The user's password. | *The user's password is `123456`.*
+
+```php
+class LoginController extends AuthController
+{
+  public function login()
+  {
+      $email = $this->input('email');
+      $password = $this->input('password');
+
+      $this->auth->login($email, $password);
+
+      return redirect();
+  }
+}
+```
+
+It is also possible to authenticate a user with the `authenticate` method.
+
+It expects the following parameters:
+
+Parameter                  |                               | Example
+-------------------------- | ----------------------------- | ------------
+**`token`**              | A valid JWT token. | *The token is `xxxxxxxxxxxxxxxxxxxxxxxxxxx`.*
+**`expires`**              | The expiry time in seconds | *The expiry time is `3600` seconds.*
+
+```php
+class LoginController extends AuthController
+{
+  public function authenticate()
+  {
+      $token = 'xxxxxxxxxxxxxxxxxxxxxxxxxxx';
+      $expires = 3600;
+
+      $this->auth->authenticate($token, $expires);
+
+      return redirect();
+  }
+}
+``` 
+
+### Logging users out
+
+The method `logout` of the `Dawn\Auth\Auth` class logs users out, destroying their session.
+
+```php
+class LoginController extends AuthController
+{
+  public function logout()
+  {
+      $this->auth->logout();
+
+      return redirect();
+  }
+}
+```
+
+### Registering users
+
+The `register` method of the `Dawn\Auth\Auth` class registers users. It verifies that it is possible to register a user with the user's credentials, registers and authenticates the user.
+
+It expects the following parameters:
+
+Parameter                  |                               | Example
+-------------------------- | ----------------------------- | ------------
+**`email`**              | The user's email. | *The user's email is `example@email.com`.*
+**`password`**              | The user's password. | *The user's password is `123456`.*
+
+```php
+class RegisterController extends AuthController
+{
+  public function login()
+  {
+      $email = $this->input('email');
+      $password = $this->input('password');
+
+      $this->auth->register($email, $password);
+
+      return redirect();
+  }
+}
+```
+
+### Checking authentication
+
+Dawn allows to check if the current user is authenticated, is a guest or is the owner of a resource.
+
+**`authenticated`**
+
+```php
+class LoginController extends AuthController
+{
+  public function login()
+  {
+      $email = $this->input('email');
+      $password = $this->input('password');
+
+      $this->auth->login($email, $password);
+
+      if ($this->auth->authenticated) {
+        return 'You are logged in!';
+      }
+
+      return 'There was a problem with the login.';
+  }
+}
+```
+
+**`guest`**
+
+```php
+class LoginController extends AuthController
+{
+  public function showLoginForm()
+  {
+    if ($this->auth->guest()) {
+      return view('auth/login');
+    }
+    
+    return 'You are already authenticated';
+  }
+}
+```
+
+**`isOwner`**
+
+Parameter                  |                               | Example
+-------------------------- | ----------------------------- | ------------
+**`element`**              | The element to check. | *The element is a `post`.*
+
+```php
+class PostController extends AuthController
+{
+  public function showPost()
+  {
+    $postModel = new Post();
+
+    $post = $post->queryBuilder
+      ->select()
+      ->from(['posts'])
+      ->where('id', '=', 1)
+      ->get();
+
+    if ($this->auth->isOwner($post)) {
+      return $this->response($post)->json()->send();
+    }
+
+    return 'This is not your post.';
+  }
+}
+```
 
 ## Session
 
