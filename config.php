@@ -6,13 +6,8 @@ return [
     'public' => __DIR__ . '/public',
     'key' => base64_encode(getenv('KEY')),
 
-    /**
-     * Values:
-     *      mode => 'cookie', 'session', 'local storage'
-     *      expires => time in seconds, example: 3600
-     */
     'session' => [
-        'mode' => 'local storage',
+        'mode' => 'cookie',
         'expires' => 864000
     ],
 

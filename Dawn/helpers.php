@@ -39,5 +39,5 @@ function view($name, $data = [])
 
 function redirect($path = '')
 {
-    header("Location: /miniframework/{$path}");
+    header("Location: /{$path}");
 }

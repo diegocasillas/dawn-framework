@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>Miniframework</title>
-    <link rel="stylesheet" href="http://localhost/miniframework/node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
 </head>
 
 <body>
