@@ -114,7 +114,6 @@ class Request
         }
 
         return true;
-
     }
 
     /**
