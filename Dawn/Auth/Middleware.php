@@ -122,7 +122,7 @@ class Middleware
         if ($parameters !== []) {
             $owner = (new $model())->find(...$parameters);
             if ($owner !== null) {
-                $ownerId = (new $model())->find(...$parameters)->getId();
+                $ownerId = (new $model())->find(...$parameters)->getOwner();
                 array_push($this->parameters, $ownerId);
             }
         }
