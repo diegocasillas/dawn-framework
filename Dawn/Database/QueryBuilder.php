@@ -93,22 +93,22 @@ class QueryBuilder
     }
 
     /**
-     * Add a from string with the specified columns to the query.
+     * Add a from string with the specified tables to the query.
      *
-     * @param array $columns
+     * @param array $tables
      * @return $this
      */
-    public function from($columns = [])
+    public function from($tables = [])
     {
         $this->query .= " FROM ";
 
-        if (!empty($columns)) {
-            $this->query .= implode(', ', $columns);
+        if (!empty($tables)) {
+            $this->query .= implode(', ', $tables);
         } else {
             $this->query .= '*';
         }
 
-        $this->queryData['FROM'] = $columns;
+        $this->queryData['FROM'] = $tables;
 
         return $this;
     }
@@ -177,7 +177,7 @@ class QueryBuilder
     {
         $operator = strtolower($operator);
 
-        if ($operator === 'is' || $operator === "like" || $operator === "in" || $operator === "between") {
+        if ($operator === 'is' || $operator === "like" || $operator === "not like" || $operator === "in" || $operator === "not in" || $operator === "between" || $operator === "not between") {
             $operator = " " . strtoupper($operator) . " ";
         }
 
@@ -258,7 +258,7 @@ class QueryBuilder
     }
 
     /**
-     * Add a order by string to the query.
+     * Add a group by string to the query.
      *
      * @param array $columns
      * @return void
@@ -368,6 +368,17 @@ class QueryBuilder
     public function lastInsertId()
     {
         return $this->connection->lastInsertId();
+    }
+
+    /**
+     * Clear the current query and prepared statement.
+     *
+     * @return void
+     */
+    public function clear()
+    {
+        $this->clearQuery();
+        $this->clearPreparedStatement();
     }
 
     /**
