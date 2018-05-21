@@ -63,6 +63,8 @@ body {
     <form action="register" method="post" class="form-signin">
       <img class="mb-4" src="https://files.gamebanana.com/img/ico/sprays/lmoa.png" alt="" width="72" height="72">
       <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+      <label for="inputEmail" class="sr-only">Email</label>
+      <input type="text" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
       <label for="inputUsername" class="sr-only">Username</label>
       <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
       <label for="inputPassword" class="sr-only">Password</label>
