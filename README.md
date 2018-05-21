@@ -5,64 +5,23 @@
 
 * [Feature list](#feature-list)
 * [Upcoming features](#upcoming-features)
-* [Guía rápida](#guia-rapida)
+* [Guía rápida](#guia-rápida)
 * [Estructura de directorios](#estructura-de-directorios)
 * [Arquitectura](#arquitectura)
-  * [Ciclo de vida de la petición](#ciclo-de-vida-de-la-peticion)
-  * [Contenedor de la aplicación](#contenedor-de-la-aplicacion)
+  * [Ciclo de vida de la petición](#ciclo-de-vida-de-la-petición)
+  * [Contenedor de la aplicación](#contenedor-de-la-aplicación)
   * [Proveedores de servicios](#proveedores-de-servicios)
 * [Trabajando con Dawn](#trabajando-con-Dawn)
   * [Enrutamiento](#enrutamiento)
-  * [Petición](#peticion)
+  * [Petición](#petición)
   * [Respuesta](#respuesta)
-  * [Base de Datos](#base-de-Datos)
-  * [Autenticación](#autenticacion)
-  * [Sesión](#sesion)
+  * [Base de Datos](#base-de-datos)
+  * [Autenticación](#autenticación)
+  * [Sesión](#sesión)
 * [Licencia](#licencia)
 
 <hr>
 
-
-## What is this?
-Well, right now it's just work in progress. I'm aiming to build a light MVC PHP framework from scratch that can be used to write web applications or APIs.
-
-## There are amazing frameworks already. Stop wasting your time!
-I know. I'm doing this for myself. I want to learn!
-
-I started learning Laravel and I realized that I didn't have a clue of how everything was working. I wanted to understand the magic behind it, so I decided to write my own little Laravel.
-
-## Okay, that makes sense. How are you doing it?
-Reading a lot of resources and even more source code lines. Mostly I'm using Laravel as a reference, but I'm also doing my own thing here and there.
-
-I'm trying to make it as clean as I can, but I'm already planning on doing a full refactor when the bedrock is ready.
-
-## I can already see many security flaws.
-Yep, I can see them too. I'm slowly working on it, this will be a long-term project. Any help or advices are welcome!
-
-<hr>
-
-# Feature list
-
-* Authentication
-  - Really simple cookie authentication implemented with JWT.
-  
-* Routing
-  - Routes can easily be created and protected for guests, authenticated users or resource's owners (i.e you can make that only you can access your own profile).
-    * You can add your own rules (friends, groups, roles...).
-  - REST API ready, kinda.
-  
-* Redirections
-  - If the user accesses an unauthorized resource, he will be redirected.
-
-* JSON responses (with status code and additional info).
-
-# Upcoming features
-* Validation.
-* Admin panel to manage routes.
-* Unit tests.
-* Documentation.
-
-<hr>
 
 # Instalación
 
@@ -245,8 +204,8 @@ Punto de entrada para la aplicación. Tampoco necesitas preocuparte por este arc
 
 # Arquitectura
 
-* [Ciclo de vida de la petición](#ciclo-de-vida-de-la-peticion)
-* [Contenedor de la aplicación](#contenedor-de-la-aplicacion)
+* [Ciclo de vida de la petición](#ciclo-de-vida-de-la-petición)
+* [Contenedor de la aplicación](#contenedor-de-la-aplicación)
 * [Proveedores de servicios](#proveedores-de-servicios)
 
 ## Ciclo de vida de la petición
@@ -287,7 +246,7 @@ El método `boot` es llamado despues de que todos los servicios hayan sido regis
 # Trabajando con Dawn
 
 * [Enrutamiento](#enrutamiento)
-* [Petición](#peticion)
+* [Petición](#petición)
 * [Respuesta](#respuesta)
 * [Base de datos](#base-de-datos)
 
@@ -334,9 +293,9 @@ $this->get('login', 'Auth\LoginController', 'showLoginForm')->auth('guest');
 
 ## Petición
 
-* [Accediendo al input de la petición](#accediendo-al-input-de-la-peticion)
-* [Comprobando si el valor de un input está vacío](#comprobando-si-el-valor-de-un-input-esta-vacio)
-* [Obteniendo la dirección IP y el User Agent de la petición](#obteniendo-la-direccion-ip-y-el-user-agent-de-la-peticion)
+* [Accediendo al input de la petición](#accediendo-al-input-de-la-petición)
+* [Comprobando si el valor de un input está vacío](#comprobando-si-el-valor-de-un-input-esta-vacío)
+* [Obteniendo la dirección IP y el User Agent de la petición](#obteniendo-la-dirección-ip-y-el-user-agent-de-la-petición)
 
 La petición actual es accesible desde el router y desde el controlador que la maneja.
 
@@ -429,12 +388,12 @@ class LoginController extends AuthController
 
 ### Enviando una respuesta completa
 
-* [Estableciendo un código de estado](#estableciendo-un-codigo-de-estado)
+* [Estableciendo un código de estado](#estableciendo-un-código-de-estado)
 * [Añadiendo cabeceras](#añadiendo-cabeceras)
-* [Añadiendo una cabecera de token de autenticación](#añadiendo-una-cabecera-de-token-de-autentication)
+* [Añadiendo una cabecera de token de autenticación](#añadiendo-una-cabecera-de-token-de-autenticación)
 * [Añadiendo datos](#añadiendo-datos)
 * [Respuesta JSON](#respuesta-json)
-* [Usando el método response del controlador](#usando-el-metodo-response-del-controlador)
+* [Usando el método response del controlador](#usando-el-método-response-del-controlador)
 
 Dawn incluye una clase Response (`Dawn\Routing\Response`) que permite enviar respuestas con cabeceras, cookies y otros datos adjuntos.
 
@@ -567,8 +526,8 @@ class LoginController extends AuthController
 
 ## Base de datos
 
-* [Configuración](#configuracion)
-* [Constructor de consultas](#Constructor de consultas)
+* [Configuración](#configuración)
+* [Constructor de consultas](#constructor-de-consultas)
 
 El servicio de base de datos de Dawn funciona con MySQL y PDO. Ofrece un constructor de consultas (`Dawn\Database\QueryBuilder`) y una clase modelo base (`Dawn\Database\Model`) para hacer consultas a la base de datos y recoger resultados más fácil.
 
@@ -587,10 +546,10 @@ DB_CONNECTION="localhost"
 
 * [Ejecutando consultas puras](#ejecutando-consultas-puras)
 * [Recogiendo resultados](#recogiendo-resultados)
-* [Construyendo consultas](#Construyendo consultas)
+* [Construyendo consultas](#construyendo consultas)
 * [Ejecutando consultas construidas](#ejecutando-consultas-construidas)
 * [Limpiando la consulta](#limpiando-la-consulta)
-* [Obteniendo el último ID insertado](#getting-the-last-inserted-id)
+* [Obteniendo el último ID insertado](#obteniendo-el-último-id-insertado)
 
 El constructor de consultas de Dawn está incluido en el modelo de Dawn, pero también funciona como un servicio, por lo que es accesible desde el contenedor de la aplicación con su método `get`.
 
@@ -743,7 +702,7 @@ $lastId = $queryBuilder->getLastInsertId();
 * [Logueando usuarios](#logueando-usuarios)
 * [Deslogueando usuarios](#deslogueando-usuarios)
 * [Registrando usuarios](#registrando-usuarios)
-* [Comprobando la autenticación](#comprobando-la-autenticacion)
+* [Comprobando la autenticación](#comprobando-la-autenticación)
 
 La autenticación es manejada por el servicio Auth the Dawn. Está encargado del login, registro de usuarios y verificar que el usuario tiene los permisos requeridos. Interactua con los servicios de base de datos y sesión.
 
@@ -910,8 +869,8 @@ class PostController extends AuthController
 }
 ```
 
-## Session
+## Sesión
 
 
-# License
-Dawn is under [MIT License](https://github.com/diegocasillasdev/dawn/blob/master/LICENSE).
+# Licencia
+Dawn está bajo [Licencia MIT](https://github.com/diegocasillasdev/dawn/blob/master/LICENSE).
