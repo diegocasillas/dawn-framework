@@ -31,6 +31,7 @@ Dawn es un framework PHP MVC ligero para escribir aplicaciones web y APIs de for
 
 Sigue una estructura basada en el patrón de diseño Modelo-Vista-Controlador y permite escribir aplicaciones escalables y mantenibles.
 
+
 ## Requisitos
 
 Dawn tiene los siguientes requisitos:
