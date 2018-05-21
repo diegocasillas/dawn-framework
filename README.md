@@ -6,7 +6,7 @@
 
 * [Introducción](#introducción)
   * [Requisitos](#requisitos)
-  * [Instalar](#requisitos)
+  * [Instalación](#instalación)
 * [Guía rápida](#guía-rápida)
 * [Estructura de directorios](#estructura-de-directorios)
 * [Arquitectura](#arquitectura)
@@ -43,7 +43,7 @@ Dawn tiene los siguientes requisitos:
 
 Ten en cuenta que podría funcionar bajo versiones anteriores, pero no ha sido testeado.
 
-## Instalar
+## Instalación
 
 `git clone https://github.com/diegocasillasdev/dawn.git` en el directorio deseado.
 
