@@ -120,8 +120,11 @@ class Middleware
         $model = "\\App\\Models\\{$model}";
 
         if ($parameters !== []) {
-            $ownerId = (new $model())->find(...$parameters)->userId();
-            array_push($this->parameters, $ownerId);
+            $owner = (new $model())->find(...$parameters);
+            if ($owner !== null) {
+                $ownerId = (new $model())->find(...$parameters)->getId();
+                array_push($this->parameters, $ownerId);
+            }
         }
     }
 
