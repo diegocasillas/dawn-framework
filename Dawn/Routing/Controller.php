@@ -97,6 +97,28 @@ abstract class Controller
     }
 
     /**
+     * Return a specific input value by its key. If the key is empty, return every value.
+     *
+     * @param strings $key
+     * @return mixed
+     */
+    public function input($key = null)
+    {
+        return $this->request->input($key);
+    }
+
+    /**
+     * Check if a specific input value is empty.
+     *
+     * @param string $key
+     * @return boolean
+     */
+    public function empty($key)
+    {
+        return $this->request->empty($key);
+    }
+
+    /**
      * Get the app instance.
      *
      * @return Dawn\App\App
