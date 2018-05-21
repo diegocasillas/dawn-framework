@@ -3,9 +3,11 @@
   <h1 align="center">Dawn</h1>
 </p>
 
-* [Feature list](#feature-list)
-* [Upcoming features](#upcoming-features)
-* [Guía rápida](#guia-rápida)
+
+* [Introducción](#introducción)
+  * [Requisitos](#requisitos)
+  * [Instalar](#requisitos)
+* [Guía rápida](#guía-rápida)
 * [Estructura de directorios](#estructura-de-directorios)
 * [Arquitectura](#arquitectura)
   * [Ciclo de vida de la petición](#ciclo-de-vida-de-la-petición)
@@ -23,7 +25,11 @@
 <hr>
 
 
-# Instalación
+# Introducción
+
+Dawn es un framework PHP MVC ligero para escribir aplicaciones web y APIs de forma sencilla. Incluye servicios de enrutamiento, bases de datos, autenticación y sesión totalmente configurados.
+
+Sigue una estructura basada en el patrón de diseño Modelo-Vista-Controlador y permite escribir aplicaciones escalables y mantenibles.
 
 ## Requisitos
 
@@ -31,9 +37,9 @@ Dawn tiene los siguientes requisitos:
 
 * PHP 7.2.4 o superior
   * Extensión PDO
-* MySQL
-* Composer
-* Apache 2.4
+* MySQL 5.7 o superior
+* Composer 1.6.5 o superior
+* Apache 2.4 o superior
 
 Ten en cuenta que podría funcionar bajo versiones anteriores, pero no ha sido testeado.
 
