@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Edit</title>
-    <link rel="stylesheet" href="http://localhost/miniframework/node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
     <style>
         html,
 body {
@@ -75,4 +75,3 @@ body {
   </body>
 
 </html>
-
