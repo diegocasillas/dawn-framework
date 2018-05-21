@@ -886,7 +886,7 @@ class LoginController extends AuthController
 
 Parameter                  |                               | Example
 -------------------------- | ----------------------------- | ------------
-**`element`**              | The element to check. | *The element is a `post`.*
+**`element`**              | The element to check. | *The element is a `$post`.*
 
 ```php
 class PostController extends AuthController
