@@ -332,17 +332,17 @@ $this->get('login', 'Auth\LoginController', 'showLoginForm')->auth('guest');
 ```
 
 
-## Request
+## Petición
 
-* [Accessing request's input](#accessing-requests-input)
-* [Checking if a input value is empty](#checking-if-a-input-value-is-empty)
-* [Obtaining request's IP address and User Agent](#obtaining-requests-ip-address-and-user-agent)
+* [Accediendo al input de la petición](#accediendo-al-input-de-la-peticion)
+* [Comprobando si el valor de un input está vacío](#comprobando-si-el-valor-de-un-input-esta-vacio)
+* [Obteniendo la dirección IP y el User Agent de la petición](#obteniendo-la-direccion-ip-y-el-user-agent-de-la-peticion)
 
-The current request is accessible from the router and the controller handling it.
+La petición actual es accesible desde el router y desde el controlador que la maneja.
 
-### Accessing request's input
+### Accediendo al input de la petición
 
-The request's input can be accessed with the controller's `input` method:
+El input de la petición puede ser accedido con el método `input` del controlador:
 
 ```php
 class LoginController extends AuthController
@@ -356,7 +356,7 @@ class LoginController extends AuthController
 }
 ```
 
-A single input value can also be accessed passing its key as parameter to the `input` method:
+Un valor de un único input también puede ser accedido pasando su key como parámetro al método `input`.
 
 ```php
 class LoginController extends AuthController
@@ -370,10 +370,9 @@ class LoginController extends AuthController
 }
 ```
 
+### Comprobando si el valor de un input está vacío
 
-### Checking if a input value is empty
-
-Checking if a input value is empty can be done with the `empty` method:
+Se puede comprobar si el valor de un input está vacío con el método `empty`:
 
 ```php
 class LoginController extends AuthController
@@ -392,9 +391,9 @@ class LoginController extends AuthController
 ```
 
 
-### Obtaining request's IP address and User Agent
+### Obteniendo la dirección IP y el User Agent de la petición
 
-The IP address and User Agent can be accessed from the controller's `ip` and `userAgent` methods.
+La dirección y el User Agent de la petición puede ser accedido desde los métodos `ip` y `userAgent`.
 
 ```php
 class LoginController extends AuthController
@@ -409,14 +408,14 @@ class LoginController extends AuthController
 }
 ```
 
-## Response
+## Respuesta
 
-* [Sending a simple response](#sending-a-simple-response)
-* [Sending a full response](#sending-a-full-response)
+* [Enviando una respuesta simple](#enviando-una-respuesta-simple)
+* [Enviando una respuesta completa](#enviando-una-respuesta-completa)
 
-### Sending a simple response
+### Enviando una respuesta simple
 
-To send a simple response, simply return a value or a view.
+Para enviar una respuesta simple, simplemente devuelve un valor o una vista.
 
 ```php
 class LoginController extends AuthController
@@ -428,29 +427,29 @@ class LoginController extends AuthController
 }
 ```
 
-### Sending a full response
+### Enviando una respuesta completa
 
-* [Setting a status code](#setting-a-status-code)
-* [Adding headers](#adding-headers)
-* [Adding a authentication token header](#adding-a-authentication-token-header)
-* [Adding data](#adding-data)
-* [JSON response](#json-response)
-* [Using the controller's response method](#using-the-controllers-response-method)
+* [Estableciendo un código de estado](#estableciendo-un-codigo-de-estado)
+* [Añadiendo cabeceras](#añadiendo-cabeceras)
+* [Añadiendo una cabecera de token de autenticación](#añadiendo-una-cabecera-de-token-de-autentication)
+* [Añadiendo datos](#añadiendo-datos)
+* [Respuesta JSON](#respuesta-json)
+* [Usando el método response del controlador](#usando-el-metodo-response-del-controlador)
 
-Dawn includes a Response class (`Dawn\Routing\Response`) that allows to send responses with headers, cookies and other data attached.
+Dawn incluye una clase Response (`Dawn\Routing\Response`) que permite enviar respuestas con cabeceras, cookies y otros datos adjuntos.
 
-This can be done with the controller's `response` property and `response` method. Different methods can be chained and once the response is ready it can be sent with its `send` method.
+Esto puede hacerse con la propiedad `response` del controlador y el método `response`. Diferentes métodos pueden ser encadenados y una vez que la respuesta está lista puede ser enviada con su método `send`.
 
-#### Setting a status code
+#### Estableciendo un código de estado
 
-Setting a status code can be easily done with the response's `status` method.
+Establecer un código de estado puede ser fácilmente conseguido con el método `status` de la respuesta.
 
-This method expects the following parameters:
+Este método espera los siguientes parámetros.
 
-Parameter                  |                               | Example
+Parámetro                  |                               | Ejemplo
 -------------------------- | ----------------------------- | ------------
-**`code`**                 | Status code (integer number). | *The resource was not found, therefore the most suitable status code is `404`.*
-**`message`** *[optional]* | Custom status message. If a status message is not passed to the method, Dawn will try to find the message corresponding to the status code.                                                               | *The status code is `404`, so the status message will be `Not Found` unless it is overriden.*
+**`code`**                 | Código de estado (número entero). | *El recurso no ha sido encontrado, por lo tanto, el código de estado más adecuado es `404`.*
+**`message`** *[opcional]* | Mensaje de estado personalizado. Si un mensaje de estado no es pasado al método, Dawn intentará encontrar el mensaje correspondiente al código de estado.                                                               | *El código de estado es `404`, asi que el mensaje de estádo será `Not Found` a no ser que sea sobreescrito.*
 
 
 ```php
@@ -464,16 +463,16 @@ class LoginController extends AuthController
 ```
 
 
-#### Adding headers
+#### Añadiendo cabeceras
 
-Headers can be added with the response's `header method`.
+Se pueden añadir cabeceras con el método `header` de la respuesta.
 
-It expects the following parameters: 
+Espera los siguientes parámetros:
 
-Parameter                  |                               | Example
+Parámetro                  |                               | Ejemplo
 -------------------------- | ----------------------------- | ------------
-**`name`**                 | The name of the header. | *To send a cookie with the response, the `Set-Cookie` header is needed. Therefore, the header name is `Set-Cookie`.*
-**`value`** | The value of the header.                                                               | *Cookie's name is `color` and its value is `red`. Therefore, the header value is `color=red`.*
+**`name`**                 | El nombre de la cabecera. | *Para enviar una cookie con la respuesta, es necesaria la cabecera `Set-Cookie`. Por lo tanto, el nombre de la cabecera es `Set-Cookie`.*
+**`value`** | El valor de la cabecera.                                                               | *El nombre de la cookie es `color` y su valor es `red`. Por lo tanto, el valor de la cabecera es `color=red`.*
 
 ```php
 class LoginController extends AuthController
@@ -486,9 +485,9 @@ class LoginController extends AuthController
 ```
 
 
-#### Adding a authentication token header
+#### Añadiendo una cabecera de token de autenticación
 
-Token headers can be added with the response's method `token`.
+Las cabeceras de token pueden ser añadidas con el método `token` de la respuesta.
 
 ```php
 class LoginController extends AuthController
@@ -500,9 +499,9 @@ class LoginController extends AuthController
 }
 ```
 
-#### Adding data
+#### Añadiendo datos
 
-Data can be added to the response with its `data` method.
+Los datos pueden ser añadidos a la respuesta con su método `data`.
 
 ```php
 class LoginController extends AuthController
@@ -519,9 +518,9 @@ class LoginController extends AuthController
 }
 ```
 
-#### JSON response
+#### Respuesta JSON
 
-JSON responses can be send with the response's `json` method.
+Las respuestas JSON pueden ser enviadas con el método `json` de la respuesta.
 
 ```php
 class LoginController extends AuthController
@@ -538,16 +537,16 @@ class LoginController extends AuthController
 }
 ```
 
-#### Using the controller's response method
+#### Usando el método response del controlador
 
-Responses can also be sent using the controller's `response` method.
+Las respuestas también pueden ser enviadas utilizando el método `response` del controlador.
 
-It expects the following parameters: 
+Espera los siguientes parámetros:
 
-Parameter                  |                               | Example
+Parámetro                  |                               | Ejemplo
 -------------------------- | ----------------------------- | ------------
-**`data`**                 | The data to be sent with the response. | *The data contained in the `$data` array. Therefore, `data` parameter is `$data`.*
-**`statusCode`** *[optional]* | The status code of the response. If it is not passed to the method, it will be `200`.                                                               | *The status code is `200`. Therefore, it is not needed to pass it to the method.*
+**`data`**                 | Los datos para ser enviados con la respuesta. | *Los datos están contenidos en el array `$data`. Por lo tanto, el parámetro es `$data`.*
+**`statusCode`** *[opcional]* | El código de estado de la respuesta. Si no es pasado al método, será `200`.                                                               | *El código de estado es `200`. Por lo tanto, no es necesario pasarlo al método.*
 
 
 ```php
@@ -566,16 +565,16 @@ class LoginController extends AuthController
 ```
 
 
-## Database
+## Base de datos
 
-* [Configuration](#configuration)
-* [Query builder](#query-builder)
+* [Configuración](#configuracion)
+* [Constructor de consultas](#Constructor de consultas)
 
-Dawn's database service works with MySQL and PDO. It offers a query builder (`Dawn\Database\QueryBuilder`) and a base model class (`Dawn\Database\Model`) to make querying the database and fetching results easier.
+El servicio de base de datos de Dawn funciona con MySQL y PDO. Ofrece un constructor de consultas (`Dawn\Database\QueryBuilder`) y una clase modelo base (`Dawn\Database\Model`) para hacer consultas a la base de datos y recoger resultados más fácil.
 
-### Configuration
+### Configuración
 
-Database credentials should be kept private and safe, therefore they are set in the `.env` file. Remember to not commit this file!
+Las credenciales deberían mantenerse privadas y seguras, por lo tanto son establecidas en el archivo `.env`. ¡Recuerda no hacer commit de este archivo!
 
 ```ini
 DB_NAME="dawn"
@@ -584,117 +583,117 @@ DB_PASSWORD=""
 DB_CONNECTION="localhost"
 ```
 
-### Query builder
+### Constructor de consultas
 
-* [Executing raw queries](#executing-raw-queries)
-* [Fetching results](#fetching-results)
-* [Building queries](#building-queries)
-* [Executing built queries](#executing-built-queries)
-* [Clearing the query](#clearing-the-query)
-* [Getting the last inserted ID](#getting-the-last-inserted-id)
+* [Ejecutando consultas puras](#ejecutando-consultas-puras)
+* [Recogiendo resultados](#recogiendo-resultados)
+* [Construyendo consultas](#Construyendo consultas)
+* [Ejecutando consultas construidas](#ejecutando-consultas-construidas)
+* [Limpiando la consulta](#limpiando-la-consulta)
+* [Obteniendo el último ID insertado](#getting-the-last-inserted-id)
 
-Dawn's query builder is included in Dawn's model, but it also works as a service, so it's accessible from the application container with its `get` method.
+El constructor de consultas de Dawn está incluido en el modelo de Dawn, pero también funciona como un servicio, por lo que es accesible desde el contenedor de la aplicación con su método `get`.
 
 ```php
 $queryBuilder = app()->get('query builder');
 ```
 
-#### Executing raw queries
+#### Ejecutando consultas puras
 
-Executing raw queries is possible thanks to the `exec` method. It returns the instance of the query builder, so it is possible to chain the `fetch` method to fetch the results.
+Ejecutar consultas puras es posible gracias al método `exec`. Devuelve la instancia del constructor de consultas, por lo que es posible encadenar el método `fetch` para recoger los resultados.
 
 ```php
 $users = $queryBuilder->exec('SELECT * FROM users')->fetch('array');
 ```
 
-#### Fetching results
+#### Recogiendo resultados
 
-The query builder's `fetch` method returns the results as objects of a class (`class`) (specified with the `setModel` method), as an array (`array`) or only a column (`column`) (if querying only a column of the table).
+El método `fetch` del constructor de consultas devuelve los resultados como objetos de una clase (`class`) (definida con el método `setModel`), como un array (`array`) o como una columna única (`column`) (si se consulta solo una columna de la tabla).
 
 ```php
-// Fetching users as objects of the user model
+// Recogiendo usuarios como objetos del modelo usuario
 
 $queryBuilder->setModel('App\Models\User');
 
-$users = $queryBuilder->exec('SELECT * FROM users')->fetch(); // or fetch('class');
+$users = $queryBuilder->exec('SELECT * FROM users')->fetch(); // o fetch('class');
 ```
 
 ```php
-// Fetching users as an array
+// Recogiendo usuarios como array
 
 $users = $queryBuilder->exec('SELECT * FROM users')->fetch('array');
 ```
 
 ```php
-// Fetching emails only
+// Recogiendo solo los emails
 
 $emails = $queryBuilder->exec('SELECT email FROM users')->fetch('column');
 ```
 
-#### Building queries
+#### Construyendo consultas
 
-Queries can be built using methods instead of raw SQL.
+Las consultas pueden ser construidas usando métodos en vez de SQL puro.
 
-The following methods can be used:
+Los siguientes métodos pueden ser utilizados:
 
 **`select`**
 
-Parameter                  |                               | Example
+Parámetro                  |                               | Ejemplo
 -------------------------- | ----------------------------- | ------------
-**`columns`**              | Array of columns to select. If it is left empty, it selects all the columns. | *To select the `email` and `password` columns the parameter value is `['email', 'password']`.*
+**`columns`**              | Array de columnas a seleccionar. Si se deja vacío, selecciona todas las columnas. | *Para seleccionar las columnas `email` y `password` el valor del parámetro es `['email', 'password']`.*
 
 **`from`**
 
-Parameter                  |                               | Example
+Parámetro                  |                               | Ejemplo
 -------------------------- | ----------------------------- | ------------
-**`tables`**              | Array of tables to select from. If it is left empty, it selects all the tables. | *To select from the `users` table the parameter value is `['users']`.*
+**`tables`**              | Array de tablas desde las que hacer la selección. Si se deja vacío, selecciona todas las tablas. | *Para seleccionar de la tabla `users` el valor del parámetro es `['users']`.*
 
-**`where`, `and` and `or`**
+**`where`, `and` y `or`**
 
-Parameter                  |                               | Example
+Parámetro                  |                               | Ejemplo
 -------------------------- | ----------------------------- | ------------
-**`column`**              | The column to filter. | *Filter `email` column.*
-**`operator`**              | Comparison operator. (=, !=, <, <=, >, >=, between, not between, in, not in, is, like, not like). | *To filter where the value is equal to something, the parameters value is `=`.*
-**`value`**              | The value to filter. | *Filter `example@email.com`.*
+**`column`**              | La columna a filtrar. | *Filtrar la columna `email`.*
+**`operator`**              | Operador de comparación. (=, !=, <, <=, >, >=, between, not between, in, not in, is, like, not like). | *Para filtrar donde el valor es igual a algo, el valor del parámetro es `=`.*
+**`value`**              | El valor a filtrar. | *Filtrar `example@email.com`.*
 
 **`insert`**
 
-Parameter                  |                               | Example
+Parámetro                  |                               | Ejemplo
 -------------------------- | ----------------------------- | ------------
-**`table`**              | The table to insert values in. | *Insert in `users` table.*
-**`data`**              | Array of data to insert, where the key is the column and the value is the value to insert. | *To insert the user `example`, with email `example@email.com` and password `123456`, the `data` parameter is `['username' => 'example', 'email' => 'example@email.com', 'password' => '123456']`.*
+**`table`**              | La tabla en la que insertar valores. | *Insertar en la tabla `users`.*
+**`data`**              | Array de datos a insertar, donde la key es la columna y el valor es el valor a insertar. | *Para insertar el usuario `example`, con email `example@email.com` y contraseña `123456`, el parámetro `data` es `['username' => 'example', 'email' => 'example@email.com', 'password' => '123456']`.*
 
 **`update`**
 
-Parameter                  |                               | Example
+Parámetro                  |                               | Ejemplo
 -------------------------- | ----------------------------- | ------------
-**`table`**              | The table to update values on. | *Update the `users` table.*
-**`data`**              | Array of data to update, where the key is the column and the value is the value to update. | *To update the email to `updated@email.com` and password to `654321`, the `data` parameter is `['email' => 'update@email.com', 'password' => '654321']`.*
+**`table`**              | La tabla en la que actualizar valores. | *Actualizar la tabla `users`.*
+**`data`**              | Array de datos a actualizar, donde la key es la columna y el valor es el valor a actualizar. | *Para actualizar el email a  `updated@email.com` y la contraseña a `654321`, el parámetro `data` es `['email' => 'update@email.com', 'password' => '654321']`.*
 
 **`delete`**
 
-Parameter                  |                               | Example
+Parámetro                  |                               | Ejemplo
 -------------------------- | ----------------------------- | ------------
-**`table`**              | The table to delete rows from. | *Delete rows from the `users` table.*
+**`table`**              | La tabla en la que eliminar filas. | *Eliminar filas de la tabla `users`.*
 
 **`orderBy`**
 
-Parameter                  |                               | Example
+Parámetro                  |                               | Ejemplo
 -------------------------- | ----------------------------- | ------------
-**`data`**              | Array of data to order by, where the key is the column and the value is the order (`asc` or `desc`). | *To order by `username` and `email` `desc`, the `data` parameter is `['username' => 'desc', 'email' => 'desc']`.*
+**`data`**              | Array de datos por los que ordenar, donde la key es la columna y el valor es el orden (`asc` or `desc`). | *Para ordernar por `username` y `email` `desc`, el parámetro `data` es `['username' => 'desc', 'email' => 'desc']`.*
 
 **`groupBy`**
 
-Parameter                  |                               | Example
+Parámetro                  |                               | Ejemplo
 -------------------------- | ----------------------------- | ------------
-**`columns`**              | Array of columns to order by. | *To group by `status`, the parameter is `['status']`.*
+**`columns`**              | Array de columnas por las que agrupar. | *Para agrupar por `status`, el parámetro es `['status']`.*
 
 
-#### Executing built queries
+#### Ejecutando consultas construidas
 
-Queries are stored in the query builder instance. To check it, the `getQuery` method can be called.
+Las consulta es guardada en la instancia del constructor de consultas. Para comprobarla, se puede llamar al método `getQuery`.
 
-The `exec` method is used without parameters to execute the current query. To fetch the results the `fetch` method can be chained to it.
+El método `exec` es utilizado sin parametros para ejecutar la consulta actual. Para recoger los resultados se puede encadenar el método `fetch`.
 
 ```php
 $queryBuilder->select(['username', 'email'])
@@ -704,27 +703,28 @@ $queryBuilder->select(['username', 'email'])
 $users = $queryBuilder->exec()->fetch('array');
 ```
 
-There is also the `get` shortcut method, which executes the query and fetches the result. It expects the same paremeters as the `fetch` method (`class` by default).
+
+Tambien existe el método atajo `get`, que ejecuta la consulta y recoge el resultado. Espera los mismos parametros que el método `fetch` (`class` por defecto).
 
 ```php
 $users = $queryBuilder->get('array');
 ```
 
 
-#### Clearing the query
+#### Limpiando la consulta
 
-The `clear` method allows to clear the query and the prepared statement in case it is needed.
+El método `clear` permite limpiar la consulta y la sentencia preparada en caso necesario.
 
-There are also a `clearQuery` and `clearPreparedStatement` methods to clear them separately.
+También existen los métodos `clearQuery` y `clearPreparedStatement` para limpiarlos por separado.
 
 ```php
 $queryBuilder->clear();
 ```
 
 
-#### Getting the last inserted ID
+#### Obteniendo el último ID insertado
 
-The last inserted ID can be obtained with the `getLastInsertId` method.
+El último ID insertado puede ser obtenido con el método `getLastInsertId`.
 
 ```php
 $data = [
@@ -738,27 +738,27 @@ $queryBuilder->insert('users', $data)->exec();
 $lastId = $queryBuilder->getLastInsertId();
 ```
 
-## Authentication
+## Autenticación
 
-* [Logging users in](#logging-users-in)
-* [Logging users out](#logging-users-out)
-* [Registering users](#registering-users)
-* [Checking authentication](#checking-authentication)
+* [Logueando usuarios](#logueando-usuarios)
+* [Deslogueando usuarios](#deslogueando-usuarios)
+* [Registrando usuarios](#registrando-usuarios)
+* [Comprobando la autenticación](#comprobando-la-autenticacion)
 
-Authentication is handled by Dawn's Auth service. It is in charge of login, registering users and verifying that the user has the required permissions. It interacts with the database and session services.
+La autenticación es manejada por el servicio Auth the Dawn. Está encargado del login, registro de usuarios y verificar que el usuario tiene los permisos requeridos. Interactua con los servicios de base de datos y sesión.
 
-This service is implemented in `Dawn\Auth\Auth`.
+Este servicio está implementado en `Dawn\Auth\Auth`.
 
-### Logging users in
+### Logueando usuarios
 
-The `login` method of the `Dawn\Auth\Auth` class logs users in. It verifies that the credentials are valid and authenticates the user, generating a JWT token and delivering it to the session service.
+El método `login` de la clase `Dawn\Auth\Auth` loguea a los usuarios. Verifica que las credenciales son válidas y autentica al usuario, generando un token JWT y entregándoselo al servicio de sesión.
 
-It expects the following parameters:
+Espera los siguientes parámetros:
 
-Parameter                  |                               | Example
+Parametro                  |                               | Ejemplo
 -------------------------- | ----------------------------- | ------------
-**`email`**              | The user's email. | *The user's email is `example@email.com`.*
-**`password`**              | The user's password. | *The user's password is `123456`.*
+**`email`**              | El email del usuario. | *El email del usuario es `example@email.com`.*
+**`password`**              | La contraseña del usuario. | *La contraseña del usuario es `123456`.*
 
 ```php
 class LoginController extends AuthController
@@ -775,14 +775,14 @@ class LoginController extends AuthController
 }
 ```
 
-It is also possible to authenticate a user with the `authenticate` method.
+También es posible autenticar a un usuario con el método `authenticate`.
 
-It expects the following parameters:
+Espera los siguientes parámetros:
 
-Parameter                  |                               | Example
+Parámetro                  |                               | Ejemplo
 -------------------------- | ----------------------------- | ------------
-**`token`**              | A valid JWT token. | *The token is `xxxxxxxxxxxxxxxxxxxxxxxxxxx`.*
-**`expires`**              | The expiry time in seconds | *The expiry time is `3600` seconds.*
+**`token`**              | Un token JWT válido. | *El token es `xxxxxxxxxxxxxxxxxxxxxxxxxxx`.*
+**`expires`**              | Tiempo de expiración en segundos. | *El tiempo de expiración es `3600` segundos.*
 
 ```php
 class LoginController extends AuthController
@@ -799,9 +799,9 @@ class LoginController extends AuthController
 }
 ``` 
 
-### Logging users out
+### Deslogueando usuarios
 
-The method `logout` of the `Dawn\Auth\Auth` class logs users out, destroying their session.
+El método `logout` de la clase `Dawn\Auth\Auth` desloguea al usuario, destruyendo su sesión.
 
 ```php
 class LoginController extends AuthController
@@ -815,16 +815,16 @@ class LoginController extends AuthController
 }
 ```
 
-### Registering users
+### Registrando usuarios
 
-The `register` method of the `Dawn\Auth\Auth` class registers users. It verifies that it is possible to register a user with the user's credentials, registers and authenticates the user.
+El método `register` de la clase `Dawn\Auth\Auth` registra usuarios. Verifica que es posible registrar un usuario con sus credenciales, lo registra y autentica.
 
-It expects the following parameters:
+Espera los siguientes parámetros:
 
-Parameter                  |                               | Example
+Parámetro                  |                               | Ejemplo
 -------------------------- | ----------------------------- | ------------
-**`email`**              | The user's email. | *The user's email is `example@email.com`.*
-**`password`**              | The user's password. | *The user's password is `123456`.*
+**`email`**              | El email del usuario. | *El email del usuario es `example@email.com`.*
+**`password`**              | La contraseña del usuario. | *La contraseña del usuario es `123456`.*
 
 ```php
 class RegisterController extends AuthController
@@ -841,9 +841,9 @@ class RegisterController extends AuthController
 }
 ```
 
-### Checking authentication
+### Comprobando la autenticación
 
-Dawn allows to check if the current user is authenticated, is a guest or is the owner of a resource.
+Dawn permite comprobar si el usuario actual está autenticado, es un invitado o es el propietario del recurso.
 
 **`authenticated`**
 
@@ -884,9 +884,9 @@ class LoginController extends AuthController
 
 **`isOwner`**
 
-Parameter                  |                               | Example
+Parámetro                  |                               | Ejemplo
 -------------------------- | ----------------------------- | ------------
-**`element`**              | The element to check. | *The element is a `$post`.*
+**`element`**              | El elemento a comprobar. | *El elemento es `$post`.*
 
 ```php
 class PostController extends AuthController
