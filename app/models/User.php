@@ -6,6 +6,7 @@ use Dawn\Database\Model;
 
 class User extends Model
 {
+    protected $email;
     protected $username;
     protected $password;
     protected $posts = [];
@@ -13,6 +14,11 @@ class User extends Model
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function email()
+    {
+        return $this->email;
     }
 
     public function username()
@@ -28,6 +34,7 @@ class User extends Model
     public function create()
     {
         $data = [
+            'email' => $this->email,
             'username' => $this->username,
             'password' => $this->password
         ];
@@ -42,6 +49,11 @@ class User extends Model
     public function writePost()
     {
         Post::save();
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
     }
 
     public function setUsername($username)
