@@ -243,15 +243,16 @@ class Auth
      * @param string $password
      * @return mixed
      */
-    public function register(string $username, string $password)
+    public function register(string $email, string $username, string $password)
     {
         $this->user = new User();
 
+        $this->user->setEmail($email);
         $this->user->setUsername($username);
         $this->user->setPassword(password_hash($password, PASSWORD_BCRYPT));
 
         // check if user already exists
-        if (!$this->user->getBy('username', $this->user->username())) {
+        if (!$this->user->getBy('username', $this->user->username()) && !$this->user->getBy('email', $this->user->email())) {
             if ($this->user->create()) {
                 $tokenData = [
                     'iss' => $_SERVER['SERVER_NAME'],

@@ -13,10 +13,11 @@ class RegisterController extends AuthController
 
     public function register()
     {
-        $username = $_REQUEST['username'];
-        $password = $_REQUEST['password'];
+        $email = $this->input('email');
+        $username = $this->input('username');
+        $password = $this->input('password');
 
-        $this->auth->register($username, $password);
+        $this->auth->register($email, $username, $password);
 
         if (auth()->authenticated() && $this->session->getConfig()['mode'] === 'local storage') {
             return $this->tokenResponse()->send();
