@@ -19,6 +19,7 @@ class Post extends Model
         parent::__construct();
         // $this->setComments();
         $this->hidden(['user_id']);
+        $this->owner = $this->user_id;
     }
 
     public function save()

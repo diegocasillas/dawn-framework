@@ -39,6 +39,13 @@ abstract class Model implements \JsonSerializable
     protected $id;
 
     /**
+     * Owner of the instance.
+     *
+     * @var mixed
+     */
+    protected $owner;
+
+    /**
      * Array that contains the visible properties of the model.
      *
      * @var array
@@ -128,6 +135,16 @@ abstract class Model implements \JsonSerializable
     public function getId()
     {
         return (int)$this->id;
+    }
+
+    /**
+     * Get the owner of the instance.
+     *
+     * @return int
+     */
+    public function getowner()
+    {
+        return $this->owner;
     }
 
     /**
