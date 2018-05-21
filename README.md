@@ -368,7 +368,7 @@ class LoginController extends AuthController
     $ip = $this->ip();
     $userAgent = $this->userAgent();
 
-    return "IP Address: {$ip] - User Agent: {$userAgent}";
+    return "IP Address: {$ip} - User Agent: {$userAgent}";
   }
 }
 ```
