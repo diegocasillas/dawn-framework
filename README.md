@@ -14,6 +14,11 @@
   * [Contenedor de la aplicación](#contenedor-de-la-aplicación)
   * [Proveedores de servicios](#proveedores-de-servicios)
 * [Trabajando con Dawn](#trabajando-con-dawn)
+  * [Contenedor de la aplicación](#contenedor-de-la-aplicación)
+  * [Proveedores de servicios](#proveedores-de-servicios)
+  * [Modelos](#modelos)
+  * [Controladores](#controladores)
+  * [Vistas](#vistas)
   * [Enrutamiento](#enrutamiento)
   * [Petición](#petición)
   * [Respuesta](#respuesta)
@@ -252,10 +257,199 @@ El método `boot` es llamado despues de que todos los servicios hayan sido regis
 
 # Trabajando con Dawn
 
+* [Contenedor de la aplicación](#contenedor-de-la-aplicación)
+* [Proveedores de servicios](#proveedores-de-servicios)
+* [Modelos](#modelos)
+* [Controladores](#controladores)
+* [Vistas](#vistas)
 * [Enrutamiento](#enrutamiento)
 * [Petición](#petición)
 * [Respuesta](#respuesta)
 * [Base de datos](#base-de-datos)
+* [Sesión](#sesión)
+
+## Contenedor de la aplicación
+
+* [Enlazando servicios](enlazando-servicios)
+* [Accediendo a servicios](accediendo-a-servicios)
+
+El contenedor de la aplicación de Dawn es la base del framework. En él se contiene la aplicación, los servicios y se prepara y ejecuta la aplicación. Se puede acceder a él con la función `app`. También es una propiedad de los controladores.
+
+```php
+$app = app();
+```
+
+### Enlazando servicios
+
+Para enlazar servicios al contenedor existe el método `bind`.
+
+Espera los siguientes parámetros:
+
+Parámetro        |                            | Ejemplo
+---------------- | -------------------------- | ------------
+**`serviceName`**        | El nombre del servicio. | *El servicio se llama `router`.*
+**`service`** | The service instance.                       | *La instancia del servicio es `$router`.*
+
+
+```php
+$app()->bind('router', $router);
+```
+
+### Accediendo a servicios
+
+Para acceder a los servicios enlazados al contenedor existe el método `get`. Espera como parámetro el nombre del servicio.
+
+```php
+$router = $app()->get('router');
+```
+
+
+## Proveedores de servicios
+
+* [Creando proveedores de servicios](#creando-proveedores-de-servicios)
+* [Añadiendo proveedores de servicios](#añadiendo-proveedores-de-servicios)
+
+Los proveedores de servicios preparan y enlazan los servicios al contenedor de la aplicación. Los servicios contienen la logica de la aplicación externa a Dawn, asi se pueden añadir por ejemplo servicios de facturación, autorización, email...
+
+### Creando proveedores de servicios
+
+Para crear un proveedor de servicio es necesario extender la clase `Dawn\App\ServiceProvider`.
+
+Los proveedores de servicio deben incluir los métodos `register` y `boot`.
+
+El método `register` debe encargarse únicamente de instanciar los servicios y enlazarlos al contenedor de la aplicación.
+
+El método `boot` se ejecuta una vez que todos los servicios han sido registrados, lo que significa que en el ya se puede acceder a los servicios del controlador, y puede contener toda la lógica necesaria para que los servicios puedan funcionar.
+
+En el siguiente ejemplo, se crea el proveedor de servicio ficticio `HelloWorldServiceProvider`.
+
+En su método `register` se instancia la clase `HelloWorld` y se enlaza al contenedor de la apliacación como `hello world`.
+
+En su método `boot` se recoge el servicio del contenedor de la aplicación con `$this->app->get('hello world')` y también se recoge el servicio ficticio `time`.
+
+```php
+namespace App\HelloWorldServiceProvider;
+
+class HelloWorldServiceProvider extends Dawn\App\ServiceProvider
+{
+  public function register()
+  {
+    $helloWorld = new HelloWorld():
+
+    $this->app->bind('hello world', $helloWorld);
+  }
+
+  public function boot()
+  {
+    $helloWorld = $this->app->get('hello world');
+    $time = $this->app->get('time');
+
+    die("{$helloWorld->sayHi()} it is {$time->now()}");
+  }
+}
+```
+
+### Añadiendo proveedores de servicios
+
+Los proveedores de servicios se añaden en el apartado `service providers` del archivo `config.php`.
+
+```php
+'service providers' => [
+  'database' => '\\Dawn\\Database\\DatabaseServiceProvider',
+  'router' => '\\Dawn\\Routing\\RoutingServiceProvider',
+  'session' => '\\Dawn\\Session\\SessionServiceProvider',
+  'auth' => '\\Dawn\\Auth\\AuthServiceProvider'
+]
+```
+
+Para añadir un proveedor de servicio simplemente incluye su nombre y el namespace completo de su clase.
+
+```php
+'service providers' => [
+  'database' => '\\Dawn\\Database\\DatabaseServiceProvider',
+  'router' => '\\Dawn\\Routing\\RoutingServiceProvider',
+  'session' => '\\Dawn\\Session\\SessionServiceProvider',
+  'hello world' => '\\App\\HelloWorldServiceProvider'
+]
+```
+
+
+## Modelos
+
+* [Recomendaciones](#recomendaciones)
+* [Creando modelos](#creando-modelos)
+* [Modificando propiedades predeterminadas](#modificando-propiedades-predeterminadas)
+* [Ocultando propiedades en respuestas](#ocultando-propiedades-en-respuestas)
+
+Los modelos son las clases encargadas de interactuar con la base de datos. Para ello, tienen acceso al constructor de consultas además de una serie de métodos predefinidos que facilitan algunas de las consultas más habituales.
+
+### Recomendaciones
+
+Para que Dawn funcione sin necesidad de hacer ajustes, es aconsejable que se sigan las siguientes recomendaciones:
+
+ * La tabla de la base de datos debería tener el nombre del modelo en plural. Por ejemplo, para crear una tabla que contenga los datos de unos mensajes, el nombre de la tabla debería ser `messages`.
+ 
+ * La clase del modelo debería tener un nombre en singular. Por ejemplo, para la tabla `messages`, el nombre de la clase debería ser `message`.
+
+ * La clave primaria debería ser la columna `id`.
+
+ * El nombre de las propiedades debería ser identico a columna de referencia en la tabla. Por ejemplo, si la clave primaria es la columna `post_id`, el nombre de la propiedad de la clase también debería ser `post_id`.
+
+
+### Creando modelos
+
+Los modelos de la aplicación deberían ser creados en el directorio `app/models`, pertenecer al namespace `App\Models` y extender de la clase `App\Models\Model`.
+
+```php
+namespace App\Models;
+
+use App\Models\Model;
+
+class Post extends Model
+{ 
+  protected $title;
+  protected $body;
+
+  public function __construct()
+  {
+    parent::__construct();
+  }
+}
+``` 
+
+### Modificando propiedades predeterminadas
+
+Los modelos heredan las siguientes propiedades del modelo base de Dawn:
+
+Propiedad        |                            |
+---------------- | -------------------------- | 
+**`queryBuilder`**        | Instancia del constructor de consultas.
+**`table`** | El nombre de la tabla de la base de datos a la que pertenece el modelo. Por defecto es el nombre del modelo seguido de la letra 's'.
+**`primaryKey`**     | El nombre de la columna que actúa como clave primaria en la base de datos. Por defecto es `id`.
+**`id`**     | La columna `id` de la tabla.
+**`owner`**     | El `id` del propietario del registro, en caso de que tenga uno.
+**`visible`**     | Array de propiedades a mostrar en una respuesta JSON.
+**`hidden`**     | Array de propiedades a ocultar en una respuesta JSON.
+
+En caso de que el nombre de la tabla o la clave primaria sean diferentes a los definidos por defecto, es necesario sobreescribir sus propiedades en el constructor.
+
+```php
+class Post extends Model
+{
+  protected $post_id;
+  protected $title;
+  protected $body;
+
+  public function __construct()
+  {
+    parent::__construct();
+    $this->table = 'my_posts';
+    $this->primaryKey = 'post_id';
+  }
+}
+```
+
+Ten en cuenta que al haber modificado la clave primaria, ha sido necesario añadir la propiedad `post_id` a la clase.
 
 ## Enrutamiento
 
@@ -823,7 +1017,7 @@ class LoginController extends AuthController
 
       $this->auth->login($email, $password);
 
-      if ($this->auth->authenticated) {
+      if ($this->auth->authenticated()) {
         return 'You are logged in!';
       }
 
@@ -855,7 +1049,7 @@ Parámetro                  |                               | Ejemplo
 **`element`**              | El elemento a comprobar. | *El elemento es `$post`.*
 
 ```php
-class PostController extends AuthController
+class PostController extends Controller
 {
   public function showPost()
   {
@@ -877,6 +1071,48 @@ class PostController extends AuthController
 ```
 
 ## Sesión
+
+* [Configurando la sesión](#configurando-la-sesión)
+* [Obteniendo el token de la cabecera](#obteniendo-el-token-de-la-cabecera)
+
+La sesión es manejada por el servicio de sesión de Dawn, implementado en `Dawn\Session\Session`.
+
+### Configurando la sesión
+
+La sesión puede configurarse en el apartado `session` del archivo `config.php`.
+
+Dawn ofrece modos de configuración para la sesión, `cookie`, `session` y `local storage`.
+
+El tiempo de expiración se especifica en segundos.
+
+```php
+'session' => [
+    'mode' => 'cookie',
+    'expires' => 864000
+]
+```
+
+`cookie` envía una cookie al cliente en una cabecera con el token de autenticación.
+
+`session` crea una sesión PHP en el servidor.
+
+`local storage` devuelve una respuesta que incluye el token en formato JSON cuando el usuario se loguea.
+
+### Obteniendo el token de la cabecera
+
+Para obtener el token de la cabecera, se puede utilizar el método `bearer` de la sesión.
+
+```php
+class LoginController extends AuthController
+{
+  public function getToken()
+  {
+    $session = $this->app->get('session');
+
+    return $session->bearer();
+  }
+}
+```
 
 
 # Licencia
