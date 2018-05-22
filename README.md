@@ -379,7 +379,8 @@ Para añadir un proveedor de servicio simplemente incluye su nombre y el namespa
 * [Recomendaciones](#recomendaciones)
 * [Creando modelos](#creando-modelos)
 * [Modificando propiedades predeterminadas](#modificando-propiedades-predeterminadas)
-* [Ocultando propiedades en respuestas](#ocultando-propiedades-en-respuestas)
+* [Ocultando propiedades en respuestas JSON](#ocultando-propiedades-en-respuestas-json)
+* [Recogiendo registros de la base de datos](#recogiendo-registros-de-la-base-de-datos)
 
 Los modelos son las clases encargadas de interactuar con la base de datos. Para ello, tienen acceso al constructor de consultas además de una serie de métodos predefinidos que facilitan algunas de las consultas más habituales.
 
@@ -450,6 +451,48 @@ class Post extends Model
 ```
 
 Ten en cuenta que al haber modificado la clave primaria, ha sido necesario añadir la propiedad `post_id` a la clase.
+
+### Ocultando propiedades en respuestas JSON
+
+Es posible ocultar datos sensibles o innecesarios en las respuestas enviadas en formato JSON, tales como contraseñas o emails.
+
+Para ello, utiliza el método `hidden` en el constructor del modelo. Este método espera como parámetro un array de los nombres de las propiedades que se quieren ocultar.
+
+```php
+class Post extends Model
+{
+  protected $post_id;
+  protected $title;
+  protected $body;
+
+  public function __construct()
+  {
+    parent::__construct();
+    $this->table = 'my_posts';
+    $this->primaryKey = 'post_id';
+    $this->hidden(['post_id']),
+  }
+}
+```
+
+También es posible que en algún momento sea necesario mostrar datos que habían sido ocultados, por ejemplo al hacer que una clase herede de otra.
+
+Para ello, utiliza el método `visible` de la misma forma.
+
+```php
+class Comment extends Post
+{
+  public function __construct()
+  {
+    parent::__construct();
+    $this->visible['post_id'];
+  }
+}
+```
+
+Con esto se consigue que al enviar una respuesta con un objeto de la clase `Post`, la propiedad `post_id` sea ocultada. Sin embargo, al enviar una respuesta con un objeto de la clase `Comment`, la propiedad `post_id` se hace visible de nuevo.
+
+### Recogiendo registros de la base de datos
 
 ## Enrutamiento
 
