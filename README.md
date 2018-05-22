@@ -73,14 +73,16 @@ La key es usada para encriptar contraseñas y generar el token de la sesión. De
 Crea una tabla `users`:
 
 ```sql
-CREATE TABLE `users` (`
-    ``id` INT(11) NOT NULL AUTO_INCREMENT,`
-    ``email` VARCHAR(50) NOT NULL DEFAULT '0',`
-    ``password` VARCHAR(100) NOT NULL DEFAULT '0',`
-    `PRIMARY KEY (`id`),`
-    `UNIQUE INDEX `id` (`id`),`
-    `UNIQUE INDEX `email` (`email`)`
-`)
+CREATE TABLE `users` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`email` VARCHAR(50) NOT NULL,
+	`username` VARCHAR(50) NOT NULL,
+	`password` VARCHAR(60) NOT NULL,
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `id` (`id`),
+	UNIQUE INDEX `email` (`email`),
+	UNIQUE INDEX `username` (`username`)
+)
 ```
 
 El código de arriba es solo un ejemplo. Puedes crear la tabla como desees. Sin embargo, Dawn espera que tenga esas columnas (`id`, `email` and `password`). Si quieres modificarlas, tendras que editar las clases `App\Model\User` y `Dawn\Auth\Auth`.
