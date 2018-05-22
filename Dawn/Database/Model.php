@@ -142,7 +142,7 @@ abstract class Model implements \JsonSerializable
      *
      * @return int
      */
-    public function getowner()
+    public function getOwner()
     {
         return $this->owner;
     }

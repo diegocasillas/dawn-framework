@@ -494,6 +494,55 @@ Con esto se consigue que al enviar una respuesta con un objeto de la clase `Post
 
 ### Recogiendo registros de la base de datos
 
+Los modelos de Dawn, además de incluir el constructor de consultas como propiedad, tienen métodos para hacer algunas de las consultas más comunes.
+
+**`all`** - *Devuelve un array de instancias del modelo por cada registro de la tabla (`SELECT * FROM table`)*
+
+```php
+$postModel = new Post();
+
+$posts = $postModel->all();
+```
+
+**`find`** - *Devuelve una instancia de un registro de la tabla (`SELECT * FROM table WHERE id=x`)*
+
+Parámetro                  |                               | Ejemplo
+-------------------------- | ----------------------------- | ------------
+**`primaryKey`**              | ID del registro. | *Obtener el registro con ID igual a `5`.*
+
+```php
+$postModel = new Post();
+
+$posts = $postModel->find(5);
+```
+
+**`getBy`** - *Devuelve un array de instancias del modelo bajo un filtro*
+
+Parámetro                  |                               | Ejemplo
+-------------------------- | ----------------------------- | ------------
+**`key`**              | Nombre de la columna a filtrar. | *Obtener donde la columna `title` sea igual a algo*
+**`value`**              | Valor del filtro. | *Obtener donde el valor del registro en esa columna sea `Hello World`.*
+
+```php
+$postModel = new Post();
+
+$posts = $postModel->getBy('title', 'Hello World');
+```
+
+**`getColumnBy`** - *Devuelve un único campo de la tabla del modelo bajo un filtro por columna.*
+
+Parámetro                  |                               | Ejemplo
+-------------------------- | ----------------------------- | ------------
+**`column`**              | Nombre de la columna de la que obtener el valor. | *Obtener un valor de la columna `body`.*
+**`key`**              | Nombre de la columna a filtrar. | *Obtener donde la columna `title` sea igual a algo*
+**`value`**              | Valor del filtro. | *Obtener donde el valor del registro en esa columna sea `Hello World`.*
+
+```php
+$postModel = new Post();
+
+$body = $postModel->getColumnBy('body', 'title', 'Hello World');
+```
+
 ## Enrutamiento
 
 * [Añadiendo rutas](#añadiendo-rutas)
@@ -790,7 +839,7 @@ DB_CONNECTION="localhost"
 
 * [Ejecutando consultas puras](#ejecutando-consultas-puras)
 * [Recogiendo resultados](#recogiendo-resultados)
-* [Construyendo consultas](#construyendo consultas)
+* [Construyendo consultas](#construyendo-consultas)
 * [Ejecutando consultas construidas](#ejecutando-consultas-construidas)
 * [Limpiando la consulta](#limpiando-la-consulta)
 * [Obteniendo el último ID insertado](#obteniendo-el-último-id-insertado)
