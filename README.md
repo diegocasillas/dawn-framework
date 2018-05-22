@@ -404,8 +404,6 @@ Los modelos de la aplicación deberían ser creados en el directorio `app/models
 ```php
 namespace App\Models;
 
-use App\Models\Model;
-
 class Post extends Model
 { 
   protected $title;
@@ -542,6 +540,60 @@ $postModel = new Post();
 
 $body = $postModel->getColumnBy('body', 'title', 'Hello World');
 ```
+
+## Controladores
+
+* [Creando controladores](#creando-controladores)
+* [Accediendo a los servicios](#accediendo-a-los-servicios)
+
+Los controladores son los encargados de utilizar los servicios y modelos necesarios para cumplir con la demanda de la petición, además de enviar una respuesta o mostrar una vista.
+
+### Creando controladores
+
+Los controladores de la aplicación deberían ser creados en el directorio `app/controllers`, pertenecer al namespace `App\Controllers` y extender de la clase `App\Controllers\Controllers`.
+
+```php
+namespace App\Controllers;
+
+class PostController extends Controller
+{
+  public function __construct()
+  {
+    parent::__construct();
+  }
+}
+```
+
+### Accediendo a los servicios
+
+Los servicios del contenedor de la aplicación pueden ser accedidos desde el método `get` de la aplicación.
+
+```php
+class PostController extends Controller
+{
+  public function __construct()
+  {
+    parent::__construct();
+  }
+
+  public function index()
+  {
+    $helloWorld = $this->app->get('hello world');
+
+    return $helloWorld->sayHi();
+  }
+}
+```
+
+## Vistas
+
+* [Creando vistas](#creando-vistas)
+
+Las vistas de Dawn son plantillas HTML que muestran los datos obtenidos del controlador.
+
+### Creando vistas
+
+
 
 ## Enrutamiento
 
