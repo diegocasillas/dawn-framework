@@ -91,25 +91,25 @@ El código de arriba es solo un ejemplo. Puedes crear la tabla como desees. Sin 
 
 # Estructura de directorios
 
-* [`[app]`](#app)
-  * [`[controllers]`](#appcontrollers)
-  * [`[models]`](#appmodels)
-  * [`[routes]`](#approutes)
-    * [`web.php`](#approuteswebphp)
-    * [`api.php`](#approutesapiphp)
-  * [`[views]`](#appviews)
-* [`[Dawn]`](#dawn-1)
-* [`[docs]`](#docs)
-* [`[tests]`](#tests)
-* [`[vendor]`](#vendor)
-* [`.env`](#env)
-* [`.gitignore`](#gitignore)
-* [`.htaccess`](#htaccess)
-* [`composer.json`](#composerjson-and-composerlock)
-* [`composer.lock`](#composerjson-and-composerlock)
-* [`config.php`](#configphp)
-* [`example.env`](#exampleenv)
-* [`index.php`](indexphp)
+* `[app]`
+  * `[controllers]`
+  * `[models]`
+  * `[routes]`
+    * `web.php`
+    * `api.php`
+  * `[views]`
+* `[Dawn]`
+* `[docs]`
+* `[tests]`
+* `[vendor]`
+* `.env`
+* `.gitignore`
+* `.htaccess`
+* `composer.json`
+* `composer.lock`
+* `config.php`
+* `example.env`
+* `index.php`
 
 
 ## `app`
@@ -125,50 +125,21 @@ Directorio        |                            |
 **`app/routes/api.php`**        | Contiene tus rutas para el punto de entrada API.
 **`app/routes/views`**        | Contiene los archivos de las vistas de tu aplicación.
 
+## Otros directorios
 
-## `Dawn`
-
-Carpeta de Dawn Framework. Contiene todas las clases, servicios y herramientas necesarias para que el framework funcione. No necesitas preocuparte por esta carpeta.
-
-## `docs`
-
-Contiene los archivos del website de documentación.
-
-## `tests`
-
-Deberías escribir tus tests aquí.
-
-## `vendor`
-
-Carpeta de dependencias de Composer.
-
-## `.env`
-
-Archivo de entorno para datos sensibles. No existe por defecto, necesitas copiarlo de `example.env`. **NO HAGAS COMMIT DE ESTE ARCHIVO.**
-
-## `.gitignore`
-
-Aquí puedes escribir la ruta de los archivos que no quieres incluir en tu repositorio.
-
-## `.htaccess`
-
-Archivo de configuración de Apache.
-
-## `composer.json` y `composer.lock`
-
-Archivos del administrador de paquetes Composer.
-
-## `config.php`
-
-Contiene los ajustes de tu aplicacion, tales como la sesión, base de datos o proveedores de servicios.
-
-## `example.env`
-
-Ejemplo para el archivo `.env`.
-
-## `index.php`
-
-Punto de entrada para la aplicación. Tampoco necesitas preocuparte por este archivo.
+Directorio        |                            |
+---------------- | -------------------------- |
+**`Dawn`** | Carpeta de Dawn Framework. Contiene todas las clases, servicios y herramientas necesarias para que el framework funcione. No necesitas preocuparte por esta carpeta.
+**`docs`** | Contiene los archivos del website de documentación.
+**`tests`** | Deberías escribir tus tests aquí.
+**`vendor`** | Carpeta de dependencias de Composer.
+**`.env`** | Archivo de entorno para datos sensibles. No existe por defecto, necesitas copiarlo de `example.env`. **NO HAGAS COMMIT DE ESTE ARCHIVO.**
+**`.gitignore`** | Aquí puedes escribir la ruta de los archivos que no quieres incluir en tu repositorio.
+**`.htaccess`** | Archivo de configuración de Apache..
+**`composer.json` y `composer.lock`** | Archivos del administrador de paquetes Composer.
+**`config.php`** | Contiene los ajustes de tu aplicacion, tales como la sesión, base de datos o proveedores de servicios.
+**`example.env`** | Ejemplo para el archivo `.env`.
+**`index.php`** | Punto de entrada para la aplicación. Tampoco necesitas preocuparte por este archivo.
 
 
 # Arquitectura
