@@ -14,4 +14,3 @@ $this->get('401', 'ErrorController', 'unauthorized');
 // App
 
 $this->get('', 'HomeController', 'home');
-$this->get('documentation', 'HomeController', 'documentation');
