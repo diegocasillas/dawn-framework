@@ -13,7 +13,7 @@
       height: 100vh;
       margin-bottom: 40px;
     }
-    
+
     .vertical-center {
       top: 50%;
       position: relative;
@@ -30,7 +30,7 @@
       -webkit-animation-fill-mode: both;
       animation-fill-mode: both;
     }
-    
+
     .animated.infinite {
       -webkit-animation-iteration-count: infinite;
       animation-iteration-count: infinite;
@@ -103,8 +103,10 @@
     .chevron {
       width: 40px;
       margin-top: 60px;
+      cursor: pointer;
     }
   </style>
+
 </head>
 
 <body>
@@ -119,12 +121,11 @@
 
         <a href="https://github.com/diegocasillasdev/Dawn" class="btn">Ver en GitHub</a>
         <div class="chevron-container animated infinite pulse">
-          <a href="#readme"><img class="chevron" src="/app/views/home/assets/chevron-bottom.svg" /></a>
+          <img id="chevron" class="chevron" src="/app/views/home/assets/chevron-bottom.svg" />
         </div>
       </div>
     </div>
   </section>
-
   <section id="readme" class="main-content">
     <ul>
       <li>
@@ -882,7 +883,7 @@
         <pre class="highlight"><code><span class="k">namespace</span> <span class="nx">App\Models</span><span class="p">;</span>
 
 <span class="k">class</span> <span class="nc">Post</span> <span class="k">extends</span> <span class="nx">Model</span>
-<span class="p">{</span> 
+<span class="p">{</span>
   <span class="k">protected</span> <span class="nv">$title</span><span class="p">;</span>
   <span class="k">protected</span> <span class="nv">$body</span><span class="p">;</span>
 
@@ -1632,9 +1633,9 @@
     <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">empty</span><span class="p">(</span><span class="s1">'remember'</span><span class="p">))</span> <span class="p">{</span>
       <span class="k">return</span> <span class="s2">"The email can't be empty."</span><span class="p">;</span>
     <span class="p">}</span>
-    
+
     <span class="nv">$email</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">input</span><span class="p">(</span><span class="s1">'email'</span><span class="p">);</span>
-    
+
     <span class="k">return</span> <span class="nv">$email</span><span class="p">;</span>
   <span class="p">}</span>
 <span class="p">}</span>
@@ -2740,7 +2741,7 @@
     <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">auth</span><span class="o">-&gt;</span><span class="na">guest</span><span class="p">())</span> <span class="p">{</span>
       <span class="k">return</span> <span class="nx">view</span><span class="p">(</span><span class="s1">'auth/login'</span><span class="p">);</span>
     <span class="p">}</span>
-    
+
     <span class="k">return</span> <span class="s1">'You are already authenticated'</span><span class="p">;</span>
   <span class="p">}</span>
 <span class="p">}</span>
@@ -2875,7 +2876,14 @@
 
   </section>
 
-
+  <script>
+    document.getElementById('chevron').addEventListener('click', () => {
+      document.getElementById('readme').scrollIntoView({
+        behavior: 'smooth',
+		    block: 'start'
+      });
+    });
+  </script>
 </body>
 
 </html>
