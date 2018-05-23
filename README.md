@@ -7,7 +7,6 @@
 * [Introducción](#introducción)
   * [Requisitos](#requisitos)
   * [Instalación](#instalación)
-* [Guía rápida](#guía-rápida)
 * [Estructura de directorios](#estructura-de-directorios)
 * [Arquitectura](#arquitectura)
   * [Ciclo de vida de la petición](#ciclo-de-vida-de-la-petición)
@@ -87,38 +86,7 @@ CREATE TABLE `users` (
 
 El código de arriba es solo un ejemplo. Puedes crear la tabla como desees. Sin embargo, Dawn espera que tenga esas columnas (`id`, `email` and `password`). Si quieres modificarlas, tendras que editar las clases `App\Model\User` y `Dawn\Auth\Auth`.
 
-
-### Configuración de la sesión
-
-Dawn ofrece 3 maneras de manejar sesiones: cookie, sessión de PHP y local storage.
-
-Edita `config.php` con tus ajustes deseados:
-
-```php
-'session' => [
-    'mode' => 'cookie', // 'cookie', 'session' o 'local storage'
-    'expires' => 864000 // tiempo de expiración en segundos
-],
-```
-
-# Guía rápida
-
-## Configuración de las rutas
-* Establece tus rutas en *app/routes/web.php* o *app/routes/api.php*. Usa ```$this::get()``` y ```$this::post()```.
-  * Parámetros:
-    * URI
-    * Nombre del controlador
-    * Nombre de la acción
-  
-Puedes llamar el método ```auth()``` para autorizar diferentes usuarios. Los parámetros pueden ser: ```'guest'```, ```'authenticated'``` or ```'owner'```.
-
-```php
-$this::get('miniframework/login', 'LoginController', 'showLoginForm')->auth('guest');
-```
-
-## ¡Escribe tu aplicación!
-
-* ¡Ahora puedes escribir tus propios controladores, modelos y vistas y hacer tu propia aplicación!
+**Es necesario configurar el servidor Apache para servir la aplicación desde la raíz del dominio, por ejemplo configurando un *virtual host*.**
 
 
 # Estructura de directorios
@@ -143,33 +111,20 @@ $this::get('miniframework/login', 'LoginController', 'showLoginForm')->auth('gue
 * [`example.env`](#exampleenv)
 * [`index.php`](indexphp)
 
+
 ## `app`
 
 Contiene tu aplicación. Esta carpeta es la única de la que tienes que preocuparte.
 
-### `app/controllers`
+Directorio        |                            |
+---------------- | -------------------------- |
+**`app/controllers`** | Contiene propios controladores de la aplicación. Deberían pertenecer al namespace `App\Controllers` y heredar de `App\Controllers\Controller`.
+**`app/models`**        | Contiene tu propios modelos de acceso de datos. Deberían pertenecer al namespace `App\Models` y heredar de `App\Models\Model`.
+**`app/routes`**        | Contiene tus rutas de la aplicación definidas.
+**`app/routes/web.php`**        | Contiene tus rutas para el punto de entrada web.
+**`app/routes/api.php`**        | Contiene tus rutas para el punto de entrada API.
+**`app/routes/views`**        | Contiene los archivos de las vistas de tu aplicación.
 
-Contiene propios controladores de la aplicación. Deberían pertenecer al namespace `App\Controllers` y heredar de `App\Controllers\Controller`.
-
-### `app/models`
-
-Contiene tu propios modelos de acceso de datos. Deberían pertenecer al namespace `App\Models` y heredar de `App\Models\Model`.
-
-### `app/routes`
-
-Contiene tus rutas de la aplicación definidas.
-
-#### `app/routes/web.php`
-
-Contiene tus rutas para el punto de entrada web.
-
-#### `app/routes/api.php`
-
-Contiene tus rutas para el punto de entrada API.
-
-### `app/views`
-
-Contiene los archivos de las vistas de tu aplicación.
 
 ## `Dawn`
 
@@ -199,7 +154,7 @@ Aquí puedes escribir la ruta de los archivos que no quieres incluir en tu repos
 
 Archivo de configuración de Apache.
 
-## `composer.json` and `composer.lock`
+## `composer.json` y `composer.lock`
 
 Archivos del administrador de paquetes Composer.
 
@@ -590,11 +545,91 @@ class PostController extends Controller
 ## Vistas
 
 * [Creando vistas](#creando-vistas)
+* [Mostrando vistas](#mostrando-vistas)
+* [Accediendo a los datos de la vista](#accediendo-a-los-datos-de-la-vista)
+* [Añadiendo enlaces a archivos](#añadiendo-enlaces-a-archivos)
 
 Las vistas de Dawn son plantillas HTML que muestran los datos obtenidos del controlador.
 
 ### Creando vistas
 
+Las vistas de la aplicación deberían ser creadas en el directorio `app/views` con un nombre de archivo acabado en `.view.php`.
+
+### Mostrando vistas
+
+Para mostrar vistas desde un controlador, se puede utilizar la función `view`.
+
+Espera los siguientes parámetros:
+
+Parámetro                  |                               | Ejemplo
+-------------------------- | ----------------------------- | ------------
+**`name`**              | Nombre de la vista (excluyendo `.view.php`). | *Para mostrar la vista localizada en `app/views/index.view.php`, el parámetro name es `index`.*
+**`data`**              | Array de datos a pasar a la vista, donde la key es el nombre de la variable por la que se quiere acceder, y el valor es el valor del dato. | *Para pasar la variable `$post`, el valor del parámetro es `['post' => $post]`.*
+
+```php
+class PostController extends Controller
+{
+  public function __construct()
+  {
+    parent::__construct();
+  }
+
+  public function index()
+  {
+    $postModel = new Post();
+
+    $post = $postModel->find(1);
+
+    return view('index', ['post' => $post]);
+  }
+}
+```
+
+Es posible utilizar la función `compact` para hacer el paso de datos más sencillo:
+
+```php
+public function index()
+{
+  $postModel = new Post();
+
+  $post = $postModel->find(1);
+
+  return view('index', compact('post'));
+}
+```
+
+Las vistas pueden estar contenidas en directorios, por ejemplo podemos encontrar la vista `app/views/post/index.view.php`. En este caso, el valor del parámetro `name` sería `post/index`.
+
+```php
+view('post/index', compact('post'));
+```
+
+### Accediendo a los datos de la vista
+
+Los datos de la vista son accesibles desde la variable con el nombre correspondiente al pasado por el método `view`.
+
+```php
+view('post/index', compact('post'));
+```
+
+En este caso, en la vista existirá la variable `$post`:
+
+```html
+<div>
+  <h1><?php echo $post->getTitle() ?></h1>
+  <p><?php echo $post->getBody() ?></p>
+</div>
+```
+
+### Añadiendo enlaces a archivos
+
+Para añadir enlaces a archivos tales como hojas de estilo, scripts o imágenes, siempre es necesario especificar la ruta completa desde la raíz de Dawn.
+
+Por ejemplo, para una hoja de estilo localizada en `app/views/assets/style.css`:
+
+```html
+<link rel="stylesheet" href="/app/views/assets/style.css">
+```
 
 
 ## Enrutamiento
