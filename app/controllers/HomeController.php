@@ -13,9 +13,4 @@ class HomeController extends Controller
   {
     return view('home/home');
   }
-
-  public function documentation()
-  {
-    return view('home/documentation');
-  }
 }
