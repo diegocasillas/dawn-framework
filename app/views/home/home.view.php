@@ -115,7 +115,7 @@
         <p align="center" class="logo">
           <img width="240" src="/app/views/home/assets/dawn.png" />
         </p>
-        <h2 class="project-tagline">Framework PHP MVC para construir web apps y APIs</h2>
+        <h2 class="project-tagline">Framework PHP MVC para construir aplicaciones web y APIs</h2>
 
         <a href="https://github.com/diegocasillasdev/Dawn" class="btn">Ver en GitHub</a>
         <div class="chevron-container animated infinite pulse">
