@@ -1,6 +1,12 @@
 <?php
 
-require 'vendor/autoload.php';
+if (file_exists('vendor/autoload.php')) {
+  require 'vendor/autoload.php';
+} else {
+  $error = "There was an error reading the vendor/autoload.php file. Did you run 'composer install'?";
+  require "app/views/errors/custom.view.php";
+  die();
+}
 
 try {
   $dotenv = new Dotenv\Dotenv(dirname(__DIR__, 2));
