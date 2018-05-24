@@ -13,4 +13,4 @@ $this->get('401', 'ErrorController', 'unauthorized');
 
 // App
 
-$this->get('', 'HomeController', 'home');
+$this->get('', 'HomeController', 'home')->auth('authenticated');

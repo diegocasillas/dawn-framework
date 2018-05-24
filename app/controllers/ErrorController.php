@@ -15,4 +15,9 @@ class ErrorController extends Controller
     {
         return require 'app/views/errors/401.view.php';
     }
+
+    public function custom()
+    {
+        return require 'app/views/errors/custom.view.php';
+    }
 }

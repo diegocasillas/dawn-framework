@@ -42,9 +42,8 @@ class Connection extends PDO
             $this->app = $app;
             $this->config = $config;
         } catch (\PDOException $e) {
-            echo "Could not connect to the database. Check '/.env' file and make sure that the database server is running.";
-            echo "<hr>";
-            echo $e->getMessage();
+            $error = "Could not connect to the database. Check the credentials in the '/.env' file and make sure that the database server is running.";
+            view('errors/custom', compact('error'));
             die();
         }
     }

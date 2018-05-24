@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Dawn</title>
-  <link rel="stylesheet" href="/app/views/home/assets/readme.css">
+  <link rel="stylesheet" href="/app/views/home/assets/style.css">
 
   <style>
     .page-header {

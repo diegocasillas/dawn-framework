@@ -27,9 +27,9 @@
   <section class="page-header">
     <div class="vertical-center">
       <div class="animated fadeIn">
-        <h1 class="project-name mb-3">401</h1>
+        <h1 class="project-name mb-3">Error</h1>
         <div class="container">
-          <h2 class="project-tagline">Unauthorized</h2>
+          <h2 class="project-tagline"><?php echo isset($error) ? $error : 'Unknown error' ?></h2>
           <a href="/" class="btn">Go back</a>
         </div>
       </div>
