@@ -8,6 +8,7 @@ if (file_exists('vendor/autoload.php')) {
   die();
 }
 
+
 try {
   $dotenv = new Dotenv\Dotenv(dirname(__DIR__, 2));
   $dotenv->load();
