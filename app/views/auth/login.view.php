@@ -27,9 +27,9 @@
   <section class="page-header">
     <div class="vertical-center">
       <div class="animated fadeIn">
-        <h1 class="project-name">Login</h1>
+        <h1 class="project-name">Log in</h1>
         <div class="container">
-          <form action="login" method="post" class="mt-5 mb-5 col-5 mx-auto">
+          <form action="login" method="post" class="mt-5 mb-2 col-5 mx-auto">
             <div class="form-group">
               <input type="text" name="username" class="form-control text-center" placeholder="Username">
             </div>
@@ -40,6 +40,7 @@
               <button type="submit" class="btn mt-3">Submit</button>
             </div>
           </form>
+          <a href="register" style="color: white">Register</a>
         </div>
       </div>
     </div>

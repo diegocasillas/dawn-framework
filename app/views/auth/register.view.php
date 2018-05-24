@@ -29,7 +29,7 @@
       <div class="animated fadeIn">
         <h1 class="project-name">Register</h1>
         <div class="container">
-          <form action="register" method="post" class="mt-5 mb-5 col-5 mx-auto">
+          <form action="register" method="post" class="mt-5 mb-2 col-5 mx-auto">
           <div class="form-group">
               <input type="email" name="email" class="form-control text-center" placeholder="Email">
             </div>
@@ -43,6 +43,7 @@
               <button type="submit" class="btn mt-3">Submit</button>
             </div>
           </form>
+          <a href="login" style="color: white">Log in</a>
         </div>
       </div>
     </div>
