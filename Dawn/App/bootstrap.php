@@ -6,9 +6,9 @@ try {
   $dotenv = new Dotenv\Dotenv(dirname(__DIR__, 2));
   $dotenv->load();
 } catch (Exception $e) {
-  echo "There was an error reading the /.env file. Copy it from /example.env.";
-  echo "<hr>";
-  echo $e->getMessage();
+  $error = "There was an error reading the /.env file. Copy it from /example.env.";
+
+  view('errors/custom', compact('error'));
   die();
 }
 
