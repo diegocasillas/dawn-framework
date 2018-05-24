@@ -138,6 +138,16 @@ abstract class Model implements \JsonSerializable
     }
 
     /**
+     * Set the ID of the instance.
+     *
+     * @return int
+     */
+    public function setId($id)
+    {
+        $this->id = (int)$id;
+    }
+
+    /**
      * Get the owner of the instance.
      *
      * @return int
