@@ -1,6 +1,7 @@
-**WORK IN PROGRESS. NOT PRODUCTION READY.**
+
 
 <p align="center">
+  **WORK IN PROGRESS. NOT PRODUCTION READY. BUILT FOR EDUCATIONAL PURPOSES.** 
   <img width="150" src="https://i.imgur.com/S7kzAwk.png">
   <h1 align="center">Dawn</h1>
 </p>
