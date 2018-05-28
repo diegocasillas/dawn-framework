@@ -3,6 +3,8 @@
   <h1 align="center">Dawn</h1>
 </p>
 
+**WORK IN PROGRESS. NOT PRODUCTION READY.**
+
 
 * [Introducción](#introducción)
   * [Requisitos](#requisitos)
