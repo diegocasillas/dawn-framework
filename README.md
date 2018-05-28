@@ -1,19 +1,24 @@
+**WORK IN PROGRESS. NOT PRODUCTION READY. BUILT FOR EDUCATIONAL PURPOSES.**
+
 <p align="center">
   <img width="150" src="https://i.imgur.com/S7kzAwk.png">
   <h1 align="center">Dawn</h1>
 </p>
 
-
 * [Introducción](#introducción)
   * [Requisitos](#requisitos)
   * [Instalación](#instalación)
-* [Guía rápida](#guía-rápida)
 * [Estructura de directorios](#estructura-de-directorios)
 * [Arquitectura](#arquitectura)
   * [Ciclo de vida de la petición](#ciclo-de-vida-de-la-petición)
   * [Contenedor de la aplicación](#contenedor-de-la-aplicación)
   * [Proveedores de servicios](#proveedores-de-servicios)
 * [Trabajando con Dawn](#trabajando-con-dawn)
+  * [Contenedor de la aplicación](#contenedor-de-la-aplicación)
+  * [Proveedores de servicios](#proveedores-de-servicios)
+  * [Modelos](#modelos)
+  * [Controladores](#controladores)
+  * [Vistas](#vistas)
   * [Enrutamiento](#enrutamiento)
   * [Petición](#petición)
   * [Respuesta](#respuesta)
@@ -30,6 +35,7 @@
 Dawn es un framework PHP MVC ligero para escribir aplicaciones web y APIs de forma sencilla. Incluye servicios de enrutamiento, bases de datos, autenticación y sesión totalmente configurados.
 
 Sigue una estructura basada en el patrón de diseño Modelo-Vista-Controlador y permite escribir aplicaciones escalables y mantenibles.
+
 
 ## Requisitos
 
@@ -67,145 +73,74 @@ La key es usada para encriptar contraseñas y generar el token de la sesión. De
 Crea una tabla `users`:
 
 ```sql
-CREATE TABLE `users` (`
-    ``id` INT(11) NOT NULL AUTO_INCREMENT,`
-    ``email` VARCHAR(50) NOT NULL DEFAULT '0',`
-    ``password` VARCHAR(100) NOT NULL DEFAULT '0',`
-    `PRIMARY KEY (`id`),`
-    `UNIQUE INDEX `id` (`id`),`
-    `UNIQUE INDEX `email` (`email`)`
-`)
+CREATE TABLE `users` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`email` VARCHAR(50) NOT NULL,
+	`username` VARCHAR(50) NOT NULL,
+	`password` VARCHAR(60) NOT NULL,
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `id` (`id`),
+	UNIQUE INDEX `email` (`email`),
+	UNIQUE INDEX `username` (`username`)
+)
 ```
 
 El código de arriba es solo un ejemplo. Puedes crear la tabla como desees. Sin embargo, Dawn espera que tenga esas columnas (`id`, `email` and `password`). Si quieres modificarlas, tendras que editar las clases `App\Model\User` y `Dawn\Auth\Auth`.
 
-
-### Configuración de la sesión
-
-Dawn ofrece 3 maneras de manejar sesiones: cookie, sessión de PHP y local storage.
-
-Edita `config.php` con tus ajustes deseados:
-
-```php
-'session' => [
-    'mode' => 'cookie', // 'cookie', 'session' o 'local storage'
-    'expires' => 864000 // tiempo de expiración en segundos
-],
-```
-
-# Guía rápida
-
-## Configuración de las rutas
-* Establece tus rutas en *app/routes/web.php* o *app/routes/api.php*. Usa ```$this::get()``` y ```$this::post()```.
-  * Parámetros:
-    * URI
-    * Nombre del controlador
-    * Nombre de la acción
-  
-Puedes llamar el método ```auth()``` para autorizar diferentes usuarios. Los parámetros pueden ser: ```'guest'```, ```'authenticated'``` or ```'owner'```.
-
-```php
-$this::get('miniframework/login', 'LoginController', 'showLoginForm')->auth('guest');
-```
-
-## ¡Escribe tu aplicación!
-
-* ¡Ahora puedes escribir tus propios controladores, modelos y vistas y hacer tu propia aplicación!
+**Es necesario configurar el servidor Apache para servir la aplicación desde la raíz del dominio, por ejemplo configurando un *virtual host*.**
 
 
 # Estructura de directorios
 
-* [`[app]`](#app)
-  * [`[controllers]`](#appcontrollers)
-  * [`[models]`](#appmodels)
-  * [`[routes]`](#approutes)
-    * [`web.php`](#approuteswebphp)
-    * [`api.php`](#approutesapiphp)
-  * [`[views]`](#appviews)
-* [`[Dawn]`](#dawn-1)
-* [`[docs]`](#docs)
-* [`[tests]`](#tests)
-* [`[vendor]`](#vendor)
-* [`.env`](#env)
-* [`.gitignore`](#gitignore)
-* [`.htaccess`](#htaccess)
-* [`composer.json`](#composerjson-and-composerlock)
-* [`composer.lock`](#composerjson-and-composerlock)
-* [`config.php`](#configphp)
-* [`example.env`](#exampleenv)
-* [`index.php`](indexphp)
+* `[app]`
+  * `[controllers]`
+  * `[models]`
+  * `[routes]`
+    * `web.php`
+    * `api.php`
+  * `[views]`
+* `[Dawn]`
+* `[docs]`
+* `[tests]`
+* `[vendor]`
+* `.env`
+* `.gitignore`
+* `.htaccess`
+* `composer.json`
+* `composer.lock`
+* `config.php`
+* `example.env`
+* `index.php`
+
 
 ## `app`
 
 Contiene tu aplicación. Esta carpeta es la única de la que tienes que preocuparte.
 
-### `app/controllers`
+Directorio        |                            |
+---------------- | -------------------------- |
+**`app/controllers`** | Contiene propios controladores de la aplicación. Deberían pertenecer al namespace `App\Controllers` y heredar de `App\Controllers\Controller`.
+**`app/models`**        | Contiene tu propios modelos de acceso de datos. Deberían pertenecer al namespace `App\Models` y heredar de `App\Models\Model`.
+**`app/routes`**        | Contiene tus rutas de la aplicación definidas.
+**`app/routes/web.php`**        | Contiene tus rutas para el punto de entrada web.
+**`app/routes/api.php`**        | Contiene tus rutas para el punto de entrada API.
+**`app/routes/views`**        | Contiene los archivos de las vistas de tu aplicación.
 
-Contiene propios controladores de la aplicación. Deberían pertenecer al namespace `App\Controllers` y heredar de `App\Controllers\Controller`.
+## Otros directorios
 
-### `app/models`
-
-Contiene tu propios modelos de acceso de datos. Deberían pertenecer al namespace `App\Models` y heredar de `App\Models\Model`.
-
-### `app/routes`
-
-Contiene tus rutas de la aplicación definidas.
-
-#### `app/routes/web.php`
-
-Contiene tus rutas para el punto de entrada web.
-
-#### `app/routes/api.php`
-
-Contiene tus rutas para el punto de entrada API.
-
-### `app/views`
-
-Contiene los archivos de las vistas de tu aplicación.
-
-## `Dawn`
-
-Carpeta de Dawn Framework. Contiene todas las clases, servicios y herramientas necesarias para que el framework funcione. No necesitas preocuparte por esta carpeta.
-
-## `docs`
-
-Contiene los archivos del website de documentación.
-
-## `tests`
-
-Deberías escribir tus tests aquí.
-
-## `vendor`
-
-Carpeta de dependencias de Composer.
-
-## `.env`
-
-Archivo de entorno para datos sensibles. No existe por defecto, necesitas copiarlo de `example.env`. **NO HAGAS COMMIT DE ESTE ARCHIVO.**
-
-## `.gitignore`
-
-Aquí puedes escribir la ruta de los archivos que no quieres incluir en tu repositorio.
-
-## `.htaccess`
-
-Archivo de configuración de Apache.
-
-## `composer.json` and `composer.lock`
-
-Archivos del administrador de paquetes Composer.
-
-## `config.php`
-
-Contiene los ajustes de tu aplicacion, tales como la sesión, base de datos o proveedores de servicios.
-
-## `example.env`
-
-Ejemplo para el archivo `.env`.
-
-## `index.php`
-
-Punto de entrada para la aplicación. Tampoco necesitas preocuparte por este archivo.
+Directorio        |                            |
+---------------- | -------------------------- |
+**`Dawn`** | Carpeta de Dawn Framework. Contiene todas las clases, servicios y herramientas necesarias para que el framework funcione. No necesitas preocuparte por esta carpeta.
+**`docs`** | Contiene los archivos del website de documentación.
+**`tests`** | Deberías escribir tus tests aquí.
+**`vendor`** | Carpeta de dependencias de Composer.
+**`.env`** | Archivo de entorno para datos sensibles. No existe por defecto, necesitas copiarlo de `example.env`. **NO HAGAS COMMIT DE ESTE ARCHIVO.**
+**`.gitignore`** | Aquí puedes escribir la ruta de los archivos que no quieres incluir en tu repositorio.
+**`.htaccess`** | Archivo de configuración de Apache..
+**`composer.json` y `composer.lock`** | Archivos del administrador de paquetes Composer.
+**`config.php`** | Contiene los ajustes de tu aplicacion, tales como la sesión, base de datos o proveedores de servicios.
+**`example.env`** | Ejemplo para el archivo `.env`.
+**`index.php`** | Punto de entrada para la aplicación. Tampoco necesitas preocuparte por este archivo.
 
 
 # Arquitectura
@@ -251,10 +186,423 @@ El método `boot` es llamado despues de que todos los servicios hayan sido regis
 
 # Trabajando con Dawn
 
+* [Contenedor de la aplicación](#contenedor-de-la-aplicación)
+* [Proveedores de servicios](#proveedores-de-servicios)
+* [Modelos](#modelos)
+* [Controladores](#controladores)
+* [Vistas](#vistas)
 * [Enrutamiento](#enrutamiento)
 * [Petición](#petición)
 * [Respuesta](#respuesta)
 * [Base de datos](#base-de-datos)
+* [Sesión](#sesión)
+
+## Contenedor de la aplicación
+
+* [Enlazando servicios](enlazando-servicios)
+* [Accediendo a servicios](accediendo-a-servicios)
+
+El contenedor de la aplicación de Dawn es la base del framework. En él se contiene la aplicación, los servicios y se prepara y ejecuta la aplicación. Se puede acceder a él con la función `app`. También es una propiedad de los controladores.
+
+```php
+$app = app();
+```
+
+### Enlazando servicios
+
+Para enlazar servicios al contenedor existe el método `bind`.
+
+Espera los siguientes parámetros:
+
+Parámetro        |                            | Ejemplo
+---------------- | -------------------------- | ------------
+**`serviceName`**        | El nombre del servicio. | *El servicio se llama `router`.*
+**`service`** | The service instance.                       | *La instancia del servicio es `$router`.*
+
+
+```php
+$app()->bind('router', $router);
+```
+
+### Accediendo a servicios
+
+Para acceder a los servicios enlazados al contenedor existe el método `get`. Espera como parámetro el nombre del servicio.
+
+```php
+$router = $app()->get('router');
+```
+
+
+## Proveedores de servicios
+
+* [Creando proveedores de servicios](#creando-proveedores-de-servicios)
+* [Añadiendo proveedores de servicios](#añadiendo-proveedores-de-servicios)
+
+Los proveedores de servicios preparan y enlazan los servicios al contenedor de la aplicación. Los servicios contienen la logica de la aplicación externa a Dawn, asi se pueden añadir por ejemplo servicios de facturación, autorización, email...
+
+### Creando proveedores de servicios
+
+Para crear un proveedor de servicio es necesario extender la clase `Dawn\App\ServiceProvider`.
+
+Los proveedores de servicio deben incluir los métodos `register` y `boot`.
+
+El método `register` debe encargarse únicamente de instanciar los servicios y enlazarlos al contenedor de la aplicación.
+
+El método `boot` se ejecuta una vez que todos los servicios han sido registrados, lo que significa que en el ya se puede acceder a los servicios del controlador, y puede contener toda la lógica necesaria para que los servicios puedan funcionar.
+
+En el siguiente ejemplo, se crea el proveedor de servicio ficticio `HelloWorldServiceProvider`.
+
+En su método `register` se instancia la clase `HelloWorld` y se enlaza al contenedor de la apliacación como `hello world`.
+
+En su método `boot` se recoge el servicio del contenedor de la aplicación con `$this->app->get('hello world')` y también se recoge el servicio ficticio `time`.
+
+```php
+namespace App\HelloWorldServiceProvider;
+
+class HelloWorldServiceProvider extends Dawn\App\ServiceProvider
+{
+  public function register()
+  {
+    $helloWorld = new HelloWorld():
+
+    $this->app->bind('hello world', $helloWorld);
+  }
+
+  public function boot()
+  {
+    $helloWorld = $this->app->get('hello world');
+    $time = $this->app->get('time');
+
+    die("{$helloWorld->sayHi()} it is {$time->now()}");
+  }
+}
+```
+
+### Añadiendo proveedores de servicios
+
+Los proveedores de servicios se añaden en el apartado `service providers` del archivo `config.php`.
+
+```php
+'service providers' => [
+  'database' => '\\Dawn\\Database\\DatabaseServiceProvider',
+  'router' => '\\Dawn\\Routing\\RoutingServiceProvider',
+  'session' => '\\Dawn\\Session\\SessionServiceProvider',
+  'auth' => '\\Dawn\\Auth\\AuthServiceProvider'
+]
+```
+
+Para añadir un proveedor de servicio simplemente incluye su nombre y el namespace completo de su clase.
+
+```php
+'service providers' => [
+  'database' => '\\Dawn\\Database\\DatabaseServiceProvider',
+  'router' => '\\Dawn\\Routing\\RoutingServiceProvider',
+  'session' => '\\Dawn\\Session\\SessionServiceProvider',
+  'hello world' => '\\App\\HelloWorldServiceProvider'
+]
+```
+
+
+## Modelos
+
+* [Recomendaciones](#recomendaciones)
+* [Creando modelos](#creando-modelos)
+* [Modificando propiedades predeterminadas](#modificando-propiedades-predeterminadas)
+* [Ocultando propiedades en respuestas JSON](#ocultando-propiedades-en-respuestas-json)
+* [Recogiendo registros de la base de datos](#recogiendo-registros-de-la-base-de-datos)
+
+Los modelos son las clases encargadas de interactuar con la base de datos. Para ello, tienen acceso al constructor de consultas además de una serie de métodos predefinidos que facilitan algunas de las consultas más habituales.
+
+### Recomendaciones
+
+Para que Dawn funcione sin necesidad de hacer ajustes, es aconsejable que se sigan las siguientes recomendaciones:
+
+ * La tabla de la base de datos debería tener el nombre del modelo en plural. Por ejemplo, para crear una tabla que contenga los datos de unos mensajes, el nombre de la tabla debería ser `messages`.
+ 
+ * La clase del modelo debería tener un nombre en singular. Por ejemplo, para la tabla `messages`, el nombre de la clase debería ser `message`.
+
+ * La clave primaria debería ser la columna `id`.
+
+ * El nombre de las propiedades debería ser identico a columna de referencia en la tabla. Por ejemplo, si la clave primaria es la columna `post_id`, el nombre de la propiedad de la clase también debería ser `post_id`.
+
+
+### Creando modelos
+
+Los modelos de la aplicación deberían ser creados en el directorio `app/models`, pertenecer al namespace `App\Models` y extender de la clase `App\Models\Model`.
+
+```php
+namespace App\Models;
+
+class Post extends Model
+{ 
+  protected $title;
+  protected $body;
+
+  public function __construct()
+  {
+    parent::__construct();
+  }
+}
+``` 
+
+### Modificando propiedades predeterminadas
+
+Los modelos heredan las siguientes propiedades del modelo base de Dawn:
+
+Propiedad        |                            |
+---------------- | -------------------------- | 
+**`queryBuilder`**        | Instancia del constructor de consultas.
+**`table`** | El nombre de la tabla de la base de datos a la que pertenece el modelo. Por defecto es el nombre del modelo seguido de la letra 's'.
+**`primaryKey`**     | El nombre de la columna que actúa como clave primaria en la base de datos. Por defecto es `id`.
+**`id`**     | La columna `id` de la tabla.
+**`owner`**     | El `id` del propietario del registro, en caso de que tenga uno.
+**`visible`**     | Array de propiedades a mostrar en una respuesta JSON.
+**`hidden`**     | Array de propiedades a ocultar en una respuesta JSON.
+
+En caso de que el nombre de la tabla o la clave primaria sean diferentes a los definidos por defecto, es necesario sobreescribir sus propiedades en el constructor.
+
+```php
+class Post extends Model
+{
+  protected $post_id;
+  protected $title;
+  protected $body;
+
+  public function __construct()
+  {
+    parent::__construct();
+    $this->table = 'my_posts';
+    $this->primaryKey = 'post_id';
+  }
+}
+```
+
+Ten en cuenta que al haber modificado la clave primaria, ha sido necesario añadir la propiedad `post_id` a la clase.
+
+### Ocultando propiedades en respuestas JSON
+
+Es posible ocultar datos sensibles o innecesarios en las respuestas enviadas en formato JSON, tales como contraseñas o emails.
+
+Para ello, utiliza el método `hidden` en el constructor del modelo. Este método espera como parámetro un array de los nombres de las propiedades que se quieren ocultar.
+
+```php
+class Post extends Model
+{
+  protected $post_id;
+  protected $title;
+  protected $body;
+
+  public function __construct()
+  {
+    parent::__construct();
+    $this->table = 'my_posts';
+    $this->primaryKey = 'post_id';
+    $this->hidden(['post_id']),
+  }
+}
+```
+
+También es posible que en algún momento sea necesario mostrar datos que habían sido ocultados, por ejemplo al hacer que una clase herede de otra.
+
+Para ello, utiliza el método `visible` de la misma forma.
+
+```php
+class Comment extends Post
+{
+  public function __construct()
+  {
+    parent::__construct();
+    $this->visible['post_id'];
+  }
+}
+```
+
+Con esto se consigue que al enviar una respuesta con un objeto de la clase `Post`, la propiedad `post_id` sea ocultada. Sin embargo, al enviar una respuesta con un objeto de la clase `Comment`, la propiedad `post_id` se hace visible de nuevo.
+
+### Recogiendo registros de la base de datos
+
+Los modelos de Dawn, además de incluir el constructor de consultas como propiedad, tienen métodos para hacer algunas de las consultas más comunes.
+
+**`all`** - *Devuelve un array de instancias del modelo por cada registro de la tabla (`SELECT * FROM table`)*
+
+```php
+$postModel = new Post();
+
+$posts = $postModel->all();
+```
+
+**`find`** - *Devuelve una instancia de un registro de la tabla (`SELECT * FROM table WHERE id=x`)*
+
+Parámetro                  |                               | Ejemplo
+-------------------------- | ----------------------------- | ------------
+**`primaryKey`**              | ID del registro. | *Obtener el registro con ID igual a `5`.*
+
+```php
+$postModel = new Post();
+
+$posts = $postModel->find(5);
+```
+
+**`getBy`** - *Devuelve un array de instancias del modelo bajo un filtro*
+
+Parámetro                  |                               | Ejemplo
+-------------------------- | ----------------------------- | ------------
+**`key`**              | Nombre de la columna a filtrar. | *Obtener donde la columna `title` sea igual a algo*
+**`value`**              | Valor del filtro. | *Obtener donde el valor del registro en esa columna sea `Hello World`.*
+
+```php
+$postModel = new Post();
+
+$posts = $postModel->getBy('title', 'Hello World');
+```
+
+**`getColumnBy`** - *Devuelve un único campo de la tabla del modelo bajo un filtro por columna.*
+
+Parámetro                  |                               | Ejemplo
+-------------------------- | ----------------------------- | ------------
+**`column`**              | Nombre de la columna de la que obtener el valor. | *Obtener un valor de la columna `body`.*
+**`key`**              | Nombre de la columna a filtrar. | *Obtener donde la columna `title` sea igual a algo*
+**`value`**              | Valor del filtro. | *Obtener donde el valor del registro en esa columna sea `Hello World`.*
+
+```php
+$postModel = new Post();
+
+$body = $postModel->getColumnBy('body', 'title', 'Hello World');
+```
+
+## Controladores
+
+* [Creando controladores](#creando-controladores)
+* [Accediendo a los servicios](#accediendo-a-los-servicios)
+
+Los controladores son los encargados de utilizar los servicios y modelos necesarios para cumplir con la demanda de la petición, además de enviar una respuesta o mostrar una vista.
+
+### Creando controladores
+
+Los controladores de la aplicación deberían ser creados en el directorio `app/controllers`, pertenecer al namespace `App\Controllers` y extender de la clase `App\Controllers\Controllers`.
+
+```php
+namespace App\Controllers;
+
+class PostController extends Controller
+{
+  public function __construct()
+  {
+    parent::__construct();
+  }
+}
+```
+
+### Accediendo a los servicios
+
+Los servicios del contenedor de la aplicación pueden ser accedidos desde el método `get` de la aplicación.
+
+```php
+class PostController extends Controller
+{
+  public function __construct()
+  {
+    parent::__construct();
+  }
+
+  public function index()
+  {
+    $helloWorld = $this->app->get('hello world');
+
+    return $helloWorld->sayHi();
+  }
+}
+```
+
+## Vistas
+
+* [Creando vistas](#creando-vistas)
+* [Mostrando vistas](#mostrando-vistas)
+* [Accediendo a los datos de la vista](#accediendo-a-los-datos-de-la-vista)
+* [Añadiendo enlaces a archivos](#añadiendo-enlaces-a-archivos)
+
+Las vistas de Dawn son plantillas HTML que muestran los datos obtenidos del controlador.
+
+### Creando vistas
+
+Las vistas de la aplicación deberían ser creadas en el directorio `app/views` con un nombre de archivo acabado en `.view.php`.
+
+### Mostrando vistas
+
+Para mostrar vistas desde un controlador, se puede utilizar la función `view`.
+
+Espera los siguientes parámetros:
+
+Parámetro                  |                               | Ejemplo
+-------------------------- | ----------------------------- | ------------
+**`name`**              | Nombre de la vista (excluyendo `.view.php`). | *Para mostrar la vista localizada en `app/views/index.view.php`, el parámetro name es `index`.*
+**`data`**              | Array de datos a pasar a la vista, donde la key es el nombre de la variable por la que se quiere acceder, y el valor es el valor del dato. | *Para pasar la variable `$post`, el valor del parámetro es `['post' => $post]`.*
+
+```php
+class PostController extends Controller
+{
+  public function __construct()
+  {
+    parent::__construct();
+  }
+
+  public function index()
+  {
+    $postModel = new Post();
+
+    $post = $postModel->find(1);
+
+    return view('index', ['post' => $post]);
+  }
+}
+```
+
+Es posible utilizar la función `compact` para hacer el paso de datos más sencillo:
+
+```php
+public function index()
+{
+  $postModel = new Post();
+
+  $post = $postModel->find(1);
+
+  return view('index', compact('post'));
+}
+```
+
+Las vistas pueden estar contenidas en directorios, por ejemplo podemos encontrar la vista `app/views/post/index.view.php`. En este caso, el valor del parámetro `name` sería `post/index`.
+
+```php
+view('post/index', compact('post'));
+```
+
+### Accediendo a los datos de la vista
+
+Los datos de la vista son accesibles desde la variable con el nombre correspondiente al pasado por el método `view`.
+
+```php
+view('post/index', compact('post'));
+```
+
+En este caso, en la vista existirá la variable `$post`:
+
+```html
+<div>
+  <h1><?php echo $post->getTitle() ?></h1>
+  <p><?php echo $post->getBody() ?></p>
+</div>
+```
+
+### Añadiendo enlaces a archivos
+
+Para añadir enlaces a archivos tales como hojas de estilo, scripts o imágenes, siempre es necesario especificar la ruta completa desde la raíz de Dawn.
+
+Por ejemplo, para una hoja de estilo localizada en `app/views/assets/style.css`:
+
+```html
+<link rel="stylesheet" href="/app/views/assets/style.css">
+```
+
 
 ## Enrutamiento
 
@@ -552,7 +900,7 @@ DB_CONNECTION="localhost"
 
 * [Ejecutando consultas puras](#ejecutando-consultas-puras)
 * [Recogiendo resultados](#recogiendo-resultados)
-* [Construyendo consultas](#construyendo consultas)
+* [Construyendo consultas](#construyendo-consultas)
 * [Ejecutando consultas construidas](#ejecutando-consultas-construidas)
 * [Limpiando la consulta](#limpiando-la-consulta)
 * [Obteniendo el último ID insertado](#obteniendo-el-último-id-insertado)
@@ -822,7 +1170,7 @@ class LoginController extends AuthController
 
       $this->auth->login($email, $password);
 
-      if ($this->auth->authenticated) {
+      if ($this->auth->authenticated()) {
         return 'You are logged in!';
       }
 
@@ -854,7 +1202,7 @@ Parámetro                  |                               | Ejemplo
 **`element`**              | El elemento a comprobar. | *El elemento es `$post`.*
 
 ```php
-class PostController extends AuthController
+class PostController extends Controller
 {
   public function showPost()
   {
@@ -876,6 +1224,48 @@ class PostController extends AuthController
 ```
 
 ## Sesión
+
+* [Configurando la sesión](#configurando-la-sesión)
+* [Obteniendo el token de la cabecera](#obteniendo-el-token-de-la-cabecera)
+
+La sesión es manejada por el servicio de sesión de Dawn, implementado en `Dawn\Session\Session`.
+
+### Configurando la sesión
+
+La sesión puede configurarse en el apartado `session` del archivo `config.php`.
+
+Dawn ofrece modos de configuración para la sesión, `cookie`, `session` y `local storage`.
+
+El tiempo de expiración se especifica en segundos.
+
+```php
+'session' => [
+    'mode' => 'cookie',
+    'expires' => 864000
+]
+```
+
+`cookie` envía una cookie al cliente en una cabecera con el token de autenticación.
+
+`session` crea una sesión PHP en el servidor.
+
+`local storage` devuelve una respuesta que incluye el token en formato JSON cuando el usuario se loguea.
+
+### Obteniendo el token de la cabecera
+
+Para obtener el token de la cabecera, se puede utilizar el método `bearer` de la sesión.
+
+```php
+class LoginController extends AuthController
+{
+  public function getToken()
+  {
+    $session = $this->app->get('session');
+
+    return $session->bearer();
+  }
+}
+```
 
 
 # Licencia

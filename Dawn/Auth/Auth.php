@@ -251,7 +251,6 @@ class Auth
         $this->user->setUsername($username);
         $this->user->setPassword(password_hash($password, PASSWORD_BCRYPT));
 
-        // check if user already exists
         if (!$this->user->getBy('username', $this->user->username()) && !$this->user->getBy('email', $this->user->email())) {
             if ($this->user->create()) {
                 $tokenData = [
